@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="es-CO">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Cuenta de cobro de arriendo: modelo gratis para el canon</title>
+<meta name="description" content="Modelo de cuenta de cobro de arriendo para propietarios persona natural: canon, inmueble, periodo y datos de pago. Créala gratis en un minuto.">
+<link rel="canonical" href="https://cuentalista.vercel.app/cuenta-de-cobro-arriendo">
+<meta property="og:title" content="Cuenta de cobro de arriendo: modelo gratis para el canon">
+<meta property="og:description" content="Modelo de cuenta de cobro de arriendo para propietarios persona natural: canon, inmueble, periodo y datos de pago. Créala gratis en un minuto.">
+<meta property="og:url" content="https://cuentalista.vercel.app/cuenta-de-cobro-arriendo">
+<meta property="og:type" content="article">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--paper:#F2F5F0;--surface:#FFFFFF;--ink:#13201C;--muted:#586A63;--line:#D3DBD4;--accent:#0B6E5A;--accent-ink:#FFFFFF;--stamp:#B4472B;
+--display:"Bricolage Grotesque","Trebuchet MS",sans-serif;--body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--paper:#0F1614;--surface:#18211E;--ink:#E8EEEA;--muted:#9BABA4;--line:#2C3A35;--accent:#4CC2A5;--accent-ink:#06231C;--stamp:#E99073;color-scheme:dark}}
+:root[data-theme="dark"]{--paper:#0F1614;--surface:#18211E;--ink:#E8EEEA;--muted:#9BABA4;--line:#2C3A35;--accent:#4CC2A5;--accent-ink:#06231C;--stamp:#E99073;color-scheme:dark}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 var(--body)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+header.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:16px 0 6px}
+.brand{font-family:var(--display);font-weight:800;font-size:1.3rem;color:var(--ink);text-decoration:none;display:flex;gap:8px;align-items:center}
+nav a{color:var(--muted);font-size:.92rem;margin-left:14px}
+.crumbs{font-size:.85rem;color:var(--muted);margin:10px 0 0}
+.crumbs a{color:var(--muted)}
+.hero{display:grid;gap:22px;grid-template-columns:minmax(0,1fr);align-items:start;padding:14px 0 26px}
+@media (min-width:880px){.hero{grid-template-columns:minmax(0,6fr) minmax(0,5fr)}}
+h1{font-family:var(--display);font-weight:800;font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.08;letter-spacing:-.02em;margin:6px 0 10px;text-wrap:balance}
+h2{font-family:var(--display);font-size:1.35rem;margin:34px 0 8px;text-wrap:balance}
+.lead{font-size:1.08rem;color:var(--muted);max-width:60ch;margin:0 0 16px}
+.cta{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 20px;border-radius:9px;background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none}
+.cta:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sub{font-size:.85rem;color:var(--muted);margin:8px 0 0}
+.sheet{background:#fff;color:#1b1b1b;border:1px solid #d9d9d9;padding:22px;font-size:.86rem;line-height:1.5;box-shadow:0 8px 24px -16px #00000040;overflow-wrap:anywhere}
+.sheet .r{text-align:right}.sheet .c{text-align:center}.sheet b{font-weight:600}
+.sheet h3{font-size:.95rem;letter-spacing:.05em;text-align:center;margin:10px 0}
+.sheet .sum{border:1px solid #1b1b1b;padding:8px 10px;margin:10px 0}
+.sheet p{margin:0 0 6px}
+.cap{font-size:.8rem;color:var(--muted);margin:6px 0 0}
+article{max-width:70ch}
+ul,ol{padding-left:22px} li{margin-bottom:6px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:18px 0}
+details{border-top:1px solid var(--line);padding:12px 0}
+summary{cursor:pointer;font-weight:600}
+details p{margin:8px 0 0;color:var(--ink)}
+.rel{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));padding:0;list-style:none}
+.rel a{display:block;background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:12px 14px;color:var(--ink);text-decoration:none;font-weight:600}
+.rel a span{display:block;font-weight:400;font-size:.85rem;color:var(--muted)}
+.end{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px;margin:36px 0;display:grid;gap:10px;justify-items:start}
+.end h2{margin:0}
+footer{border-top:1px solid var(--line);padding:16px 0 28px;color:var(--muted);font-size:.82rem;margin-top:30px}
+footer a{color:inherit}
+</style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿La cuenta de cobro de arriendo es lo mismo que un recibo de arriendo?", "acceptedAnswer": {"@type": "Answer", "text": "No. La cuenta de cobro pide el pago antes de recibirlo; el recibo certifica que ya te pagaron. Muchas personas usan ambos."}}, {"@type": "Question", "name": "¿Puedo cobrar la administración en la misma cuenta?", "acceptedAnswer": {"@type": "Answer", "text": "Sí. Agrega un segundo concepto para la administración, así el arrendatario ve cada valor por separado."}}, {"@type": "Question", "name": "¿Debo expedir factura por el arriendo?", "acceptedAnswer": {"@type": "Answer", "text": "Depende de tu situación tributaria. Si eres responsable de IVA o estás obligado a facturar, debes hacerlo. Consulta con un contador."}}]}</script>
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-6Z1HR06RKT"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-6Z1HR06RKT');
+(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,'clarity','script','zfn6t5xgi0');
+document.addEventListener('click',function(e){var a=e.target.closest('a[data-cta]');if(a&&window.gtag)gtag('event','clic_crear_desde_modelo',{tipo:a.dataset.cta,pagina:location.pathname});});</script>
+</head>
+<body>
+<div class="wrap">
+<header class="top"><a class="brand" href="/"><svg width="26" height="26" viewBox="0 0 30 30" aria-hidden="true"><rect x="4" y="2" width="22" height="26" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M9 16l4 4 8-9" fill="none" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Cuenta Lista</a><nav><a href="/modelos">Modelos</a><a href="/numeros-a-letras">Números a letras</a></nav></header>
+
+<p class="crumbs"><a href="/">Inicio</a> › <a href="/modelos">Modelos</a> › Arriendo</p>
+<main>
+<section class="hero">
+  <div>
+    <h1>Cuenta de cobro de arriendo</h1>
+    <p class="lead">Si arriendas una casa, apartamento, local u oficina y tu arrendatario te pide un soporte del pago mensual, esta cuenta de cobro te sirve.</p>
+    <a class="cta" data-cta="arriendo" href="/?tipo=arriendo&utm_source=modelo&utm_medium=seo&utm_campaign=cuenta-de-cobro-arriendo">Crear mi cuenta de cobro gratis</a>
+    <p class="sub">Gratis, sin registro. El valor en letras se escribe solo y descargas el PDF.</p>
+  </div>
+  <div><div class="sheet" role="img" aria-label="Ejemplo de cuenta de cobro de arriendo">
+<p class="r">Medellín, 1 de diciembre de 2026</p><h3>CUENTA DE COBRO N.º 012</h3>
+<p class="c"><b>Comercializadora Ejemplo S.A.S.</b></p><p class="c">NIT 900.000.000-0</p>
+<p class="c" style="margin:8px 0">DEBE A</p>
+<p class="c"><b>Carmen Ospina Restrepo</b></p><p class="c">C.C. 40.000.000</p>
+<p class="sum"><b>La suma de:</b> $ 2.480.000 (DOS MILLONES CUATROCIENTOS OCHENTA MIL PESOS M/CTE)</p>
+<p><b>Por concepto de:</b></p><p>Canon de arrendamiento del local · 1 × $ 2.300.000 = $ 2.300.000</p><p>Cuota de administración · 1 × $ 180.000 = $ 180.000</p><p><b>Inmueble:</b> Carrera 43 # 10-20, local 101</p><p><b>Periodo:</b> Diciembre de 2026</p>
+<p><b>Favor consignar en:</b> Davivienda, cuenta de ahorros N.º 000-000000-00, a nombre de Carmen Ospina Restrepo.</p><p>No soy responsable del impuesto sobre las ventas (IVA).</p>
+<p style="margin-top:10px">Cordialmente,</p><p><b>Carmen Ospina Restrepo</b></p>
+</div><p class="cap">Ejemplo con datos ficticios. En Cuenta Lista lo cambias por los tuyos.</p></div>
+</section>
+<article>
+  <h2>Quién la usa</h2><p>La usan propietarios persona natural que arriendan inmuebles, en especial cuando el arrendatario es una empresa que necesita el documento para su contabilidad.</p>
+  <h2>Qué debe llevar</h2><ul><li>Nombre y cédula del arrendador (quien cobra).</li><li>Nombre y NIT o cédula del arrendatario (quien paga).</li><li>Dirección del inmueble arrendado.</li><li>Mes o periodo del canon que cobras.</li><li>Valor del canon en números y en letras.</li><li>Datos bancarios para el pago.</li></ul>
+  <div class="box"><h2 style="margin-top:0">Documentos que suelen pedirte</h2><ul><li>Copia del contrato de arrendamiento, si el arrendatario la pide.</li><li>RUT, cuando el arrendatario es una empresa.</li></ul><p style="margin:0">En Cuenta Lista marcas los que adjuntas y quedan listados en la cuenta.</p></div>
+  <h2>Errores que hacen que te la devuelvan</h2><ul><li>No indicar el mes del canon, lo que genera confusiones con pagos atrasados.</li><li>Cobrar un valor distinto al del contrato sin el reajuste pactado.</li><li>Mezclar en una sola cuenta el canon con la administración sin separarlos.</li></ul>
+  <h2>Preguntas frecuentes</h2>
+  <details><summary>¿La cuenta de cobro de arriendo es lo mismo que un recibo de arriendo?</summary><p>No. La cuenta de cobro pide el pago antes de recibirlo; el recibo certifica que ya te pagaron. Muchas personas usan ambos.</p></details><details><summary>¿Puedo cobrar la administración en la misma cuenta?</summary><p>Sí. Agrega un segundo concepto para la administración, así el arrendatario ve cada valor por separado.</p></details><details><summary>¿Debo expedir factura por el arriendo?</summary><p>Depende de tu situación tributaria. Si eres responsable de IVA o estás obligado a facturar, debes hacerlo. Consulta con un contador.</p></details>
+  
+</article>
+<section class="end"><h2>Hazla ahora, gratis</h2><p style="margin:0">Llena tus datos una vez: el próximo mes solo cambias la fecha y el valor.</p><a class="cta" data-cta="arriendo" href="/?tipo=arriendo&utm_source=modelo&utm_medium=seo&utm_campaign=cuenta-de-cobro-arriendo">Crear mi cuenta de cobro gratis</a></section>
+<h2>Otros modelos de cuenta de cobro</h2><ul class="rel"><li><a href="/cuenta-de-cobro-honorarios">Honorarios y servicios<span>Cuenta de cobro por honorarios o servicios</span></a></li><li><a href="/cuenta-de-cobro-contratista-estado">Contratista de entidad pública<span>Cuenta de cobro para contratistas de entidades públicas</span></a></li><li><a href="/cuenta-de-cobro-transporte">Transporte o acarreo<span>Cuenta de cobro por transporte o acarreo</span></a></li><li><a href="/cuenta-de-cobro-venta-productos">Venta de productos<span>Cuenta de cobro por venta de productos</span></a></li><li><a href="/cuenta-de-cobro-clases-por-horas">Clases o trabajo por horas<span>Cuenta de cobro por clases o trabajo por horas</span></a></li><li><a href="/cuenta-de-cobro-comisiones">Comisiones<span>Cuenta de cobro de comisiones</span></a></li></ul>
+</main>
+<footer><p style="margin:0 0 6px">Cuenta Lista genera un documento de cobro. No es una factura electrónica ni reemplaza la asesoría de un contador.</p>
+<p style="margin:0"><a href="/">Crear cuenta de cobro</a> · <a href="/modelos">Modelos</a> · <a href="/numeros-a-letras">Números a letras</a> · <a href="/privacidad">Privacidad</a> · <a href="/terminos">Términos</a></p></footer>
+</div>
+</body>
+</html>

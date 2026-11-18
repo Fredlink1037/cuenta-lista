@@ -240,7 +240,7 @@ footer{border-top:1px solid var(--line);padding:16px 0 28px;color:var(--muted);f
     </div>
   </div>
 
-  <footer><p style="margin:0 0 6px">Cuenta Lista genera un documento de cobro. No es una factura electrónica ni reemplaza la asesoría de un contador.</p><p style="margin:0"><a href="/privacidad.html" style="color:inherit">Política de privacidad</a> · <a href="/terminos.html" style="color:inherit">Términos de uso</a></p></footer>
+  <footer><p style="margin:0 0 6px">Cuenta Lista genera un documento de cobro. No es una factura electrónica ni reemplaza la asesoría de un contador.</p><p style="margin:0"><a href="/modelos" style="color:inherit">Modelos de cuenta de cobro</a> · <a href="/numeros-a-letras" style="color:inherit">Números a letras</a> · <a href="/privacidad" style="color:inherit">Política de privacidad</a> · <a href="/terminos" style="color:inherit">Términos de uso</a></p></footer>
 </div>
 <div id="modal" class="modal" hidden data-clarity-mask="true">
   <div class="box" role="dialog" aria-modal="true" aria-labelledby="mTitle">
@@ -253,7 +253,7 @@ footer{border-top:1px solid var(--line);padding:16px 0 28px;color:var(--muted);f
       <label>Tu correo<input type="email" id="wlEmail" autocomplete="email"></label>
       <label>¿A qué te dedicas? (opcional)<input type="text" id="wlOficio"></label>
       <fieldset class="mini"><legend>¿Qué más te serviría? (opcional)</legend><div id="mOtras"></div></fieldset>
-      <label class="check"><input type="checkbox" id="wlOk"><span>Acepto que me escriban a este correo sobre el lanzamiento de Cuenta Lista Pro y el tratamiento de mis datos según la <a href="/privacidad.html" target="_blank" rel="noopener">política de privacidad</a>.</span></label>
+      <label class="check"><input type="checkbox" id="wlOk"><span>Acepto que me escriban a este correo sobre el lanzamiento de Cuenta Lista Pro y el tratamiento de mis datos según la <a href="/privacidad" target="_blank" rel="noopener">política de privacidad</a>.</span></label>
       <button type="submit" class="primary">Reservar mi 50 % de descuento</button>
       <p class="hint" id="mMsg" role="status" hidden></p>
     </form>
@@ -303,6 +303,26 @@ function normal(s){ if (!s) return s; if (!TIPOS[s.clase]) s.clase = 'servicios'
   s.eTipoP = s.eTipoP === 'empresa' ? 'empresa' : 'natural'; s.cTipoP = s.cTipoP === 'natural' ? 'natural' : 'empresa'; s.fact = s.fact || ''; s.eRep = s.eRep || ''; s.x = s.x || {}; s.adj = s.adj || {};
   s.items = (s.items && s.items.length ? s.items : [{d:'',v:0}]).map(i => ({ d:i.d||'', q:i.q===undefined?1:i.q, v:i.v||0 })); return s; }
 let S = normal(load()) || JSON.parse(JSON.stringify(EJEMPLO));
+/* Llegada desde una página de modelo: ?tipo=arriendo abre ese tipo con su ejemplo. */
+const EJ_TIPO = {
+  servicios: { items:[{d:'Honorarios por asesoría contable', q:1, v:1800000}], x:{ periodo:'Noviembre de 2026' } },
+  estado: { items:[{d:'Honorarios profesionales del periodo', q:1, v:4200000}], x:{ contrato:'123-2026', objeto:'Prestación de servicios profesionales de apoyo a la gestión', pago:'3 de 10', periodo:'1 al 30 de noviembre de 2026', supervisor:'Nombre del supervisor' } },
+  arriendo: { items:[{d:'Canon de arrendamiento del apartamento', q:1, v:1500000}], x:{ inmueble:'Calle 10 # 5-20, apartamento 301', periodo:'Diciembre de 2026' } },
+  transporte: { items:[{d:'Servicio de transporte de mercancía', q:1, v:650000}], x:{ origen:'Santa Marta', destino:'Barranquilla', fechaServ:'14 de noviembre de 2026', placa:'ABC123' } },
+  productos: { items:[{d:'Tortas de cumpleaños', q:3, v:85000},{d:'Caja de cupcakes x12', q:2, v:60000}], x:{ entrega:'20 de noviembre de 2026, en la oficina del cliente' } },
+  horas: { items:[{d:'Hora de clase de inglés', q:12, v:50000}], x:{ periodo:'Noviembre de 2026' } },
+  comision: { items:[{d:'Comisión por ventas del mes', q:1, v:960000}], x:{ base:'$ 12.000.000', pct:'8 %', periodo:'Noviembre de 2026' } },
+  anticipo: { items:[{d:'Anticipo del 50 % por diseño de página web', q:1, v:1250000}], x:{ contrato:'Cotización 045', valorTotal:'$ 2.500.000', parte:'Anticipo del 50 %' } }
+};
+let llegada = null;
+try {
+  const qp = new URLSearchParams(location.search), qt = qp.get('tipo'), qq = qp.get('quien');
+  if (qt && TIPOS[qt]) {
+    llegada = qt; S.clase = qt;
+    if (S.ejemplo) { S.items = JSON.parse(JSON.stringify(EJ_TIPO[qt].items)); S.x = Object.assign({}, EJ_TIPO[qt].x); S.adj = {}; }
+  }
+  if (qq === 'empresa' || qq === 'natural') S.eTipoP = qq;
+} catch (e) {}
 let started = false, dl = null;
 
 function load(){ try{ const r = localStorage.getItem(KEY); return r ? JSON.parse(r) : null; }catch(e){ return null; } }
@@ -580,6 +600,7 @@ drawFeats(); if (reg) proMsg('Ya estás en la lista con tu 50 % de descuento. To
 
 $('clase').innerHTML = Object.keys(TIPOS).map(k => '<option value="' + k + '">' + TIPOS[k].n + '</option>').join('');
 fill();
+if (llegada) { track('llegada_modelo', { tipo: llegada }); }
 if (/debug/.test(location.search + location.hash) || !CONFIG.GA_ID) $('debug').hidden = false;
 track('page_view');
 </script>
