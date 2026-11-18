@@ -224,7 +224,7 @@ footer{border-top:1px solid var(--line);padding:16px 0 28px;color:var(--muted);f
         <div id="feats" class="feats"></div>
         <p class="hint" id="proMsg" role="status" hidden></p>
       </div>
-      <details>
+      <details id="debug" hidden>
         <summary>Eventos de medición (modo prueba)</summary>
         <p class="hint">Cada acción importante queda registrada aquí. Con tu ID de Google Analytics, los mismos eventos llegan a tu panel.</p>
         <ol id="log"></ol>
@@ -262,7 +262,7 @@ footer{border-top:1px solid var(--line);padding:16px 0 28px;color:var(--muted);f
    GA_ID: tu ID de Google Analytics 4 (empieza por G-).
    WAITLIST_ENDPOINT: dirección que recibe y guarda los correos de la lista Pro
    (por ejemplo la de un formulario de Formspree: https://formspree.io/f/tu-codigo). */
-const CONFIG = { GA_ID: '', WAITLIST_ENDPOINT: '' };
+const CONFIG = { GA_ID: 'G-6Z1HR06RKT', WAITLIST_ENDPOINT: 'https://formspree.io/f/mrpqkyel' };
 
 /* Tipos de cobro. campos: [clave, etiqueta en el formulario, etiqueta en el documento]. */
 const TIPOS = {
@@ -359,7 +359,7 @@ function render(){
   if (m.pago) h += '<p style="margin-top:12px"><strong>Favor consignar en:</strong> ' + esc(m.pago) + '</p>';
   if (m.decl.length) h += '<div style="margin-top:12px">' + m.decl.map(d => '<p>' + esc(d) + '</p>').join('') + '</div>';
   h += '<p style="margin-top:14px">Cordialmente,</p><div class="sign"><p class="big">' + esc(m.firma || '') + '</p>' + (m.firmaRol ? '<p>' + esc(m.firmaRol) + '</p>' : '') + (m.emisorDoc ? '<p>' + m.emLbl + ' ' + esc(m.emisorDoc) + '</p>' : '') + (m.contacto ? '<p>' + esc(m.contacto) + '</p>' : '') + '</div>';
-  h += '<p class="foot">Hecho gratis con Cuenta Lista</p>';
+  h += '<p class="foot">Hecho gratis con Cuenta Lista · cuenta-lista.vercel.app</p>';
   $('sheet').innerHTML = h;
   $('wa').href = 'https://wa.me/?text=' + encodeURIComponent(texto());
   $('exNote').hidden = !S.ejemplo;
@@ -376,7 +376,7 @@ function texto(){
   if (m.pago) L.push('', 'Favor consignar en: ' + m.pago);
   if (m.decl.length) L.push('', ...m.decl);
   L.push('', 'Cordialmente,', m.firma); if (m.firmaRol) L.push(m.firmaRol); if (m.contacto) L.push(m.contacto);
-  L.push('', 'Hecho gratis con Cuenta Lista');
+  L.push('', 'Hecho gratis con Cuenta Lista · cuenta-lista.vercel.app');
   return L.join('\n');
 }
 
@@ -402,7 +402,7 @@ function buildPDF(){
   if (m.decl.length) { y += 4; m.decl.forEach(d => P(d)); }
   y += 6; P('Cordialmente,', { g:22 });
   doc.line(M, y - 5, M + 75, y - 5); P(m.firma, { b:true }); if (m.firmaRol) P(m.firmaRol); if (m.emisorDoc) P(m.emLbl + ' ' + m.emisorDoc); if (m.contacto) P(m.contacto);
-  y = 268; P('Hecho gratis con Cuenta Lista', { c:true, s:8, gray:true });
+  y = 268; P('Hecho gratis con Cuenta Lista · cuenta-lista.vercel.app', { c:true, s:8, gray:true });
   return doc;
 }
 
@@ -411,7 +411,7 @@ const eventos = [];
 function track(nombre, datos = {}){
   eventos.unshift(nombre + (Object.keys(datos).length ? ' ' + JSON.stringify(datos) : ''));
   $('log').innerHTML = eventos.slice(0, 12).map(e => '<li>' + esc(e) + '</li>').join('');
-  if (window.gtag) window.gtag('event', nombre, datos);
+  if (window.gtag && nombre !== 'page_view') window.gtag('event', nombre, datos);
 }
 if (CONFIG.GA_ID) {
   const s = document.createElement('script'); s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + CONFIG.GA_ID; document.head.appendChild(s);
@@ -573,6 +573,7 @@ drawFeats(); if (reg) proMsg('Ya estás en la lista con tu 50 % de descuento. To
 
 $('clase').innerHTML = Object.keys(TIPOS).map(k => '<option value="' + k + '">' + TIPOS[k].n + '</option>').join('');
 fill();
+if (/debug/.test(location.search + location.hash) || !CONFIG.GA_ID) $('debug').hidden = false;
 track('page_view');
 </script>
 </body>
