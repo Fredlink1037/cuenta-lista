@@ -5,6 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Cuenta Lista</title>
 <meta name="description" content="Crea tu cuenta de cobro gratis en un minuto: valor en letras automático, PDF listo para enviar y formato usado en Colombia.">
+<meta name="google-site-verification" content="oIkXg1hmwITiWhrcwvgFigMBBHeUoFMu9ykBT0x8Xr4">
+<link rel="canonical" href="https://cuentalista.vercel.app/">
+<meta property="og:title" content="Cuenta Lista: tu cuenta de cobro en un minuto">
+<meta property="og:description" content="Crea gratis tu cuenta de cobro con el valor en letras automático y descárgala en PDF.">
+<meta property="og:url" content="https://cuentalista.vercel.app/">
+<meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
@@ -133,7 +139,7 @@ footer{border-top:1px solid var(--line);padding:16px 0 28px;color:var(--muted);f
   </section>
 
   <div class="grid">
-    <form id="f" novalidate>
+    <form id="f" novalidate data-clarity-mask="true">
       <div class="note" id="exNote">Los datos que ves son un ejemplo. <button type="button" class="ghost" id="clear" style="min-height:32px;padding:4px 10px;margin-left:6px">Borrar ejemplo y empezar</button></div>
 
       <fieldset>
@@ -210,7 +216,7 @@ footer{border-top:1px solid var(--line);padding:16px 0 28px;color:var(--muted);f
     <div class="side">
       <div class="sheet-wrap">
         <div class="sheet-head"><span>Así queda tu cuenta</span><span class="pill">Plan gratis</span></div>
-        <div class="sheet" id="sheet" aria-live="off"></div>
+        <div class="sheet" id="sheet" data-clarity-mask="true" aria-live="off"></div>
       </div>
       <div class="actions">
         <button type="button" class="primary" id="pdf">Descargar PDF</button>
@@ -234,9 +240,9 @@ footer{border-top:1px solid var(--line);padding:16px 0 28px;color:var(--muted);f
     </div>
   </div>
 
-  <footer>Cuenta Lista genera un documento de cobro. No es una factura electrónica ni reemplaza la asesoría de un contador.</footer>
+  <footer><p style="margin:0 0 6px">Cuenta Lista genera un documento de cobro. No es una factura electrónica ni reemplaza la asesoría de un contador.</p><p style="margin:0"><a href="/privacidad.html" style="color:inherit">Política de privacidad</a> · <a href="/terminos.html" style="color:inherit">Términos de uso</a></p></footer>
 </div>
-<div id="modal" class="modal" hidden>
+<div id="modal" class="modal" hidden data-clarity-mask="true">
   <div class="box" role="dialog" aria-modal="true" aria-labelledby="mTitle">
     <button type="button" class="icon close" id="mClose" aria-label="Cerrar">✕</button>
     <p class="eyebrow">Cuenta Lista Pro</p>
@@ -247,7 +253,7 @@ footer{border-top:1px solid var(--line);padding:16px 0 28px;color:var(--muted);f
       <label>Tu correo<input type="email" id="wlEmail" autocomplete="email"></label>
       <label>¿A qué te dedicas? (opcional)<input type="text" id="wlOficio"></label>
       <fieldset class="mini"><legend>¿Qué más te serviría? (opcional)</legend><div id="mOtras"></div></fieldset>
-      <label class="check"><input type="checkbox" id="wlOk"><span>Acepto que me escriban a este correo sobre el lanzamiento de Cuenta Lista Pro.</span></label>
+      <label class="check"><input type="checkbox" id="wlOk"><span>Acepto que me escriban a este correo sobre el lanzamiento de Cuenta Lista Pro y el tratamiento de mis datos según la <a href="/privacidad.html" target="_blank" rel="noopener">política de privacidad</a>.</span></label>
       <button type="submit" class="primary">Reservar mi 50 % de descuento</button>
       <p class="hint" id="mMsg" role="status" hidden></p>
     </form>
@@ -262,7 +268,7 @@ footer{border-top:1px solid var(--line);padding:16px 0 28px;color:var(--muted);f
    GA_ID: tu ID de Google Analytics 4 (empieza por G-).
    WAITLIST_ENDPOINT: dirección que recibe y guarda los correos de la lista Pro
    (por ejemplo la de un formulario de Formspree: https://formspree.io/f/tu-codigo). */
-const CONFIG = { GA_ID: 'G-6Z1HR06RKT', WAITLIST_ENDPOINT: 'https://formspree.io/f/mrpqkyel' };
+const CONFIG = { CLARITY_ID: 'zfn6t5xgi0', GA_ID: 'G-6Z1HR06RKT', WAITLIST_ENDPOINT: 'https://formspree.io/f/mrpqkyel' };
 
 /* Tipos de cobro. campos: [clave, etiqueta en el formulario, etiqueta en el documento]. */
 const TIPOS = {
@@ -407,6 +413,7 @@ function buildPDF(){
 }
 
 /* ===== Medición ===== */
+if (CONFIG.CLARITY_ID) { (function(c,l,a,r,i,t,y){ c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)}; t=l.createElement(r); t.async=1; t.src='https://www.clarity.ms/tag/'+i; y=l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t,y); })(window, document, 'clarity', 'script', CONFIG.CLARITY_ID); }
 const eventos = [];
 function track(nombre, datos = {}){
   eventos.unshift(nombre + (Object.keys(datos).length ? ' ' + JSON.stringify(datos) : ''));
