@@ -38,6 +38,9 @@ html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
 .wrap{max-width:1120px;margin:0 auto;padding:0 16px}
 header.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:18px 0 10px}
+.topnav{display:flex;flex-wrap:wrap;gap:8px}
+.navb{font-size:.92rem}
+@media (max-width:560px){.topnav{width:100%}.topnav>*{flex:1 1 auto}}
 .brand{font-family:var(--display);font-weight:800;font-size:1.45rem;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
 .brand svg{flex:none}
 .intro{padding:6px 0 18px;display:grid;gap:6px}
@@ -130,7 +133,11 @@ footer{border-top:1px solid var(--line);padding:16px 0 28px;color:var(--muted);f
       <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><rect x="4" y="2" width="22" height="26" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M9 16l4 4 8-9" fill="none" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
       Cuenta Lista
     </div>
-    <button type="button" class="pro-btn" id="proTop">Conocer el plan Pro</button>
+    <nav class="topnav" aria-label="Herramientas">
+      <a class="btn navb" href="/modelos" data-nav="modelos">Modelos de cuenta de cobro</a>
+      <a class="btn navb" href="/numeros-a-letras" data-nav="numeros_a_letras">Números a letras</a>
+      <button type="button" class="pro-btn" id="proTop">Conocer el plan Pro</button>
+    </nav>
   </header>
 
   <section class="intro">
@@ -574,6 +581,7 @@ function cerrar(){ $('modal').hidden = true; if (ultimoFoco && ultimoFoco.focus)
 const proMsg = t => { $('proMsg').hidden = false; $('proMsg').textContent = t; };
 const mMsg = t => { $('mMsg').hidden = false; $('mMsg').textContent = t; };
 $('feats').addEventListener('click', e => { const b = e.target.closest('.feat'); if (b) abrir(b.dataset.f, 'panel'); });
+document.querySelectorAll('[data-nav]').forEach(a => a.addEventListener('click', () => track('nav_click', { destino: a.dataset.nav, origen: 'app' })));
 $('proTop').addEventListener('click', () => { track('pro_click', { origen:'encabezado' }); $('proPanel').scrollIntoView({ block:'center' }); const b = $('feats').querySelector('.feat'); if (b) b.focus({ preventScroll:true }); });
 $('mClose').addEventListener('click', () => { track('pro_modal_cerrado', { funcion: actual }); cerrar(); });
 $('mOk').addEventListener('click', cerrar);

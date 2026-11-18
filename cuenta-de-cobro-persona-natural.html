@@ -22,7 +22,11 @@ body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 var(--body)
 .wrap{max-width:1040px;margin:0 auto;padding:0 16px}
 header.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:16px 0 6px}
 .brand{font-family:var(--display);font-weight:800;font-size:1.3rem;color:var(--ink);text-decoration:none;display:flex;gap:8px;align-items:center}
-nav a{color:var(--muted);font-size:.92rem;margin-left:14px}
+.topnav{display:flex;flex-wrap:wrap;gap:8px}
+.navb{display:inline-flex;align-items:center;min-height:40px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font-size:.9rem;font-weight:600;text-decoration:none}
+.navb:hover{border-color:var(--accent)}
+.navb.main{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+@media (max-width:560px){.topnav{width:100%}.topnav>*{flex:1 1 auto;justify-content:center}}
 .crumbs{font-size:.85rem;color:var(--muted);margin:10px 0 0}
 .crumbs a{color:var(--muted)}
 .hero{display:grid;gap:22px;grid-template-columns:minmax(0,1fr);align-items:start;padding:14px 0 26px}
@@ -57,11 +61,11 @@ footer a{color:inherit}
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-6Z1HR06RKT"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-6Z1HR06RKT');
 (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,'clarity','script','zfn6t5xgi0');
-document.addEventListener('click',function(e){var a=e.target.closest('a[data-cta]');if(a&&window.gtag)gtag('event','clic_crear_desde_modelo',{tipo:a.dataset.cta,pagina:location.pathname});});</script>
+document.addEventListener('click',function(e){var a=e.target.closest('a[data-cta]');if(a&&window.gtag)gtag('event','clic_crear_desde_modelo',{tipo:a.dataset.cta,pagina:location.pathname});var n=e.target.closest('a[data-nav]');if(n&&window.gtag)gtag('event','nav_click',{destino:n.dataset.nav,origen:location.pathname});});</script>
 </head>
 <body>
 <div class="wrap">
-<header class="top"><a class="brand" href="/"><svg width="26" height="26" viewBox="0 0 30 30" aria-hidden="true"><rect x="4" y="2" width="22" height="26" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M9 16l4 4 8-9" fill="none" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Cuenta Lista</a><nav><a href="/modelos">Modelos</a><a href="/numeros-a-letras">Números a letras</a></nav></header>
+<header class="top"><a class="brand" href="/"><svg width="26" height="26" viewBox="0 0 30 30" aria-hidden="true"><rect x="4" y="2" width="22" height="26" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M9 16l4 4 8-9" fill="none" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Cuenta Lista</a><nav class="topnav"><a class="navb" href="/modelos" data-nav="modelos">Modelos de cuenta de cobro</a><a class="navb" href="/numeros-a-letras" data-nav="numeros_a_letras">Números a letras</a><a class="navb main" href="/?utm_source=nav&utm_medium=interno" data-nav="crear">Crear cuenta gratis</a></nav></header>
 
 <p class="crumbs"><a href="/">Inicio</a> › <a href="/modelos">Modelos</a> › Guía para persona natural</p>
 <main>
