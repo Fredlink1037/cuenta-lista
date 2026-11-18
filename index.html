@@ -359,7 +359,7 @@ function render(){
   if (m.pago) h += '<p style="margin-top:12px"><strong>Favor consignar en:</strong> ' + esc(m.pago) + '</p>';
   if (m.decl.length) h += '<div style="margin-top:12px">' + m.decl.map(d => '<p>' + esc(d) + '</p>').join('') + '</div>';
   h += '<p style="margin-top:14px">Cordialmente,</p><div class="sign"><p class="big">' + esc(m.firma || '') + '</p>' + (m.firmaRol ? '<p>' + esc(m.firmaRol) + '</p>' : '') + (m.emisorDoc ? '<p>' + m.emLbl + ' ' + esc(m.emisorDoc) + '</p>' : '') + (m.contacto ? '<p>' + esc(m.contacto) + '</p>' : '') + '</div>';
-  h += '<p class="foot">Hecho gratis con Cuenta Lista · cuenta-lista.vercel.app</p>';
+  h += '<p class="foot">Hecho gratis con Cuenta Lista · cuentalista.vercel.app</p>';
   $('sheet').innerHTML = h;
   $('wa').href = 'https://wa.me/?text=' + encodeURIComponent(texto());
   $('exNote').hidden = !S.ejemplo;
@@ -376,7 +376,7 @@ function texto(){
   if (m.pago) L.push('', 'Favor consignar en: ' + m.pago);
   if (m.decl.length) L.push('', ...m.decl);
   L.push('', 'Cordialmente,', m.firma); if (m.firmaRol) L.push(m.firmaRol); if (m.contacto) L.push(m.contacto);
-  L.push('', 'Hecho gratis con Cuenta Lista · cuenta-lista.vercel.app');
+  L.push('', 'Hecho gratis con Cuenta Lista · cuentalista.vercel.app');
   return L.join('\n');
 }
 
@@ -402,7 +402,7 @@ function buildPDF(){
   if (m.decl.length) { y += 4; m.decl.forEach(d => P(d)); }
   y += 6; P('Cordialmente,', { g:22 });
   doc.line(M, y - 5, M + 75, y - 5); P(m.firma, { b:true }); if (m.firmaRol) P(m.firmaRol); if (m.emisorDoc) P(m.emLbl + ' ' + m.emisorDoc); if (m.contacto) P(m.contacto);
-  y = 268; P('Hecho gratis con Cuenta Lista · cuenta-lista.vercel.app', { c:true, s:8, gray:true });
+  y = 268; P('Hecho gratis con Cuenta Lista · cuentalista.vercel.app', { c:true, s:8, gray:true });
   return doc;
 }
 
