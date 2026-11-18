@@ -581,7 +581,13 @@ function cerrar(){ $('modal').hidden = true; if (ultimoFoco && ultimoFoco.focus)
 const proMsg = t => { $('proMsg').hidden = false; $('proMsg').textContent = t; };
 const mMsg = t => { $('mMsg').hidden = false; $('mMsg').textContent = t; };
 $('feats').addEventListener('click', e => { const b = e.target.closest('.feat'); if (b) abrir(b.dataset.f, 'panel'); });
-document.querySelectorAll('[data-nav]').forEach(a => a.addEventListener('click', () => track('nav_click', { destino: a.dataset.nav, origen: 'app' })));
+document.querySelectorAll('[data-nav]').forEach(a => a.addEventListener('click', e => {
+  const datos = { destino: a.dataset.nav, origen: 'app' };
+  if (!window.gtag || e.ctrlKey || e.metaKey || e.shiftKey || e.button) { track('nav_click', datos); return; }
+  e.preventDefault(); let done = false; const go = () => { if (!done) { done = true; location.href = a.href; } };
+  eventos.unshift('nav_click ' + JSON.stringify(datos));
+  window.gtag('event', 'nav_click', Object.assign({ transport_type:'beacon', event_callback: go }, datos)); setTimeout(go, 700);
+}));
 $('proTop').addEventListener('click', () => { track('pro_click', { origen:'encabezado' }); $('proPanel').scrollIntoView({ block:'center' }); const b = $('feats').querySelector('.feat'); if (b) b.focus({ preventScroll:true }); });
 $('mClose').addEventListener('click', () => { track('pro_modal_cerrado', { funcion: actual }); cerrar(); });
 $('mOk').addEventListener('click', cerrar);

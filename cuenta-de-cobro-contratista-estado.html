@@ -61,7 +61,9 @@ footer a{color:inherit}
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-6Z1HR06RKT"></script>
 <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-6Z1HR06RKT');
 (function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,'clarity','script','zfn6t5xgi0');
-document.addEventListener('click',function(e){var a=e.target.closest('a[data-cta]');if(a&&window.gtag)gtag('event','clic_crear_desde_modelo',{tipo:a.dataset.cta,pagina:location.pathname});var n=e.target.closest('a[data-nav]');if(n&&window.gtag)gtag('event','nav_click',{destino:n.dataset.nav,origen:location.pathname});});</script>
+document.addEventListener('click',function(e){var a=e.target.closest('a[data-cta],a[data-nav]');if(!a||!window.gtag||e.ctrlKey||e.metaKey||e.shiftKey||e.button)return;
+var name=a.dataset.cta?'clic_crear_desde_modelo':'nav_click',p=a.dataset.cta?{tipo:a.dataset.cta,pagina:location.pathname}:{destino:a.dataset.nav,origen:location.pathname};
+e.preventDefault();var done=false,go=function(){if(!done){done=true;location.href=a.href;}};p.transport_type='beacon';p.event_callback=go;gtag('event',name,p);setTimeout(go,700);});</script>
 </head>
 <body>
 <div class="wrap">
