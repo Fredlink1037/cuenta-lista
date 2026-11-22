@@ -11,30 +11,37 @@
 <meta property="og:url" content="https://cuentalista.vercel.app/cuenta-de-cobro-venta-productos">
 <meta property="og:type" content="article">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16.png">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+<meta name="theme-color" content="#087F5B">
+<meta property="og:image" content="https://cuentalista.vercel.app/img/og.png">
 <style>
-:root{--paper:#F2F5F0;--surface:#FFFFFF;--ink:#13201C;--muted:#586A63;--line:#D3DBD4;--accent:#0B6E5A;--accent-ink:#FFFFFF;--stamp:#B4472B;
---display:"Bricolage Grotesque","Trebuchet MS",sans-serif;--body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--paper:#0F1614;--surface:#18211E;--ink:#E8EEEA;--muted:#9BABA4;--line:#2C3A35;--accent:#4CC2A5;--accent-ink:#06231C;--stamp:#E99073;color-scheme:dark}}
-:root[data-theme="dark"]{--paper:#0F1614;--surface:#18211E;--ink:#E8EEEA;--muted:#9BABA4;--line:#2C3A35;--accent:#4CC2A5;--accent-ink:#06231C;--stamp:#E99073;color-scheme:dark}
+:root{--paper:#F9FAF5;--surface:#FFFFFF;--ink:#172B35;--muted:#52636B;--line:#E5EDE8;--field:#7E8F88;--accent:#087F5B;--accent-hover:#06694B;--accent-ink:#FFFFFF;--teal:#14B8A6;--pro:#6D28D9;--pro-bg:#F1EAFF;--stamp:#6D28D9;
+--display:"Poppins","Segoe UI",system-ui,sans-serif;--body:"Inter","Segoe UI",system-ui,sans-serif}
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 var(--body)}
 .wrap{max-width:1040px;margin:0 auto;padding:0 16px}
-header.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:16px 0 6px}
-.brand{font-family:var(--display);font-weight:800;font-size:1.3rem;color:var(--ink);text-decoration:none;display:flex;gap:8px;align-items:center}
+header.top{border-bottom:1px solid var(--line);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:16px 0 6px}
+.brand{font-family:var(--display);font-weight:700;font-size:1.3rem;letter-spacing:-.01em;color:var(--ink);text-decoration:none;display:flex;gap:8px;align-items:center}
 .topnav{display:flex;flex-wrap:wrap;gap:8px}
 .navb{display:inline-flex;align-items:center;min-height:40px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font-size:.9rem;font-weight:600;text-decoration:none}
 .navb:hover{border-color:var(--accent)}
 .navb.main{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.navb.main:hover{background:var(--accent-hover)}
+.brand img{width:40px;height:auto}
+.brand b{color:var(--accent);font-weight:700}
 @media (max-width:560px){.topnav{width:100%}.topnav>*{flex:1 1 auto;justify-content:center}}
 .crumbs{font-size:.85rem;color:var(--muted);margin:10px 0 0}
 .crumbs a{color:var(--muted)}
 .hero{display:grid;gap:22px;grid-template-columns:minmax(0,1fr);align-items:start;padding:14px 0 26px}
 @media (min-width:880px){.hero{grid-template-columns:minmax(0,6fr) minmax(0,5fr)}}
-h1{font-family:var(--display);font-weight:800;font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.08;letter-spacing:-.02em;margin:6px 0 10px;text-wrap:balance}
-h2{font-family:var(--display);font-size:1.35rem;margin:34px 0 8px;text-wrap:balance}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.08;letter-spacing:-.02em;margin:6px 0 10px;text-wrap:balance}
+h2{font-family:var(--display);font-weight:600;font-size:1.35rem;margin:34px 0 8px;text-wrap:balance}
 .lead{font-size:1.08rem;color:var(--muted);max-width:60ch;margin:0 0 16px}
-.cta{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 20px;border-radius:9px;background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none}
+.cta:hover{background:var(--accent-hover)}
+.cta{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 20px;border-radius:10px;background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none}
 .cta:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .sub{font-size:.85rem;color:var(--muted);margin:8px 0 0}
 .sheet{background:#fff;color:#1b1b1b;border:1px solid #d9d9d9;padding:22px;font-size:.86rem;line-height:1.5;box-shadow:0 8px 24px -16px #00000040;overflow-wrap:anywhere}
@@ -50,6 +57,7 @@ details{border-top:1px solid var(--line);padding:12px 0}
 summary{cursor:pointer;font-weight:600}
 details p{margin:8px 0 0;color:var(--ink)}
 .rel{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));padding:0;list-style:none}
+.rel a:hover{border-color:var(--accent)}
 .rel a{display:block;background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:12px 14px;color:var(--ink);text-decoration:none;font-weight:600}
 .rel a span{display:block;font-weight:400;font-size:.85rem;color:var(--muted)}
 .end{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px;margin:36px 0;display:grid;gap:10px;justify-items:start}
@@ -58,16 +66,16 @@ footer{border-top:1px solid var(--line);padding:16px 0 28px;color:var(--muted);f
 footer a{color:inherit}
 </style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Si vendo productos tengo que facturar?", "acceptedAnswer": {"@type": "Answer", "text": "Depende de tu régimen y de tus ingresos. Si eres responsable de IVA o superas los topes, debes expedir factura electrónica. Verifícalo con un contador."}}, {"@type": "Question", "name": "¿La cuenta calcula el total?", "acceptedAnswer": {"@type": "Answer", "text": "Sí. Escribes la cantidad y el valor unitario de cada producto y Cuenta Lista calcula el total y lo escribe en letras."}}]}</script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-6Z1HR06RKT"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-6Z1HR06RKT');
-(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,'clarity','script','zfn6t5xgi0');
+<script>if(location.hostname==='cuentalista.vercel.app'){(function(){var s=document.createElement('script');s.async=1;s.src='https://www.googletagmanager.com/gtag/js?id=G-6Z1HR06RKT';document.head.appendChild(s)})();
+window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','G-6Z1HR06RKT');
+(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,'clarity','script','zfn6t5xgi0');}
 document.addEventListener('click',function(e){var a=e.target.closest('a[data-cta],a[data-nav]');if(!a||!window.gtag||e.ctrlKey||e.metaKey||e.shiftKey||e.button)return;
 var name=a.dataset.cta?'clic_crear_desde_modelo':'nav_click',p=a.dataset.cta?{tipo:a.dataset.cta,pagina:location.pathname}:{destino:a.dataset.nav,origen:location.pathname};
 e.preventDefault();var done=false,go=function(){if(!done){done=true;location.href=a.href;}};p.transport_type='beacon';p.event_callback=go;gtag('event',name,p);setTimeout(go,700);});</script>
 </head>
 <body>
 <div class="wrap">
-<header class="top"><a class="brand" href="/"><svg width="26" height="26" viewBox="0 0 30 30" aria-hidden="true"><rect x="4" y="2" width="22" height="26" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M9 16l4 4 8-9" fill="none" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Cuenta Lista</a><nav class="topnav"><a class="navb" href="/modelos" data-nav="modelos">Modelos de cuenta de cobro</a><a class="navb" href="/numeros-a-letras" data-nav="numeros_a_letras">Números a letras</a><a class="navb main" href="/?utm_source=nav&utm_medium=interno" data-nav="crear">Crear cuenta gratis</a></nav></header>
+<header class="top"><a class="brand" href="/" aria-label="Cuenta Lista, inicio"><img src="/img/isotipo.png" width="40" height="34" alt=""><span>Cuenta <b>Lista</b></span></a><nav class="topnav"><a class="navb" href="/modelos" data-nav="modelos">Modelos de cuenta de cobro</a><a class="navb" href="/numeros-a-letras" data-nav="numeros_a_letras">Números a letras</a><a class="navb main" href="/?utm_source=nav&utm_medium=interno" data-nav="crear">Empezar gratis</a></nav></header>
 
 <p class="crumbs"><a href="/">Inicio</a> › <a href="/modelos">Modelos</a> › Venta de productos</p>
 <main>

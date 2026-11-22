@@ -12,50 +12,49 @@
 <meta property="og:url" content="https://cuentalista.vercel.app/">
 <meta property="og:type" content="website">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16.png">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+<meta name="theme-color" content="#087F5B">
+<meta property="og:image" content="https://cuentalista.vercel.app/img/og.png">
 <style>
 /* Layout: formulario a la izquierda, hoja en vivo a la derecha; en celular se apilan. */
 :root{
-  --paper:#F2F5F0; --surface:#FFFFFF; --ink:#13201C; --muted:#586A63; --line:#D3DBD4;
-  --accent:#0B6E5A; --accent-ink:#FFFFFF; --stamp:#B4472B; --warn-bg:#FBF1DC; --warn-ink:#6B4A08;
-  --display:"Bricolage Grotesque","Trebuchet MS",sans-serif;
-  --body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --paper:#0F1614; --surface:#18211E; --ink:#E8EEEA; --muted:#9BABA4; --line:#2C3A35;
-    --accent:#4CC2A5; --accent-ink:#06231C; --stamp:#E99073; --warn-bg:#33290F; --warn-ink:#F1D592;
-    color-scheme:dark;
-  }
-}
-:root[data-theme="dark"]{
-  --paper:#0F1614; --surface:#18211E; --ink:#E8EEEA; --muted:#9BABA4; --line:#2C3A35;
-  --accent:#4CC2A5; --accent-ink:#06231C; --stamp:#E99073; --warn-bg:#33290F; --warn-ink:#F1D592;
-  color-scheme:dark;
+  /* Manual de marca Cuenta Lista v1.1 */
+  --paper:#F9FAF5; --surface:#FFFFFF; --ink:#172B35; --muted:#52636B; --line:#E5EDE8; --field:#7E8F88;
+  --accent:#087F5B; --accent-hover:#06694B; --accent-ink:#FFFFFF; --teal:#14B8A6;
+  --pro:#6D28D9; --pro-bg:#F1EAFF; --violet:#8B5CF6;
+  --stamp:#6D28D9; --warn-bg:#FEF3C7; --warn-ink:#92400E; --err:#B91C1C; --err-bg:#FEE2E2;
+  --display:"Poppins","Segoe UI",system-ui,sans-serif;
+  --body:"Inter","Segoe UI",system-ui,sans-serif;
 }
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
 body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
 .wrap{max-width:1120px;margin:0 auto;padding:0 16px}
-header.top{display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:18px 0 10px}
+header.top{border-bottom:1px solid var(--line);margin-bottom:14px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:18px 0 10px}
 .topnav{display:flex;flex-wrap:wrap;gap:8px}
 .navb{font-size:.92rem}
 @media (max-width:560px){.topnav{width:100%}.topnav>*{flex:1 1 auto}}
-.brand{font-family:var(--display);font-weight:800;font-size:1.45rem;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+.brand{font-family:var(--display);font-weight:700;font-size:1.4rem;letter-spacing:-.01em;display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none}
+.brand img{width:44px;height:auto;flex:none}
+.brand b{color:var(--accent);font-weight:700}
 .brand svg{flex:none}
 .intro{padding:6px 0 18px;display:grid;gap:6px}
-h1{font-family:var(--display);font-weight:800;font-size:clamp(1.7rem,5vw,2.5rem);line-height:1.08;letter-spacing:-.025em;margin:0;text-wrap:balance;max-width:20ch}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(1.7rem,5vw,2.5rem);line-height:1.08;letter-spacing:-.015em;margin:0;text-wrap:balance;max-width:20ch}
+h1 em{font-style:normal;color:var(--accent)}
 .intro p{margin:0;color:var(--muted);max-width:60ch}
 .grid{display:grid;gap:20px;grid-template-columns:minmax(0,1fr);align-items:start;padding-bottom:40px}
 @media (min-width:900px){.grid{grid-template-columns:minmax(0,5fr) minmax(0,6fr)}.side{position:sticky;top:12px}}
 form{display:grid;gap:14px}
-fieldset{border:1px solid var(--line);background:var(--surface);border-radius:10px;padding:14px 14px 16px;margin:0;display:grid;gap:10px;min-width:0}
+fieldset{border:1px solid var(--line);background:var(--surface);border-radius:12px;box-shadow:0 1px 2px #172B350a;padding:14px 14px 16px;margin:0;display:grid;gap:10px;min-width:0}
 legend{font-family:var(--display);font-weight:600;font-size:1.02rem;padding:0 6px;display:flex;gap:8px;align-items:baseline}
 legend span{color:var(--accent);font-variant-numeric:tabular-nums}
 .row{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
 label{display:grid;gap:4px;font-size:.85rem;font-weight:500;color:var(--muted);min-width:0}
 input[type=text],input[type=date],input[type=email],input[type=tel],select,textarea{
-  font:inherit;font-size:1rem;color:var(--ink);background:var(--paper);border:1px solid var(--line);border-radius:7px;padding:9px 10px;width:100%;min-width:0}
+  font:inherit;font-size:1rem;color:var(--ink);background:var(--surface);border:1px solid var(--field);border-radius:8px;padding:9px 10px;width:100%;min-width:0}
 textarea{resize:vertical;min-height:60px}
 input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .item{display:grid;grid-template-columns:minmax(0,1fr) 120px 40px;gap:8px;align-items:end}
@@ -67,7 +66,8 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 #adj{display:grid;gap:8px}
 #wl{display:grid;gap:10px}
 .chips{list-style:none;display:flex;flex-wrap:wrap;gap:6px;padding:0;margin:6px 0 0}
-.chips li{font-size:.82rem;font-weight:600;border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:4px 10px}
+.chips li{font-size:.82rem;font-weight:500;border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:4px 10px 4px 8px;display:inline-flex;align-items:center;gap:6px}
+.chips li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--teal)}
 #sigPad{width:100%;max-width:600px;aspect-ratio:10/3;height:auto;background:#fff;border:1px dashed var(--line);border-radius:8px;touch-action:none;cursor:crosshair}
 .sr{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
 .btn:focus-within{outline:2px solid var(--accent);outline-offset:2px}
@@ -82,10 +82,11 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 .sheet .sigimg{display:block;max-height:64px;max-width:220px;margin:0 0 -4px}
 .sheet .sign.has{margin-top:10px}
 .feats{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
-.feat{display:grid;gap:4px;text-align:left;justify-items:start;align-content:start;padding:12px;min-height:0;border-radius:9px;background:var(--paper);font-weight:400}
+.feat{display:grid;gap:4px;text-align:left;justify-items:start;justify-content:stretch;align-content:start;padding:12px;min-height:0;border-radius:10px;background:var(--paper);border-color:var(--line);font-weight:400}
+.feat:hover{border-color:var(--violet)}
 .feat b{font-weight:600}
 .feat span{font-size:.85rem;color:var(--muted)}
-.feat em{font-style:normal;font-size:.8rem;font-weight:600;color:var(--stamp)}
+.feat em{font-style:normal;font-size:.76rem;font-weight:600;color:var(--pro);background:var(--pro-bg);border-radius:99px;padding:1px 8px}
 .feat[aria-pressed="true"]{border-color:var(--accent)}
 .feat[aria-pressed="true"] em{color:var(--accent)}
 .modal{position:fixed;inset:0;background:#0009;display:grid;place-items:center;padding:16px;z-index:10}
@@ -105,15 +106,17 @@ fieldset.mini legend{font-family:var(--body);font-size:.85rem;font-weight:500;co
 button,.btn{font:inherit;font-weight:600;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:10px 14px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px}
 button:hover,.btn:hover{border-color:var(--accent)}
 .primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
+.primary:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
 .ghost{background:transparent}
 .icon{padding:0;width:40px;min-height:42px;color:var(--muted)}
-.pro-btn{border-color:var(--stamp);color:var(--stamp);background:transparent}
+.pro-btn{border-color:var(--pro-bg);color:var(--pro);background:var(--pro-bg)}
+.pro-btn:hover{border-color:var(--violet)}
 .actions{display:flex;flex-wrap:wrap;gap:8px}
 .actions .primary{flex:1 1 180px}
 .side{display:grid;gap:14px;min-width:0}
 .sheet-wrap{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px}
 .sheet-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;font-size:.85rem;color:var(--muted)}
-.pill{font-size:.75rem;font-weight:600;border:1px solid var(--stamp);color:var(--stamp);border-radius:99px;padding:2px 9px}
+.pill{font-size:.75rem;font-weight:600;border:1px solid var(--pro-bg);background:var(--pro-bg);color:var(--pro);border-radius:99px;padding:2px 9px}
 /* La hoja es un documento: siempre papel blanco con tinta oscura, en ambos temas. */
 .sheet{background:#fff;color:#1b1b1b;border:1px solid #d9d9d9;padding:clamp(18px,5vw,40px);font-size:.93rem;line-height:1.55;overflow-wrap:anywhere;box-shadow:0 1px 0 #0000000d,0 8px 24px -16px #00000040}
 .sheet .r{text-align:right}.sheet .c{text-align:center}
@@ -125,9 +128,9 @@ button:hover,.btn:hover{border-color:var(--accent)}
 .sheet td:last-child{text-align:right;white-space:nowrap;padding-left:12px;font-variant-numeric:tabular-nums}
 .sheet .sign{margin-top:44px;border-top:1px solid #1b1b1b;padding-top:6px;max-width:300px}
 .sheet .foot{margin-top:26px;font-size:.72rem;color:#7a7a7a;text-align:center}
-.sheet .ph{color:#a33;background:#fdf1ef}
+.sheet .ph{color:var(--err);background:var(--err-bg)}
 .sheet p{margin:0 0 8px}
-.pro{border:1px dashed var(--stamp);border-radius:10px;padding:14px;display:grid;gap:8px;background:var(--surface)}
+.pro{border:1px solid var(--line);border-top:3px solid var(--violet);border-radius:10px;padding:14px;display:grid;gap:8px;background:var(--surface)}
 .pro h3{font-family:var(--display);font-size:1.05rem;margin:0}
 .pro ul{margin:0;padding-left:18px;color:var(--muted);font-size:.92rem}
 .note{background:var(--warn-bg);color:var(--warn-ink);border-radius:8px;padding:10px 12px;font-size:.85rem}
@@ -144,10 +147,7 @@ footer{border-top:1px solid var(--line);padding:16px 0 28px;color:var(--muted);f
 <body>
 <div class="wrap">
   <header class="top">
-    <div class="brand">
-      <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><rect x="4" y="2" width="22" height="26" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M9 16l4 4 8-9" fill="none" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      Cuenta Lista
-    </div>
+    <a class="brand" href="/" aria-label="Cuenta Lista, inicio"><img src="/img/isotipo.png" width="44" height="38" alt=""><span>Cuenta <b>Lista</b></span></a>
     <nav class="topnav" aria-label="Herramientas">
       <a class="btn navb" href="/modelos" data-nav="modelos">Modelos de cuenta de cobro</a>
       <a class="btn navb" href="/numeros-a-letras" data-nav="numeros_a_letras">Números a letras</a>
@@ -156,7 +156,7 @@ footer{border-top:1px solid var(--line);padding:16px 0 28px;color:var(--muted);f
   </header>
 
   <section class="intro">
-    <h1>Tu cuenta de cobro, lista para radicar</h1>
+    <h1>Tu cuenta de cobro, <em>lista</em> para radicar</h1>
     <p>Con los anexos que te van a pedir, el valor en letras automático y tu firma, en PDF o Word. Gratis, sin registro, y tus datos se quedan en tu dispositivo para el próximo mes.</p>
     <ul class="chips"><li>8 tipos de cobro</li><li>Anexos según el tipo</li><li>Firma incluida</li><li>PDF, Word y WhatsApp</li><li>Cuánto te queda tras la PILA</li></ul>
   </section>
@@ -312,7 +312,8 @@ footer{border-top:1px solid var(--line);padding:16px 0 28px;color:var(--muted);f
    GA_ID: tu ID de Google Analytics 4 (empieza por G-).
    WAITLIST_ENDPOINT: dirección que recibe y guarda los correos de la lista Pro
    (por ejemplo la de un formulario de Formspree: https://formspree.io/f/tu-codigo). */
-const CONFIG = { CLARITY_ID: 'zfn6t5xgi0', GA_ID: 'G-6Z1HR06RKT', WAITLIST_ENDPOINT: 'https://formspree.io/f/mrpqkyel' };
+const PROD = location.hostname === 'cuentalista.vercel.app';
+const CONFIG = { CLARITY_ID: PROD ? 'zfn6t5xgi0' : '', GA_ID: PROD ? 'G-6Z1HR06RKT' : '', WAITLIST_ENDPOINT: 'https://formspree.io/f/mrpqkyel' };
 
 /* Tipos de cobro. campos: [clave, etiqueta en el formulario, etiqueta en el documento]. */
 const TIPOS = {
@@ -430,7 +431,7 @@ function render(){
   if (m.pago) h += '<p style="margin-top:12px"><strong>Favor consignar en:</strong> ' + esc(m.pago) + '</p>';
   if (m.decl.length) h += '<div style="margin-top:12px">' + m.decl.map(d => '<p>' + esc(d) + '</p>').join('') + '</div>';
   h += '<p style="margin-top:14px">Cordialmente,</p><div class="sign' + (m.firmaImg ? ' has' : '') + '">' + (m.firmaImg ? '<img class="sigimg" alt="Firma" src="' + m.firmaImg + '">' : '') + '<p class="big">' + esc(m.firma || '') + '</p>' + (m.firmaRol ? '<p>' + esc(m.firmaRol) + '</p>' : '') + (m.emisorDoc ? '<p>' + m.emLbl + ' ' + esc(m.emisorDoc) + '</p>' : '') + (m.contacto ? '<p>' + esc(m.contacto) + '</p>' : '') + '</div>';
-  h += '<p class="foot">Hecho gratis con Cuenta Lista · cuentalista.vercel.app</p>';
+  h += '<p class="foot">Generado con Cuenta Lista · Tu cuenta de cobro, lista en minutos · cuentalista.vercel.app</p>';
   $('sheet').innerHTML = h;
   $('wa').href = 'https://wa.me/?text=' + encodeURIComponent(texto());
   $('exNote').hidden = !S.ejemplo;
@@ -448,7 +449,7 @@ function texto(){
   if (m.pago) L.push('', 'Favor consignar en: ' + m.pago);
   if (m.decl.length) L.push('', ...m.decl);
   L.push('', 'Cordialmente,', m.firma); if (m.firmaRol) L.push(m.firmaRol); if (m.contacto) L.push(m.contacto);
-  L.push('', 'Hecho gratis con Cuenta Lista · cuentalista.vercel.app');
+  L.push('', 'Generado con Cuenta Lista · Tu cuenta de cobro, lista en minutos · cuentalista.vercel.app');
   return L.join('\n');
 }
 
@@ -480,7 +481,7 @@ function buildPDF(){
     y += h + 5;
   } else P('Cordialmente,', { g:22 });
   doc.line(M, y - 5, M + 75, y - 5); P(m.firma, { b:true }); if (m.firmaRol) P(m.firmaRol); if (m.emisorDoc) P(m.emLbl + ' ' + m.emisorDoc); if (m.contacto) P(m.contacto);
-  y = 268; P('Hecho gratis con Cuenta Lista · cuentalista.vercel.app', { c:true, s:8, gray:true });
+  y = 268; P('Generado con Cuenta Lista · Tu cuenta de cobro, lista en minutos · cuentalista.vercel.app', { c:true, s:8, gray:true });
   return doc;
 }
 
@@ -587,7 +588,7 @@ async function buildWord(){
   if (m.emisorDoc) ch.push(par(m.emLbl + ' ' + m.emisorDoc, { after:40 }));
   if (m.contacto) ch.push(par(m.contacto, { after:40 }));
   const doc = new D.Document({ creator: 'Cuenta Lista', title: m.titulo, sections: [{ properties: { page: { size: { width: 12240, height: 15840 }, margin: { top: 1418, bottom: 1418, left: 1418, right: 1418 } } },
-    footers: { default: new D.Footer({ children: [par('Hecho gratis con Cuenta Lista · cuentalista.vercel.app', { c:true, s:16, gray:true, after:0 })] }) }, children: ch }] });
+    footers: { default: new D.Footer({ children: [par('Generado con Cuenta Lista · Tu cuenta de cobro, lista en minutos · cuentalista.vercel.app', { c:true, s:16, gray:true, after:0 })] }) }, children: ch }] });
   return D.Packer.toBlob(doc);
 }
 async function bajar(blob, nombre){
@@ -759,7 +760,7 @@ drawFeats(); if (reg) proMsg('Ya estás en la lista con tu 50 % de descuento. To
 $('clase').innerHTML = Object.keys(TIPOS).map(k => '<option value="' + k + '">' + TIPOS[k].n + '</option>').join('');
 fill();
 if (llegada) { track('llegada_modelo', { tipo: llegada }); }
-if (/debug/.test(location.search + location.hash) || !CONFIG.GA_ID) $('debug').hidden = false;
+if (/debug/.test(location.search + location.hash)) $('debug').hidden = false;
 track('page_view');
 </script>
 </body>
