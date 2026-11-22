@@ -94,6 +94,7 @@ input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-vis
 .modal .box{position:relative;background:var(--surface);color:var(--ink);border-radius:12px;padding:20px;width:min(460px,100%);max-height:calc(100% - 16px);overflow:auto;display:grid;gap:10px}
 .modal h3{font-family:var(--display);font-size:1.3rem;margin:0;padding-right:40px;text-wrap:balance}
 .modal .close{position:absolute;top:10px;right:10px}
+.modal a{color:var(--accent)}
 .eyebrow{margin:0;font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--stamp)}
 fieldset.mini{padding:10px 12px;gap:6px}
 fieldset.mini legend{font-family:var(--body);font-size:.85rem;font-weight:500;color:var(--muted)}
@@ -736,6 +737,7 @@ function abrir(id, origen){
     drawFeats(); proMsg('Anotado: te interesa «' + f[1] + '». Ya tienes reservado tu 50 % de descuento.'); return;
   }
   $('mTitle').textContent = f[1]; $('mDesc').textContent = f[2] + '.';
+  $('mOtras').previousElementSibling.textContent = '¿Qué más te serviría? (opcional)';
   $('mOtras').innerHTML = FEATS.filter(x => x[0] !== id).map(x => '<label class="check"><input type="checkbox" id="o-' + x[0] + '" value="' + x[0] + '"><span>' + esc(x[1]) + '</span></label>').join('');
   $('wl').hidden = false; $('mDone').hidden = true; $('mMsg').hidden = true;
   $('modal').hidden = false; $('wlEmail').focus();
@@ -752,7 +754,18 @@ document.querySelectorAll('[data-nav]').forEach(a => a.addEventListener('click',
   eventos.unshift('nav_click ' + JSON.stringify(datos));
   window.gtag('event', 'nav_click', Object.assign({ transport_type:'beacon', event_callback: go }, datos)); setTimeout(go, 700);
 }));
-$('proTop').addEventListener('click', () => { track('pro_click', { origen:'encabezado' }); $('proPanel').scrollIntoView({ block:'center' }); const b = $('feats').querySelector('.feat'); if (b) b.focus({ preventScroll:true }); });
+function abrirGeneral(origen){
+  track('pro_click', { origen });
+  if (reg) { $('proPanel').scrollIntoView({ block:'center' }); proMsg('Ya estás en la lista con tu 50 % de descuento. Toca las funciones que más te sirven.'); return; }
+  actual = 'general'; ultimoFoco = document.activeElement;
+  $('mTitle').textContent = 'Reserva tu 50 % de descuento';
+  $('mDesc').textContent = 'Cuenta Lista Pro, para quienes cobran a varios clientes cada mes.';
+  $('mOtras').previousElementSibling.textContent = '¿Qué te gustaría usar? (opcional)';
+  $('mOtras').innerHTML = FEATS.map(x => '<label class="check"><input type="checkbox" id="o-' + x[0] + '" value="' + x[0] + '"><span>' + esc(x[1]) + '</span></label>').join('');
+  $('wl').hidden = false; $('mDone').hidden = true; $('mMsg').hidden = true;
+  $('modal').hidden = false; $('wlEmail').focus();
+}
+$('proTop').addEventListener('click', () => abrirGeneral('encabezado'));
 $('mClose').addEventListener('click', () => { track('pro_modal_cerrado', { funcion: actual }); cerrar(); });
 $('mOk').addEventListener('click', cerrar);
 $('modal').addEventListener('click', e => { if (e.target === $('modal')) cerrar(); });
@@ -768,7 +781,7 @@ $('wl').addEventListener('submit', async e => {
     const res = await enviar({ email, oficio: $('wlOficio').value.trim(), funcion: actual, otras_funciones: otras.join(', '), cobra_como: S.eTipoP, tipo_de_cobro: S.clase, fecha: new Date().toISOString() });
     if (res === 'prueba') { mMsg('Modo prueba: el formulario funciona, pero este correo todavía no se guarda. Falta conectar WAITLIST_ENDPOINT.'); return; }
     track('lista_pro_registro', { funcion: actual, otras: otras.length });
-    reg = { email, funciones: [actual, ...otras] }; try { localStorage.setItem(KEY + '.wl', JSON.stringify(reg)); } catch (e2) {}
+    reg = { email, funciones: actual === 'general' ? otras : [actual, ...otras] }; try { localStorage.setItem(KEY + '.wl', JSON.stringify(reg)); } catch (e2) {}
     $('wl').hidden = true; $('mDone').hidden = false;
     $('mDoneTxt').textContent = 'Listo. Te avisaremos primero cuando lancemos Pro y tendrás 50 % de descuento.';
     drawFeats(); proMsg('Ya estás en la lista con tu 50 % de descuento.');
@@ -783,6 +796,6 @@ if (/debug/.test(location.search + location.hash)) $('debug').hidden = false;
 track('page_view');
 </script>
 <script>(function(){var b=document.getElementById('temaBtn');if(!b)return;b.addEventListener('click',function(){var r=document.documentElement,cur=r.dataset.theme||'light',n=cur==='dark'?'light':'dark';r.dataset.theme=n;try{localStorage.setItem('cl.tema',n)}catch(e){}var m=document.querySelector('meta[name=theme-color]');if(m)m.content=n==='dark'?'#0E1A20':'#087F5B';if(window.gtag)gtag('event','tema_cambiado',{tema:n,pagina:location.pathname});});})();</script>
-<script>if(location.hash==='#pro'){var pp=document.getElementById('proPanel');if(pp)setTimeout(function(){pp.scrollIntoView({behavior:'smooth'})},300)}</script>
+<script>if(location.hash==='#pro')setTimeout(function(){abrirGeneral('enlace')},300)</script>
 </body>
 </html>
