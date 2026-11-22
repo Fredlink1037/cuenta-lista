@@ -1,13 +1,72 @@
 {
   "cleanUrls": true,
   "redirects": [
-    { "source": "/wa", "destination": "/?utm_source=whatsapp&utm_medium=mensaje", "permanent": false },
-    { "source": "/fb", "destination": "/?utm_source=facebook&utm_medium=grupos", "permanent": false },
-    { "source": "/in", "destination": "/?utm_source=linkedin&utm_medium=post", "permanent": false },
-    { "source": "/ig", "destination": "/?utm_source=instagram&utm_medium=bio", "permanent": false },
-    { "source": "/tt", "destination": "/?utm_source=tiktok&utm_medium=bio", "permanent": false },
-    { "source": "/conta", "destination": "/?utm_source=contadores&utm_medium=referido", "permanent": false },
-    { "source": "/letras", "destination": "/numeros-a-letras?utm_source=compartido&utm_medium=enlace", "permanent": false },
-    { "source": "/estado", "destination": "/cuenta-de-cobro-contratista-estado?utm_source=compartido&utm_medium=enlace", "permanent": false }
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "tipo"
+        }
+      ],
+      "destination": "/crear",
+      "permanent": false
+    },
+    {
+      "source": "/",
+      "has": [
+        {
+          "type": "query",
+          "key": "quien"
+        }
+      ],
+      "destination": "/crear",
+      "permanent": false
+    },
+    {
+      "source": "/app",
+      "destination": "/crear",
+      "permanent": false
+    },
+    {
+      "source": "/wa",
+      "destination": "/?utm_source=whatsapp&utm_medium=mensaje",
+      "permanent": false
+    },
+    {
+      "source": "/fb",
+      "destination": "/?utm_source=facebook&utm_medium=grupos",
+      "permanent": false
+    },
+    {
+      "source": "/in",
+      "destination": "/?utm_source=linkedin&utm_medium=post",
+      "permanent": false
+    },
+    {
+      "source": "/ig",
+      "destination": "/?utm_source=instagram&utm_medium=bio",
+      "permanent": false
+    },
+    {
+      "source": "/tt",
+      "destination": "/?utm_source=tiktok&utm_medium=bio",
+      "permanent": false
+    },
+    {
+      "source": "/conta",
+      "destination": "/?utm_source=contadores&utm_medium=referido",
+      "permanent": false
+    },
+    {
+      "source": "/letras",
+      "destination": "/numeros-a-letras?utm_source=compartido&utm_medium=enlace",
+      "permanent": false
+    },
+    {
+      "source": "/estado",
+      "destination": "/cuenta-de-cobro-contratista-estado?utm_source=compartido&utm_medium=enlace",
+      "permanent": false
+    }
   ]
 }

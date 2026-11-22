@@ -2,766 +2,248 @@
 <html lang="es-CO">
 <head>
 <meta charset="utf-8">
+<script>try{var t=localStorage.getItem('cl.tema');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cuenta Lista</title>
-<meta name="description" content="Crea gratis tu cuenta de cobro lista para radicar: valor en letras automático, anexos según el tipo de cobro, firma y descarga en PDF o Word.">
+<title>Cuenta Lista: crea tu cuenta de cobro gratis en minutos</title>
+<meta name="description" content="Generador gratis de cuentas de cobro para independientes en Colombia: valor en letras automático, anexos según el tipo de cobro, firma, PDF, Word y envío por WhatsApp.">
 <meta name="google-site-verification" content="oIkXg1hmwITiWhrcwvgFigMBBHeUoFMu9ykBT0x8Xr4">
 <link rel="canonical" href="https://cuentalista.vercel.app/">
-<meta property="og:title" content="Cuenta Lista: tu cuenta de cobro en un minuto">
-<meta property="og:description" content="Crea gratis tu cuenta de cobro con el valor en letras automático y descárgala en PDF.">
+<meta property="og:title" content="Cuenta Lista: tu cuenta de cobro, lista en minutos">
+<meta property="og:description" content="Créala gratis con el valor en letras automático, tus anexos y tu firma. Descárgala en PDF o envíala por WhatsApp.">
 <meta property="og:url" content="https://cuentalista.vercel.app/">
 <meta property="og:type" content="website">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<meta property="og:image" content="https://cuentalista.vercel.app/img/og.png">
+<meta name="twitter:card" content="summary_large_image">
 <link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
 <link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16.png">
 <link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
 <meta name="theme-color" content="#087F5B">
-<meta property="og:image" content="https://cuentalista.vercel.app/img/og.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
 <style>
-/* Layout: formulario a la izquierda, hoja en vivo a la derecha; en celular se apilan. */
-:root{
-  /* Manual de marca Cuenta Lista v1.1 */
-  --paper:#F9FAF5; --surface:#FFFFFF; --ink:#172B35; --muted:#52636B; --line:#E5EDE8; --field:#7E8F88;
-  --accent:#087F5B; --accent-hover:#06694B; --accent-ink:#FFFFFF; --teal:#14B8A6;
-  --pro:#6D28D9; --pro-bg:#F1EAFF; --violet:#8B5CF6;
-  --stamp:#6D28D9; --warn-bg:#FEF3C7; --warn-ink:#92400E; --err:#B91C1C; --err-bg:#FEE2E2;
-  --display:"Poppins","Segoe UI",system-ui,sans-serif;
-  --body:"Inter","Segoe UI",system-ui,sans-serif;
-}
+:root{--paper:#F9FAF5;--surface:#FFFFFF;--ink:#172B35;--muted:#52636B;--line:#E5EDE8;--field:#7E8F88;--accent:#087F5B;--accent-hover:#06694B;--accent-ink:#FFFFFF;--teal:#14B8A6;--pro:#6D28D9;--pro-bg:#F1EAFF;--stamp:#6D28D9;
+--display:"Poppins","Segoe UI",system-ui,sans-serif;--body:"Inter","Segoe UI",system-ui,sans-serif}
 *{box-sizing:border-box}
-html{-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--body);font-size:16px;line-height:1.5}
-.wrap{max-width:1120px;margin:0 auto;padding:0 16px}
-header.top{border-bottom:1px solid var(--line);margin-bottom:14px;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:12px;padding:18px 0 10px}
+body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 var(--body)}
+.wrap{max-width:1040px;margin:0 auto;padding:0 16px}
+header.top{border-bottom:1px solid var(--line);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:16px 0 6px}
+.brand{font-family:var(--display);font-weight:700;font-size:1.3rem;letter-spacing:-.01em;color:var(--ink);text-decoration:none;display:flex;gap:8px;align-items:center}
 .topnav{display:flex;flex-wrap:wrap;gap:8px}
-.navb{font-size:.92rem}
-@media (max-width:560px){.topnav{width:100%}.topnav>*{flex:1 1 auto}}
-.brand{font-family:var(--display);font-weight:700;font-size:1.4rem;letter-spacing:-.01em;display:flex;align-items:center;gap:10px;color:var(--ink);text-decoration:none}
-.brand img{width:44px;height:auto;flex:none}
+.navb{display:inline-flex;align-items:center;min-height:40px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font-size:.9rem;font-weight:600;text-decoration:none}
+.navb:hover{border-color:var(--accent)}
+.navb.main{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.navb.main:hover{background:var(--accent-hover)}
+.brand img{width:40px;height:auto}
 .brand b{color:var(--accent);font-weight:700}
-.brand svg{flex:none}
-.intro{padding:6px 0 18px;display:grid;gap:6px}
-h1{font-family:var(--display);font-weight:700;font-size:clamp(1.7rem,5vw,2.5rem);line-height:1.08;letter-spacing:-.015em;margin:0;text-wrap:balance;max-width:20ch}
-h1 em{font-style:normal;color:var(--accent)}
-.intro p{margin:0;color:var(--muted);max-width:60ch}
-.grid{display:grid;gap:20px;grid-template-columns:minmax(0,1fr);align-items:start;padding-bottom:40px}
-@media (min-width:900px){.grid{grid-template-columns:minmax(0,5fr) minmax(0,6fr)}.side{position:sticky;top:12px}}
-form{display:grid;gap:14px}
-fieldset{border:1px solid var(--line);background:var(--surface);border-radius:12px;box-shadow:0 1px 2px #172B350a;padding:14px 14px 16px;margin:0;display:grid;gap:10px;min-width:0}
-legend{font-family:var(--display);font-weight:600;font-size:1.02rem;padding:0 6px;display:flex;gap:8px;align-items:baseline}
-legend span{color:var(--accent);font-variant-numeric:tabular-nums}
-.row{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
-label{display:grid;gap:4px;font-size:.85rem;font-weight:500;color:var(--muted);min-width:0}
-input[type=text],input[type=date],input[type=email],input[type=tel],select,textarea{
-  font:inherit;font-size:1rem;color:var(--ink);background:var(--surface);border:1px solid var(--field);border-radius:8px;padding:9px 10px;width:100%;min-width:0}
-textarea{resize:vertical;min-height:60px}
-input:focus-visible,select:focus-visible,textarea:focus-visible,button:focus-visible,a:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
-.item{display:grid;grid-template-columns:minmax(0,1fr) 120px 40px;gap:8px;align-items:end}
-.item input.val,.item input.qty{text-align:right;font-variant-numeric:tabular-nums}
-.item.cant{grid-template-columns:76px minmax(0,1fr) 40px}
-.item.cant .full{grid-column:1/-1}
-#extra{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
-#extra:empty,#adj:empty{display:none}
-#adj{display:grid;gap:8px}
-#wl{display:grid;gap:10px}
-.chips{list-style:none;display:flex;flex-wrap:wrap;gap:6px;padding:0;margin:6px 0 0}
-.chips li{font-size:.82rem;font-weight:500;border:1px solid var(--line);background:var(--surface);border-radius:99px;padding:4px 10px 4px 8px;display:inline-flex;align-items:center;gap:6px}
-.chips li::before{content:"";width:7px;height:7px;border-radius:50%;background:var(--teal)}
-#sigPad{width:100%;max-width:600px;aspect-ratio:10/3;height:auto;background:#fff;border:1px dashed var(--line);border-radius:8px;touch-action:none;cursor:crosshair}
-.sr{position:absolute;width:1px;height:1px;opacity:0;overflow:hidden}
-.btn:focus-within{outline:2px solid var(--accent);outline-offset:2px}
-.nextb{border-color:var(--accent);color:var(--accent)}
-.neto{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:12px 14px;display:grid;gap:8px}
-.neto summary{cursor:pointer;font-weight:600}
-.neto[open]{display:grid}
-.neto table{width:100%;border-collapse:collapse;font-variant-numeric:tabular-nums;margin:8px 0}
-.neto td{padding:5px 0;border-bottom:1px solid var(--line)}
-.neto td:last-child{text-align:right}
-.neto tr.tot td{font-weight:700;border-bottom:0;color:var(--accent)}
-.sheet .sigimg{display:block;max-height:64px;max-width:220px;margin:0 0 -4px}
-.sheet .sign.has{margin-top:10px}
-.feats{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(210px,1fr))}
-.feat{display:grid;gap:4px;text-align:left;justify-items:start;justify-content:stretch;align-content:start;padding:12px;min-height:0;border-radius:10px;background:var(--paper);border-color:var(--line);font-weight:400}
-.feat:hover{border-color:var(--violet)}
-.feat b{font-weight:600}
-.feat span{font-size:.85rem;color:var(--muted)}
-.feat em{font-style:normal;font-size:.76rem;font-weight:600;color:var(--pro);background:var(--pro-bg);border-radius:99px;padding:1px 8px}
-.feat[aria-pressed="true"]{border-color:var(--accent)}
-.feat[aria-pressed="true"] em{color:var(--accent)}
-.modal{position:fixed;inset:0;background:#0009;display:grid;place-items:center;padding:16px;z-index:10}
-.modal .box{position:relative;background:var(--surface);color:var(--ink);border-radius:12px;padding:20px;width:min(460px,100%);max-height:calc(100% - 16px);overflow:auto;display:grid;gap:10px}
-.modal h3{font-family:var(--display);font-size:1.3rem;margin:0;padding-right:40px;text-wrap:balance}
-.modal .close{position:absolute;top:10px;right:10px}
-.eyebrow{margin:0;font-size:.78rem;font-weight:600;letter-spacing:.06em;text-transform:uppercase;color:var(--stamp)}
-fieldset.mini{padding:10px 12px;gap:6px}
-fieldset.mini legend{font-family:var(--body);font-size:.85rem;font-weight:500;color:var(--muted)}
-#mOtras{display:grid;gap:6px}
-#votos{margin:6px 0 0;padding-left:18px;color:var(--muted)}
-
-.offer{margin:0;font-weight:600;border-left:3px solid var(--stamp);padding-left:10px}
-.check{display:flex;gap:10px;align-items:flex-start;font-size:.92rem;color:var(--ink);font-weight:400}
-.check input{margin-top:4px;width:18px;height:18px;flex:none;accent-color:var(--accent)}
-.hint{font-size:.82rem;color:var(--muted);margin:0}
-button,.btn{font:inherit;font-weight:600;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:10px 14px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px}
-button:hover,.btn:hover{border-color:var(--accent)}
-.primary{background:var(--accent);color:var(--accent-ink);border-color:var(--accent)}
-.primary:hover{background:var(--accent-hover);border-color:var(--accent-hover)}
-.ghost{background:transparent}
-.icon{padding:0;width:40px;min-height:42px;color:var(--muted)}
-.pro-btn{border-color:var(--pro-bg);color:var(--pro);background:var(--pro-bg)}
-.pro-btn:hover{border-color:var(--violet)}
-.actions{display:flex;flex-wrap:wrap;gap:8px}
-.actions .primary{flex:1 1 180px}
-.side{display:grid;gap:14px;min-width:0}
-.sheet-wrap{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px}
-.sheet-head{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:10px;font-size:.85rem;color:var(--muted)}
-.pill{font-size:.75rem;font-weight:600;border:1px solid var(--pro-bg);background:var(--pro-bg);color:var(--pro);border-radius:99px;padding:2px 9px}
-/* La hoja es un documento: siempre papel blanco con tinta oscura, en ambos temas. */
-.sheet{background:#fff;color:#1b1b1b;border:1px solid #d9d9d9;padding:clamp(18px,5vw,40px);font-size:.93rem;line-height:1.55;overflow-wrap:anywhere;box-shadow:0 1px 0 #0000000d,0 8px 24px -16px #00000040}
-.sheet .r{text-align:right}.sheet .c{text-align:center}
-.sheet h2{font-family:var(--body);font-size:1.1rem;letter-spacing:.06em;margin:18px 0 16px;text-align:center}
-.sheet .big{font-weight:600}
-.sheet .sum{margin:14px 0;padding:10px 12px;border:1px solid #1b1b1b;font-variant-numeric:tabular-nums}
-.sheet table{width:100%;border-collapse:collapse;margin:6px 0 4px}
-.sheet td{padding:4px 0;border-bottom:1px solid #e3e3e3;vertical-align:top}
-.sheet td:last-child{text-align:right;white-space:nowrap;padding-left:12px;font-variant-numeric:tabular-nums}
-.sheet .sign{margin-top:44px;border-top:1px solid #1b1b1b;padding-top:6px;max-width:300px}
-.sheet .foot{margin-top:26px;font-size:.72rem;color:#7a7a7a;text-align:center}
-.sheet .ph{color:var(--err);background:var(--err-bg)}
-.sheet p{margin:0 0 8px}
-.pro{border:1px solid var(--line);border-top:3px solid var(--violet);border-radius:10px;padding:14px;display:grid;gap:8px;background:var(--surface)}
-.pro h3{font-family:var(--display);font-size:1.05rem;margin:0}
-.pro ul{margin:0;padding-left:18px;color:var(--muted);font-size:.92rem}
-.note{background:var(--warn-bg);color:var(--warn-ink);border-radius:8px;padding:10px 12px;font-size:.85rem}
-details{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:10px 14px;font-size:.85rem}
+@media (max-width:560px){.topnav{width:100%}.topnav>*{flex:1 1 auto;justify-content:center}}
+.crumbs{font-size:.85rem;color:var(--muted);margin:10px 0 0}
+.crumbs a{color:var(--muted)}
+.hero{display:grid;gap:22px;grid-template-columns:minmax(0,1fr);align-items:start;padding:14px 0 26px}
+@media (min-width:880px){.hero{grid-template-columns:minmax(0,6fr) minmax(0,5fr)}}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.08;letter-spacing:-.02em;margin:6px 0 10px;text-wrap:balance}
+h2{font-family:var(--display);font-weight:600;font-size:1.35rem;margin:34px 0 8px;text-wrap:balance}
+.lead{font-size:1.08rem;color:var(--muted);max-width:60ch;margin:0 0 16px}
+.cta:hover{background:var(--accent-hover)}
+.cta{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 20px;border-radius:10px;background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none}
+.cta:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.sub{font-size:.85rem;color:var(--muted);margin:8px 0 0}
+.sheet{background:#fff;color:#1b1b1b;border:1px solid #d9d9d9;padding:22px;font-size:.86rem;line-height:1.5;box-shadow:0 8px 24px -16px #00000040;overflow-wrap:anywhere}
+.sheet .r{text-align:right}.sheet .c{text-align:center}.sheet b{font-weight:600}
+.sheet h3{font-size:.95rem;letter-spacing:.05em;text-align:center;margin:10px 0}
+.sheet .sum{border:1px solid #1b1b1b;padding:8px 10px;margin:10px 0}
+.sheet p{margin:0 0 6px}
+.cap{font-size:.8rem;color:var(--muted);margin:6px 0 0}
+article{max-width:70ch}
+ul,ol{padding-left:22px} li{margin-bottom:6px}
+.box{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px 18px;margin:18px 0}
+details{border-top:1px solid var(--line);padding:12px 0}
 summary{cursor:pointer;font-weight:600}
-#log{margin:8px 0 0;padding-left:18px;color:var(--muted);font-variant-numeric:tabular-nums}
-#toast{position:fixed;left:50%;bottom:18px;transform:translateX(-50%);background:var(--ink);color:var(--paper);padding:10px 16px;border-radius:8px;font-size:.92rem;max-width:calc(100% - 32px);opacity:0;pointer-events:none;transition:opacity .2s}
-#toast.on{opacity:1}
-@media (prefers-reduced-motion:reduce){#toast{transition:none}}
-footer{border-top:1px solid var(--line);padding:16px 0 28px;color:var(--muted);font-size:.82rem}
-[hidden]{display:none!important}
+details p{margin:8px 0 0;color:var(--ink)}
+.rel{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));padding:0;list-style:none}
+.rel a:hover{border-color:var(--accent)}
+.rel a{display:block;background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:12px 14px;color:var(--ink);text-decoration:none;font-weight:600}
+.rel a span{display:block;font-weight:400;font-size:.85rem;color:var(--muted)}
+.end{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px;margin:36px 0;display:grid;gap:10px;justify-items:start}
+.end h2{margin:0}
+footer{border-top:1px solid var(--line);padding:16px 0 28px;color:var(--muted);font-size:.82rem;margin-top:30px}
+footer a{color:inherit}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--paper:#0E1A20;--surface:#15262F;--ink:#E7EEEA;--muted:#A3B3B9;--line:#25404B;--field:#5F7681;--accent:#3CCB98;--accent-hover:#62D9AE;--accent-ink:#052219;--teal:#2DD4BF;--pro:#C4B5FD;--pro-bg:#2B2150;--violet:#A78BFA;--stamp:#C4B5FD;--warn-bg:#3A2E10;--warn-ink:#FCD34D;--err:#FCA5A5;--err-bg:#3B1717;color-scheme:dark}}:root[data-theme="dark"]{--paper:#0E1A20;--surface:#15262F;--ink:#E7EEEA;--muted:#A3B3B9;--line:#25404B;--field:#5F7681;--accent:#3CCB98;--accent-hover:#62D9AE;--accent-ink:#052219;--teal:#2DD4BF;--pro:#C4B5FD;--pro-bg:#2B2150;--violet:#A78BFA;--stamp:#C4B5FD;--warn-bg:#3A2E10;--warn-ink:#FCD34D;--err:#FCA5A5;--err-bg:#3B1717;color-scheme:dark}.theme-t{display:inline-flex;align-items:center;justify-content:center;width:44px;min-height:44px;height:44px;padding:0;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;flex:none}.theme-t:hover{border-color:var(--accent)}.theme-t svg{width:20px;height:20px}.theme-t .sun{display:none}.topnav>.theme-t{flex:0 0 44px}@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .theme-t .sun{display:block}:root:not([data-theme="light"]) .theme-t .moon{display:none}}:root[data-theme="dark"] .theme-t .sun{display:block}:root[data-theme="dark"] .theme-t .moon{display:none}@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .brand img{background:#F9FAF5;border-radius:10px;padding:3px}}:root[data-theme="dark"] .brand img{background:#F9FAF5;border-radius:10px;padding:3px}
+.top .topnav{align-items:center}
+.lnk{color:var(--ink);text-decoration:none;font-weight:500;font-size:.92rem;padding:8px 6px}
+.lnk:hover{color:var(--accent)}
+@media (max-width:720px){.lnk{display:none}.top .topnav{width:auto}.top .topnav>*{flex:none}}
+@media (max-width:420px){header.top{flex-wrap:nowrap}.top .topnav{flex-wrap:nowrap;gap:6px}.top .brand span{white-space:nowrap}.top .brand{font-size:1.08rem;gap:6px}.top .brand img{width:32px}.top .navb.main{padding:8px 10px;font-size:.84rem}}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:.82rem;font-weight:600;color:var(--accent);background:var(--surface);border:1px solid var(--line);border-radius:99px;padding:4px 12px 4px 8px;margin:0}
+.eyebrow::before{content:"";width:8px;height:8px;border-radius:50%;background:var(--teal)}
+.lhero{display:grid;gap:34px;align-items:center;padding:34px 0 40px}
+@media (min-width:900px){.lhero{grid-template-columns:minmax(0,11fr) minmax(0,9fr)}}
+.lhero h1{font-size:clamp(2.1rem,6vw,3.4rem);line-height:1.04;margin:14px 0 14px;max-width:14ch}
+.lhero h1 em{font-style:normal;color:var(--accent)}
+.lhero .lead{font-size:1.12rem}
+.btns{display:flex;flex-wrap:wrap;gap:10px;margin:6px 0 10px}
+.cta.alt{background:transparent;color:var(--ink);border:1px solid var(--field)}
+.cta.alt:hover{background:var(--surface);border-color:var(--accent)}
+.trust{display:flex;flex-wrap:wrap;gap:6px 16px;list-style:none;padding:0;margin:14px 0 0;font-size:.88rem;color:var(--muted)}
+.trust li{display:flex;align-items:center;gap:6px;margin:0}
+.trust svg{width:16px;height:16px;color:var(--accent);flex:none}
+.mock{position:relative;max-width:440px;justify-self:center;width:100%}
+.mock .sheet{border-radius:6px;font-size:.8rem;padding:24px 24px 20px;transform:rotate(-1.2deg)}
+.mock .sheet .ln{height:8px;border-radius:4px;background:#E5EDE8;margin:7px 0}
+.badge{position:absolute;display:flex;align-items:center;gap:8px;background:var(--surface);color:var(--ink);border:1px solid var(--line);border-radius:12px;padding:8px 12px;font-size:.82rem;font-weight:600;box-shadow:0 10px 24px -14px #172B3566}
+.badge i{display:grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-style:normal;font-size:.8rem}
+.badge.b1{top:-16px;right:8%}.badge.b2{bottom:16%;right:-10px}.badge.b3{bottom:-14px;left:12%}
+@media (max-width:520px){.badge.b2{right:-4px}}
+section.blk{padding:44px 0;border-top:1px solid var(--line)}
+section.blk>h2{font-size:clamp(1.5rem,4vw,2rem);margin:0 0 8px}
+section.blk>p.sub2{color:var(--muted);margin:0 0 22px;max-width:60ch;font-size:1.02rem}
+.who{display:flex;flex-wrap:wrap;gap:8px;list-style:none;padding:0;margin:0}
+.who li{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:99px;padding:6px 14px;font-size:.92rem}
+.steps{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));list-style:none;padding:0;margin:0;counter-reset:s}
+.steps li{margin:0;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:20px;counter-increment:s}
+.steps li::before{content:counter(s);display:grid;place-items:center;width:34px;height:34px;border-radius:50%;background:var(--accent);color:var(--accent-ink);font-family:var(--display);font-weight:700;margin-bottom:12px}
+.steps b{display:block;font-family:var(--display);font-weight:600;font-size:1.05rem;margin-bottom:4px}
+.steps span{color:var(--muted);font-size:.95rem}
+.tipos{display:grid;gap:10px;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));list-style:none;padding:0;margin:0}
+.tipos li{margin:0}
+.tipos a{display:grid;grid-template-columns:40px 1fr;gap:4px 12px;align-items:start;height:100%;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:16px;color:var(--ink);text-decoration:none}
+.tipos a:hover{border-color:var(--accent)}
+.tipos svg{grid-row:span 2;width:40px;height:40px;padding:8px;border-radius:10px;background:var(--paper);color:var(--accent)}
+.tipos b{font-weight:600}
+.tipos span{font-size:.88rem;color:var(--muted)}
+.feats2{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(240px,1fr))}
+.feats2 div{display:grid;gap:4px}
+.feats2 b{font-family:var(--display);font-weight:600;display:flex;gap:8px;align-items:center}
+.feats2 b::before{content:"";width:10px;height:10px;border-radius:3px;background:var(--teal);flex:none}
+.feats2 span{color:var(--muted);font-size:.95rem}
+.prob{display:grid;gap:14px;grid-template-columns:repeat(auto-fit,minmax(260px,1fr))}
+.prob div{border-radius:14px;padding:18px 20px;border:1px solid var(--line);background:var(--surface)}
+.prob h3{margin:0 0 8px;font-family:var(--display);font-size:1.05rem}
+.prob ul{margin:0;padding-left:20px;color:var(--muted)}
+.prob .no h3{color:var(--err,#B91C1C)}.prob .si h3{color:var(--accent)}
+.prolp{background:var(--surface);border:1px solid var(--line);border-top:3px solid var(--violet,#8B5CF6);border-radius:14px;padding:24px;display:grid;gap:12px}
+.prolp .tag{justify-self:start;font-size:.78rem;font-weight:600;color:var(--pro);background:var(--pro-bg);border-radius:99px;padding:3px 10px}
+.prolp h2{margin:0;font-size:1.5rem}
+.prolp ul{display:grid;gap:6px 20px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin:0;padding-left:20px;color:var(--muted)}
+.cta.pro{background:var(--pro-bg);color:var(--pro);justify-self:start}
+.cta.pro:hover{background:var(--pro-bg);outline:1px solid var(--violet,#8B5CF6)}
+.final{text-align:center;display:grid;gap:12px;justify-items:center;padding:52px 0}
+.final h2{font-size:clamp(1.6rem,4.5vw,2.3rem);margin:0}
+.final p{margin:0;color:var(--muted)}
 </style>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "name": "Cuenta Lista", "url": "https://cuentalista.vercel.app/", "applicationCategory": "BusinessApplication", "operatingSystem": "Web", "inLanguage": "es-CO", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "COP"}}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Cuenta Lista es gratis?", "acceptedAnswer": {"@type": "Answer", "text": "Sí. Crear, descargar en PDF o Word y enviar por WhatsApp es gratis y sin registro. Más adelante habrá un plan Pro con funciones extra, como tu logo o el historial en la nube."}}, {"@type": "Question", "name": "¿Necesito crear una cuenta?", "acceptedAnswer": {"@type": "Answer", "text": "No. Abres la herramienta, llenas tus datos y descargas. Tus datos quedan guardados solo en tu celular o computador para el próximo mes."}}, {"@type": "Question", "name": "¿La cuenta de cobro reemplaza la factura electrónica?", "acceptedAnswer": {"@type": "Answer", "text": "No. La cuenta de cobro es para personas naturales que no están obligadas a facturar. Las empresas y quienes superan los topes que fija la DIAN deben expedir factura electrónica. Ante la duda, consulta con un contador."}}, {"@type": "Question", "name": "¿Sirve para contratistas de entidades públicas?", "acceptedAnswer": {"@type": "Answer", "text": "Sí. Tiene un tipo de cobro para contratistas del Estado con el número de contrato, el periodo, el informe de actividades y la planilla de seguridad social como anexos."}}, {"@type": "Question", "name": "¿Puedo enviarla por WhatsApp?", "acceptedAnswer": {"@type": "Answer", "text": "Sí. Desde el celular, el botón Enviar PDF por WhatsApp comparte el documento en PDF directo al chat. En computador se descarga el PDF y se abre WhatsApp para que lo adjuntes."}}, {"@type": "Question", "name": "¿Qué pasa con mis datos?", "acceptedAnswer": {"@type": "Answer", "text": "No los guardamos en ningún servidor: se quedan en tu navegador. Solo si te inscribes a la lista del plan Pro recibimos tu correo."}}]}</script>
+<script>if(location.hostname==='cuentalista.vercel.app'){(function(){var s=document.createElement('script');s.async=1;s.src='https://www.googletagmanager.com/gtag/js?id=G-6Z1HR06RKT';document.head.appendChild(s)})();
+window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','G-6Z1HR06RKT');
+(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,'clarity','script','zfn6t5xgi0');}
+document.addEventListener('click',function(e){var a=e.target.closest('a[data-cta],a[data-nav]');if(!a||!window.gtag||e.ctrlKey||e.metaKey||e.shiftKey||e.button)return;
+var name=a.dataset.cta?'clic_crear_desde_modelo':'nav_click',p=a.dataset.cta?{tipo:a.dataset.cta,pagina:location.pathname}:{destino:a.dataset.nav,origen:location.pathname};
+e.preventDefault();var done=false,go=function(){if(!done){done=true;location.href=a.href;}};p.transport_type='beacon';p.event_callback=go;gtag('event',name,p);setTimeout(go,700);});</script>
 </head>
 <body>
 <div class="wrap">
-  <header class="top">
-    <a class="brand" href="/" aria-label="Cuenta Lista, inicio"><img src="/img/isotipo.png" width="44" height="38" alt=""><span>Cuenta <b>Lista</b></span></a>
-    <nav class="topnav" aria-label="Herramientas">
-      <a class="btn navb" href="/modelos" data-nav="modelos">Modelos de cuenta de cobro</a>
-      <a class="btn navb" href="/numeros-a-letras" data-nav="numeros_a_letras">Números a letras</a>
-      <button type="button" class="pro-btn" id="proTop">Conocer el plan Pro</button>
-    </nav>
-  </header>
+<header class="top"><a class="brand" href="/" aria-label="Cuenta Lista, inicio"><img src="/img/isotipo.png" width="40" height="34" alt=""><span>Cuenta <b>Lista</b></span></a>
+<nav class="topnav" aria-label="Principal"><a class="lnk" href="#como">Cómo funciona</a><a class="lnk" href="/modelos" data-nav="modelos">Modelos</a><a class="lnk" href="#pro">Plan Pro</a><a class="navb main" data-lp="encabezado" href="/crear?utm_source=landing&utm_medium=interno&utm_campaign=encabezado">Empezar gratis</a><button type="button" class="theme-t" id="temaBtn" aria-label="Cambiar entre modo claro y oscuro" title="Modo claro / oscuro"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button></nav></header>
 
-  <section class="intro">
-    <h1>Tu cuenta de cobro, <em>lista</em> para radicar</h1>
-    <p>Con los anexos que te van a pedir, el valor en letras automático y tu firma, en PDF o Word. Gratis, sin registro, y tus datos se quedan en tu dispositivo para el próximo mes.</p>
-    <ul class="chips"><li>8 tipos de cobro</li><li>Anexos según el tipo</li><li>Firma incluida</li><li>PDF, Word y WhatsApp</li><li>Cuánto te queda tras la PILA</li></ul>
-  </section>
-
-  <div class="grid">
-    <form id="f" novalidate data-clarity-mask="true">
-      <div class="note" id="exNote">Los datos que ves son un ejemplo. <button type="button" class="ghost" id="clear" style="min-height:32px;padding:4px 10px;margin-left:6px">Borrar ejemplo y empezar</button></div>
-
-      <fieldset>
-        <legend><span>1</span> Tus datos</legend>
-        <label>Cobras como
-          <select id="eTipoP"><option value="natural">Persona natural</option><option value="empresa">Empresa (persona jurídica)</option></select>
-        </label>
-        <p class="note" id="empNote" hidden>Las empresas deben expedir factura electrónica: la cuenta de cobro no la reemplaza. Aquí puedes hacer la cuenta de cobro que acompaña tu factura y pide el pago.</p>
-        <div class="row">
-          <label><span id="eNombreL">Nombre completo</span><input type="text" id="eNombre" autocomplete="name"></label>
-          <label><span id="eDocL">Cédula</span><input type="text" id="eDoc" inputmode="numeric"></label>
-        </div>
-        <div class="row" id="empOnly" hidden>
-          <label>Factura electrónica N.º<input type="text" id="fact"></label>
-          <label>Representante legal (quien firma)<input type="text" id="eRep"></label>
-        </div>
-        <div class="row">
-          <label>Ciudad<input type="text" id="eCiudad"></label>
-          <label>Celular<input type="tel" id="eTel" autocomplete="tel"></label>
-        </div>
-        <label>Correo<input type="email" id="eEmail" autocomplete="email"></label>
-      </fieldset>
-
-      <fieldset>
-        <legend><span>2</span> A quién le cobras</legend>
-        <label>Le cobras a
-          <select id="cTipoP"><option value="empresa">Una empresa</option><option value="natural">Una persona natural</option></select>
-        </label>
-        <div class="row">
-          <label><span id="cNombreL">Razón social</span><input type="text" id="cNombre"></label>
-          <label><span id="cDocL">NIT</span><input type="text" id="cDoc"></label>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend><span>3</span> Qué cobras</legend>
-        <label>Tipo de cobro
-          <select id="clase"></select>
-        </label>
-        <div class="row">
-          <label>Número de la cuenta<input type="text" id="num" inputmode="numeric"></label>
-          <label>Fecha<input type="date" id="fecha"></label>
-        </div>
-        <div id="extra"></div>
-        <div id="items" style="display:grid;gap:8px"></div>
-        <div><button type="button" id="add">Agregar otro concepto</button></div>
-        <label>Nota opcional (periodo, contrato, plazo de pago)<textarea id="nota"></textarea></label>
-      </fieldset>
-
-      <fieldset>
-        <legend><span>4</span> Dónde te pagan</legend>
-        <div class="row">
-          <label>Banco o billetera<input type="text" id="banco" placeholder="Bancolombia, Nequi, Daviplata"></label>
-          <label>Tipo de cuenta
-            <select id="tipo"><option>Ahorros</option><option>Corriente</option><option>Depósito de bajo monto</option></select>
-          </label>
-        </div>
-        <label>Número de cuenta<input type="text" id="cuenta" inputmode="numeric"></label>
-      </fieldset>
-
-      <fieldset>
-        <legend><span>5</span> Anexos y declaraciones</legend>
-        <p class="hint" id="adjHint">Con este tipo de cobro suelen pedirte estos documentos. Marca los que vas a adjuntar y quedan listados en la cuenta.</p>
-        <div id="adj"></div>
-        <div id="declNat" style="display:grid;gap:10px">
-          <label class="check"><input type="checkbox" id="dIva"><span>No soy responsable de IVA.</span></label>
-          <label class="check"><input type="checkbox" id="dSs"><span>Estoy al día con mis aportes a seguridad social y adjunto la planilla.</span></label>
-          <label class="check"><input type="checkbox" id="d383"><span>Declaración del artículo 383 del Estatuto Tributario: no he contratado dos o más trabajadores para mi actividad.</span></label>
-          <p class="hint">Marca solo las que apliquen a tu caso. Si tienes dudas, confírmalo con tu contador o con quien te paga.</p>
-        </div>
-      </fieldset>
-
-      <fieldset>
-        <legend><span>6</span> Tu firma</legend>
-        <p class="hint">Dibújala con el dedo o el mouse, o sube una foto de tu firma sobre papel blanco. Se guarda solo en este dispositivo.</p>
-        <canvas id="sigPad" width="600" height="180" role="img" aria-label="Recuadro para dibujar tu firma"></canvas>
-        <div class="actions">
-          <button type="button" id="sigClear">Borrar firma</button>
-          <label class="btn" for="sigFile">Subir imagen de la firma</label>
-          <input type="file" id="sigFile" accept="image/*" class="sr">
-        </div>
-      </fieldset>
-    </form>
-
-    <div class="side">
-      <div class="sheet-wrap">
-        <div class="sheet-head"><span>Así queda tu cuenta</span><span class="pill">Plan gratis</span></div>
-        <div class="sheet" id="sheet" data-clarity-mask="true" aria-live="off"></div>
-      </div>
-      <div class="actions">
-        <button type="button" class="primary" id="pdf">Descargar PDF</button>
-        <button type="button" id="word">Descargar Word</button>
-        <a class="btn" id="wa" href="https://wa.me/" target="_blank" rel="noopener">Enviar por WhatsApp</a>
-        <button type="button" id="copy">Copiar texto</button>
-        <button type="button" class="nextb" id="next" title="Conserva tus datos y los del cliente, y cambia el número y la fecha">Siguiente número →</button>
-      </div>
-      <details class="neto" id="neto">
-        <summary>¿Cuánto te queda después de la seguridad social?</summary>
-        <div id="netoBody"></div>
-        <label>Clase de riesgo ARL
-          <select id="arl"><option value="0.00522">Clase I (oficina, la mayoría)</option><option value="0.01044">Clase II</option><option value="0.02436">Clase III</option><option value="0.0435">Clase IV</option><option value="0.0696">Clase V</option><option value="0">No cotizo ARL</option></select>
-        </label>
-        <p class="hint">Estimado para 2026 con un salario mínimo de $ 1.750.905, base del 40 % del valor mensual (mínimo 1 y máximo 25 salarios mínimos), salud 12,5 %, pensión 16 % y fondo de solidaridad desde 4 salarios mínimos. No incluye la retención en la fuente que pueda aplicar quien te paga. Confírmalo al liquidar tu planilla.</p>
-      </details>
-      <div class="pro" id="proPanel">
-        <h3>Cuenta Lista Pro, próximamente</h3>
-        <p class="hint">Toca lo que más te serviría. Con tu correo te avisamos primero y tendrás 50 % de descuento.</p>
-        <div id="feats" class="feats"></div>
-        <p class="hint" id="proMsg" role="status" hidden></p>
-      </div>
-      <details id="debug" hidden>
-        <summary>Eventos de medición (modo prueba)</summary>
-        <p class="hint">Cada acción importante queda registrada aquí. Con tu ID de Google Analytics, los mismos eventos llegan a tu panel.</p>
-        <ol id="log"></ol>
-        <p class="hint" style="margin-top:10px">Clics por función Pro en este dispositivo:</p>
-        <ul id="votos"></ul>
-      </details>
+<main>
+<section class="lhero">
+  <div>
+    <p class="eyebrow">Gratis · sin registro · hecho para Colombia</p>
+    <h1>Tu cuenta de cobro, <em>lista</em> en minutos</h1>
+    <p class="lead">Llena tus datos, elige qué estás cobrando y descárgala en PDF o Word con el valor en letras, los anexos que te van a pedir y tu firma. Y si quieres, envíala en PDF por WhatsApp en un toque.</p>
+    <div class="btns"><a class="cta" data-lp="hero" href="/crear?utm_source=landing&utm_medium=interno&utm_campaign=hero">Empezar gratis</a><a class="cta alt" href="#como">Ver cómo funciona</a></div>
+    <ul class="trust"><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Sin crear cuenta</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>Tus datos se quedan en tu dispositivo</li><li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12l5 5 9-10"/></svg>PDF, Word y WhatsApp</li></ul>
+  </div>
+  <div class="mock" aria-hidden="true">
+    <div class="sheet">
+      <p class="r">Santa Marta, 30 de noviembre de 2026</p>
+      <h3>CUENTA DE COBRO N.º 012</h3>
+      <p class="c"><b>Agencia Ejemplo S.A.S.</b><br>NIT 900.000.000-0</p>
+      <p class="c">DEBE A</p>
+      <p class="c"><b>Laura Gómez Pérez</b><br>C.C. 1.000.000.000</p>
+      <div class="sum"><b>La suma de:</b> $ 2.200.000 (DOS MILLONES DOSCIENTOS MIL PESOS M/CTE)</div>
+      <div class="ln" style="width:92%"></div><div class="ln" style="width:78%"></div><div class="ln" style="width:85%"></div>
+      <p style="margin-top:16px;font-family:'Brush Script MT',cursive;font-size:1.3rem;color:#172B35">Laura G.</p>
+      <div class="ln" style="width:45%;background:#172B35;height:1px"></div>
     </div>
+    <div class="badge b1"><i>✓</i>Valor en letras automático</div>
+    <div class="badge b2"><i>✓</i>Anexos según el tipo</div>
+    <div class="badge b3"><i>✓</i>PDF listo para enviar</div>
   </div>
+</section>
 
-  <footer><p style="margin:0 0 6px">Cuenta Lista genera un documento de cobro. No es una factura electrónica ni reemplaza la asesoría de un contador.</p><p style="margin:0"><a href="/modelos" style="color:inherit">Modelos de cuenta de cobro</a> · <a href="/numeros-a-letras" style="color:inherit">Números a letras</a> · <a href="/privacidad" style="color:inherit">Política de privacidad</a> · <a href="/terminos" style="color:inherit">Términos de uso</a></p></footer>
-</div>
-<div id="modal" class="modal" hidden data-clarity-mask="true">
-  <div class="box" role="dialog" aria-modal="true" aria-labelledby="mTitle">
-    <button type="button" class="icon close" id="mClose" aria-label="Cerrar">✕</button>
-    <p class="eyebrow">Cuenta Lista Pro</p>
-    <h3 id="mTitle"></h3>
-    <p id="mDesc" class="hint"></p>
-    <p class="offer">Registra tu correo: serás de los primeros en usarlo cuando lancemos Pro y tendrás 50 % de descuento.</p>
-    <form id="wl" novalidate>
-      <label>Tu correo<input type="email" id="wlEmail" autocomplete="email"></label>
-      <label>¿A qué te dedicas? (opcional)<input type="text" id="wlOficio"></label>
-      <fieldset class="mini"><legend>¿Qué más te serviría? (opcional)</legend><div id="mOtras"></div></fieldset>
-      <label class="check"><input type="checkbox" id="wlOk"><span>Acepto que me escriban a este correo sobre el lanzamiento de Cuenta Lista Pro y el tratamiento de mis datos según la <a href="/privacidad" target="_blank" rel="noopener">política de privacidad</a>.</span></label>
-      <button type="submit" class="primary">Reservar mi 50 % de descuento</button>
-      <p class="hint" id="mMsg" role="status" hidden></p>
-    </form>
-    <div id="mDone" hidden><p class="offer" id="mDoneTxt"></p><button type="button" class="primary" id="mOk">Seguir con mi cuenta</button></div>
+<section class="blk" aria-labelledby="quien">
+  <h2 id="quien">Hecha para quienes cobran por su trabajo</h2>
+  <p class="sub2">Si eres persona natural y no estás obligada a facturar, cada mes necesitas una cuenta de cobro bien hecha para que te paguen sin devoluciones.</p>
+  <ul class="who"><li>Contratistas de entidades públicas</li><li>Diseñadores y creativos</li><li>Community managers</li><li>Docentes y tutores por horas</li><li>Consultores y asesores</li><li>Arrendadores</li><li>Transportadores</li><li>Vendedores por comisión</li></ul>
+</section>
+
+<section class="blk" id="como" aria-labelledby="como-h">
+  <h2 id="como-h">Cómo funciona</h2>
+  <p class="sub2">Tres pasos. La primera vez te toma unos minutos; el mes siguiente, menos de uno.</p>
+  <ol class="steps">
+    <li><b>Elige qué cobras</b><span>Honorarios, contrato con el Estado, arriendo, horas… Cada tipo trae los campos y anexos que piden.</span></li>
+    <li><b>Llena y firma</b><span>Tus datos, los de quien te paga y el valor. El valor en letras se escribe solo. Firma con el dedo o sube tu firma.</span></li>
+    <li><b>Descarga o envía</b><span>PDF o Word listos para radicar, o el PDF directo a WhatsApp. El próximo mes, «Siguiente número» y listo.</span></li>
+  </ol>
+  <div class="btns" style="margin-top:20px"><a class="cta" data-lp="como_funciona" href="/crear?utm_source=landing&utm_medium=interno&utm_campaign=como_funciona">Hacer mi cuenta de cobro</a></div>
+</section>
+
+<section class="blk" aria-labelledby="tipos-h">
+  <h2 id="tipos-h">8 tipos de cuenta de cobro</h2>
+  <p class="sub2">Toca el tuyo y empiezas con un ejemplo de ese tipo ya llenado.</p>
+  <ul class="tipos"><li><a data-lp="tipo" data-tipo="servicios" href="/crear?tipo=servicios&utm_source=landing&utm_medium=interno&utm_campaign=tipos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 7h16v12H4z"/><path d="M9 7V5h6v2"/></svg><b>Honorarios y servicios</b><span>Asesorías, diseño, redes, consultoría.</span></a></li><li><a data-lp="tipo" data-tipo="estado" href="/crear?tipo=estado&utm_source=landing&utm_medium=interno&utm_campaign=tipos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10l9-6 9 6"/><path d="M5 10v8M9 10v8M15 10v8M19 10v8M3 20h18"/></svg><b>Contratista de entidad pública</b><span>Con informe de actividades y planilla.</span></a></li><li><a data-lp="tipo" data-tipo="arriendo" href="/crear?tipo=arriendo&utm_source=landing&utm_medium=interno&utm_campaign=tipos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-5h4v5"/></svg><b>Arriendo</b><span>Canon mensual de casa, local u oficina.</span></a></li><li><a data-lp="tipo" data-tipo="transporte" href="/crear?tipo=transporte&utm_source=landing&utm_medium=interno&utm_campaign=tipos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7h11v9H3z"/><path d="M14 10h4l3 3v3h-7"/><circle cx="7" cy="18" r="1.6"/><circle cx="17" cy="18" r="1.6"/></svg><b>Transporte o acarreo</b><span>Fletes, acarreos y viajes.</span></a></li><li><a data-lp="tipo" data-tipo="productos" href="/crear?tipo=productos&utm_source=landing&utm_medium=interno&utm_campaign=tipos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 8l8-4 8 4v8l-8 4-8-4z"/><path d="M4 8l8 4 8-4M12 12v8"/></svg><b>Venta de productos</b><span>Con cantidades y valor unitario.</span></a></li><li><a data-lp="tipo" data-tipo="horas" href="/crear?tipo=horas&utm_source=landing&utm_medium=interno&utm_campaign=tipos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="8"/><path d="M12 8v4l3 2"/></svg><b>Clases o trabajo por horas</b><span>Clases, tutorías o turnos por hora.</span></a></li><li><a data-lp="tipo" data-tipo="comision" href="/crear?tipo=comision&utm_source=landing&utm_medium=interno&utm_campaign=tipos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 19L19 5"/><circle cx="7" cy="7" r="2.2"/><circle cx="17" cy="17" r="2.2"/></svg><b>Comisiones</b><span>Porcentaje sobre ventas o negocios.</span></a></li><li><a data-lp="tipo" data-tipo="anticipo" href="/crear?tipo=anticipo&utm_source=landing&utm_medium=interno&utm_campaign=tipos"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 12h12"/><path d="M12 6l6 6-6 6"/><path d="M20 5v14"/></svg><b>Anticipo o saldo</b><span>Primer pago o saldo de un contrato.</span></a></li></ul>
+  <p class="sub" style="margin-top:14px">¿Quieres ver ejemplos antes? <a href="/modelos" data-nav="modelos" style="color:var(--accent)">Mira los modelos de cuenta de cobro</a>.</p>
+</section>
+
+<section class="blk" aria-labelledby="dif-h">
+  <h2 id="dif-h">Menos papeleo, menos cuentas devueltas</h2>
+  <p class="sub2">Una cuenta de cobro con errores retrasa tu pago. Cuenta Lista revisa lo que más se olvida.</p>
+  <div class="prob">
+    <div class="no"><h3>Lo que retrasa tu pago</h3><ul><li>El valor en letras no coincide con el de números.</li><li>Repetir el número del mes pasado.</li><li>Olvidar el periodo o los anexos.</li><li>Una plantilla de Word que se desconfigura.</li></ul></div>
+    <div class="si"><h3>Con Cuenta Lista</h3><ul><li>Valor en letras automático y exacto.</li><li>Número consecutivo con «Siguiente número».</li><li>Anexos y declaraciones según el tipo de cobro.</li><li>Formato limpio en PDF o Word.</li></ul></div>
   </div>
+</section>
+
+<section class="blk" aria-labelledby="inc-h">
+  <h2 id="inc-h">Todo lo que incluye, gratis</h2>
+  <div class="feats2" style="margin-top:18px">
+    <div><b>Valor en letras</b><span>Se escribe solo, en mayúsculas y con «pesos M/CTE».</span></div>
+    <div><b>Anexos según el tipo</b><span>RUT, planilla, certificación bancaria e informe de actividades.</span></div>
+    <div><b>Tu firma</b><span>Dibújala con el dedo o sube una foto; queda en el PDF.</span></div>
+    <div><b>PDF, Word y WhatsApp</b><span>Descarga el formato que te piden o envía el PDF al chat.</span></div>
+    <div><b>Cuánto te queda</b><span>Calcula tu seguridad social (PILA) y lo que te queda libre.</span></div>
+    <div><b>Persona natural o empresa</b><span>Ajusta los textos y te avisa cuándo debes facturar.</span></div>
+  </div>
+</section>
+
+<section class="blk" id="pro" aria-labelledby="pro-h">
+  <div class="prolp">
+    <span class="tag">Próximamente</span>
+    <h2 id="pro-h">Cuenta Lista Pro</h2>
+    <p style="margin:0;color:var(--muted)">Para quienes cobran a varios clientes cada mes. Inscríbete y tendrás 50 % de descuento cuando salga.</p>
+    <ul><li>Tu logo, sin la marca de Cuenta Lista</li><li>Clientes e historial en la nube</li><li>Cuánto te deben y qué ya te pagaron</li><li>Recordatorios de cobro</li><li>Paquete de radicación en un solo PDF</li><li>Resumen anual para tu declaración de renta</li></ul>
+    <a class="cta pro" data-lp="pro" href="/crear?utm_source=landing&utm_medium=interno&utm_campaign=pro#pro">Quiero el 50 % de descuento</a>
+  </div>
+</section>
+
+<section class="blk" aria-labelledby="faq-h">
+  <h2 id="faq-h">Preguntas frecuentes</h2>
+  <div style="max-width:760px"><details><summary>¿Cuenta Lista es gratis?</summary><p>Sí. Crear, descargar en PDF o Word y enviar por WhatsApp es gratis y sin registro. Más adelante habrá un plan Pro con funciones extra, como tu logo o el historial en la nube.</p></details><details><summary>¿Necesito crear una cuenta?</summary><p>No. Abres la herramienta, llenas tus datos y descargas. Tus datos quedan guardados solo en tu celular o computador para el próximo mes.</p></details><details><summary>¿La cuenta de cobro reemplaza la factura electrónica?</summary><p>No. La cuenta de cobro es para personas naturales que no están obligadas a facturar. Las empresas y quienes superan los topes que fija la DIAN deben expedir factura electrónica. Ante la duda, consulta con un contador.</p></details><details><summary>¿Sirve para contratistas de entidades públicas?</summary><p>Sí. Tiene un tipo de cobro para contratistas del Estado con el número de contrato, el periodo, el informe de actividades y la planilla de seguridad social como anexos.</p></details><details><summary>¿Puedo enviarla por WhatsApp?</summary><p>Sí. Desde el celular, el botón Enviar PDF por WhatsApp comparte el documento en PDF directo al chat. En computador se descarga el PDF y se abre WhatsApp para que lo adjuntes.</p></details><details><summary>¿Qué pasa con mis datos?</summary><p>No los guardamos en ningún servidor: se quedan en tu navegador. Solo si te inscribes a la lista del plan Pro recibimos tu correo.</p></details></div>
+</section>
+
+<section class="blk final">
+  <h2>Cobra fácil. Trabaja tranquilo.</h2>
+  <p>Tu próxima cuenta de cobro, lista en minutos.</p>
+  <a class="cta" data-lp="final" href="/crear?utm_source=landing&utm_medium=interno&utm_campaign=final">Empezar gratis</a>
+</section>
+</main>
+<footer><p style="margin:0 0 6px">Cuenta Lista genera un documento de cobro. No es una factura electrónica ni reemplaza la asesoría de un contador.</p>
+<p style="margin:0"><a href="/crear">Crear cuenta de cobro</a> · <a href="/modelos">Modelos</a> · <a href="/numeros-a-letras">Números a letras</a> · <a href="/privacidad">Privacidad</a> · <a href="/terminos">Términos</a></p></footer>
 </div>
-<div id="toast" role="status" aria-live="polite"></div>
-
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/docx@8.5.0/build/index.umd.js"></script>
-<script>
-/* ===== CONFIGURACIÓN: lo único que debes editar al publicar =====
-   GA_ID: tu ID de Google Analytics 4 (empieza por G-).
-   WAITLIST_ENDPOINT: dirección que recibe y guarda los correos de la lista Pro
-   (por ejemplo la de un formulario de Formspree: https://formspree.io/f/tu-codigo). */
-const PROD = location.hostname === 'cuentalista.vercel.app';
-const CONFIG = { CLARITY_ID: PROD ? 'zfn6t5xgi0' : '', GA_ID: PROD ? 'G-6Z1HR06RKT' : '', WAITLIST_ENDPOINT: 'https://formspree.io/f/mrpqkyel' };
-
-/* Tipos de cobro. campos: [clave, etiqueta en el formulario, etiqueta en el documento]. */
-const TIPOS = {
-  servicios: { n:'Servicios u honorarios', ej:'Honorarios por asesoría', campos:[['contrato','Contrato u orden N.º (opcional)','Contrato u orden N.º'],['periodo','Periodo cobrado','Periodo']], adj:['RUT','Certificación bancaria','Planilla de seguridad social pagada'] },
-  estado: { n:'Contratista de entidad pública', ej:'Honorarios del periodo', campos:[['contrato','Contrato N.º','Contrato N.º'],['objeto','Objeto del contrato','Objeto'],['pago','Pago N.º (ej. 3 de 10)','Pago N.º'],['periodo','Periodo cobrado','Periodo'],['supervisor','Supervisor del contrato','Supervisor']], adj:['Informe de actividades','Planilla de seguridad social pagada','RUT','Certificación bancaria'] },
-  arriendo: { n:'Arriendo', ej:'Canon de arrendamiento', campos:[['inmueble','Dirección del inmueble','Inmueble'],['periodo','Mes o periodo del canon','Periodo']], adj:['Contrato de arrendamiento','RUT'] },
-  transporte: { n:'Transporte o acarreo', ej:'Servicio de transporte', campos:[['origen','Origen','Origen'],['destino','Destino','Destino'],['fechaServ','Fecha del servicio','Fecha del servicio'],['placa','Placa del vehículo','Placa']], adj:['Remisión o guía firmada','RUT'] },
-  productos: { n:'Venta de productos', cant:true, unidad:'Cantidad', ej:'Producto', campos:[['entrega','Fecha o lugar de entrega','Entrega']], adj:['Remisión firmada','RUT'] },
-  horas: { n:'Clases o trabajo por horas', cant:true, unidad:'Horas', ej:'Hora de clase', campos:[['periodo','Periodo cobrado','Periodo']], adj:['Registro de horas','RUT','Planilla de seguridad social pagada'] },
-  comision: { n:'Comisiones', ej:'Comisión por ventas', campos:[['base','Ventas sobre las que se calcula','Ventas base'],['pct','Porcentaje pactado','Porcentaje pactado'],['periodo','Periodo cobrado','Periodo']], adj:['Relación de ventas','RUT'] },
-  anticipo: { n:'Anticipo o saldo', ej:'Anticipo del 50 %', campos:[['contrato','Contrato o cotización N.º','Contrato o cotización N.º'],['valorTotal','Valor total acordado','Valor total acordado'],['parte','Qué parte cobras (ej. anticipo del 50 %)','Corresponde a']], adj:['Cotización aprobada','RUT'] }
-};
-
-const $ = id => document.getElementById(id);
-const KEY = 'cuentalista.v1';
-const TEXT = ['eTipoP','cTipoP','fact','eRep','eNombre','eDoc','eCiudad','eTel','eEmail','cNombre','cDoc','clase','num','fecha','nota','banco','tipo','cuenta'];
-const CHECK = ['dIva','dSs','d383'];
-const DECL = {
-  dIva: 'No soy responsable del impuesto sobre las ventas (IVA).',
-  dSs: 'Me encuentro al día en el pago de mis aportes a seguridad social y adjunto la planilla correspondiente.',
-  d383: 'Para efectos del parágrafo 2 del artículo 383 del Estatuto Tributario, declaro que no he contratado o vinculado dos (2) o más trabajadores asociados a mi actividad.'
-};
-const hoy = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); };
-const EJEMPLO = { ejemplo:true, eTipoP:'natural', cTipoP:'empresa', fact:'', eRep:'', eNombre:'Mariana Torres Ruiz', eDoc:'1.000.000.000', eCiudad:'Bogotá D.C.', eTel:'300 000 0000', eEmail:'mariana@ejemplo.co',
-  cNombre:'Comercializadora Ejemplo S.A.S.', cDoc:'900.000.000-0', clase:'servicios', num:'011', fecha:hoy(), nota:'',
-  x:{ periodo:'Noviembre de 2026' }, adj:{ 'Planilla de seguridad social pagada':true, 'RUT':true },
-  banco:'Bancolombia', tipo:'Ahorros', cuenta:'000-000000-00', dIva:true, dSs:true, d383:false,
-  items:[{d:'Honorarios por gestión de redes sociales', q:1, v:2500000}] };
-const VACIO = { ejemplo:false, eTipoP:'natural', cTipoP:'empresa', fact:'', eRep:'', eNombre:'',eDoc:'',eCiudad:'',eTel:'',eEmail:'',cNombre:'',cDoc:'',clase:'servicios',num:'001',fecha:hoy(),nota:'',x:{},adj:{},banco:'',tipo:'Ahorros',cuenta:'',dIva:false,dSs:false,d383:false,items:[{d:'',q:1,v:0}] };
-
-function normal(s){ if (!s) return s; if (!TIPOS[s.clase]) s.clase = 'servicios';
-  s.eTipoP = s.eTipoP === 'empresa' ? 'empresa' : 'natural'; s.cTipoP = s.cTipoP === 'natural' ? 'natural' : 'empresa'; s.fact = s.fact || ''; s.eRep = s.eRep || ''; s.x = s.x || {}; s.adj = s.adj || {};
-  s.items = (s.items && s.items.length ? s.items : [{d:'',v:0}]).map(i => ({ d:i.d||'', q:i.q===undefined?1:i.q, v:i.v||0 })); return s; }
-let S = normal(load()) || JSON.parse(JSON.stringify(EJEMPLO));
-/* Llegada desde una página de modelo: ?tipo=arriendo abre ese tipo con su ejemplo. */
-const EJ_TIPO = {
-  servicios: { items:[{d:'Honorarios por asesoría contable', q:1, v:1800000}], x:{ periodo:'Noviembre de 2026' } },
-  estado: { items:[{d:'Honorarios profesionales del periodo', q:1, v:4200000}], x:{ contrato:'123-2026', objeto:'Prestación de servicios profesionales de apoyo a la gestión', pago:'3 de 10', periodo:'1 al 30 de noviembre de 2026', supervisor:'Nombre del supervisor' } },
-  arriendo: { items:[{d:'Canon de arrendamiento del apartamento', q:1, v:1500000}], x:{ inmueble:'Calle 10 # 5-20, apartamento 301', periodo:'Diciembre de 2026' } },
-  transporte: { items:[{d:'Servicio de transporte de mercancía', q:1, v:650000}], x:{ origen:'Santa Marta', destino:'Barranquilla', fechaServ:'14 de noviembre de 2026', placa:'ABC123' } },
-  productos: { items:[{d:'Tortas de cumpleaños', q:3, v:85000},{d:'Caja de cupcakes x12', q:2, v:60000}], x:{ entrega:'20 de noviembre de 2026, en la oficina del cliente' } },
-  horas: { items:[{d:'Hora de clase de inglés', q:12, v:50000}], x:{ periodo:'Noviembre de 2026' } },
-  comision: { items:[{d:'Comisión por ventas del mes', q:1, v:960000}], x:{ base:'$ 12.000.000', pct:'8 %', periodo:'Noviembre de 2026' } },
-  anticipo: { items:[{d:'Anticipo del 50 % por diseño de página web', q:1, v:1250000}], x:{ contrato:'Cotización 045', valorTotal:'$ 2.500.000', parte:'Anticipo del 50 %' } }
-};
-let llegada = null;
-try {
-  const qp = new URLSearchParams(location.search), qt = qp.get('tipo'), qq = qp.get('quien');
-  if (qt && TIPOS[qt]) {
-    llegada = qt; S.clase = qt;
-    if (S.ejemplo) { S.items = JSON.parse(JSON.stringify(EJ_TIPO[qt].items)); S.x = Object.assign({}, EJ_TIPO[qt].x); S.adj = {}; }
-  }
-  if (qq === 'empresa' || qq === 'natural') S.eTipoP = qq;
-} catch (e) {}
-let started = false, dl = null;
-
-function load(){ try{ const r = localStorage.getItem(KEY); return r ? JSON.parse(r) : null; }catch(e){ return null; } }
-function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
-
-/*LETRAS-START*/
-const U=['','uno','dos','tres','cuatro','cinco','seis','siete','ocho','nueve','diez','once','doce','trece','catorce','quince','dieciséis','diecisiete','dieciocho','diecinueve','veinte','veintiuno','veintidós','veintitrés','veinticuatro','veinticinco','veintiséis','veintisiete','veintiocho','veintinueve'];
-const D=['','','','treinta','cuarenta','cincuenta','sesenta','setenta','ochenta','noventa'];
-const C=['','ciento','doscientos','trescientos','cuatrocientos','quinientos','seiscientos','setecientos','ochocientos','novecientos'];
-function tres(n){ if(n===100) return 'cien'; let s=C[Math.floor(n/100)]; const r=n%100; if(r){ s+=(s?' ':'')+(r<30?U[r]:D[Math.floor(r/10)]+(r%10?' y '+U[r%10]:'')); } return s; }
-function apo(s){ return s.replace(/veintiuno$/,'veintiún').replace(/uno$/,'un'); }
-function sub(n){ const m=Math.floor(n/1000), r=n%1000, p=[]; if(m) p.push(m===1?'mil':apo(tres(m))+' mil'); if(r) p.push(tres(r)); return p.join(' '); }
-function letras(n){ n=Math.floor(n); if(n<=0) return 'cero pesos'; if(n===1) return 'un peso';
-  const M=Math.floor(n/1e6), rest=n%1e6, p=[]; if(M) p.push(M===1?'un millón':apo(sub(M))+' millones'); if(rest) p.push(sub(rest));
-  return apo(p.join(' '))+((M&&!rest)?' de pesos':' pesos'); }
-/*LETRAS-END*/
-
-const MES=['enero','febrero','marzo','abril','mayo','junio','julio','agosto','septiembre','octubre','noviembre','diciembre'];
-const fechaLarga = f => { const m=/^(\d{4})-(\d{2})-(\d{2})$/.exec(f||''); return m ? Number(m[3])+' de '+MES[Number(m[2])-1]+' de '+m[1] : ''; };
-const cop = n => '$ ' + new Intl.NumberFormat('es-CO').format(n||0);
-const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
-const sub1 = i => (TIPOS[S.clase].cant ? (i.q || 0) : 1) * (i.v || 0);
-const total = () => S.items.reduce((a,i)=>a+sub1(i),0);
-
-function modelo(){
-  const t = total(), T = TIPOS[S.clase], emp = S.eTipoP === 'empresa';
-  const extras = T.campos.filter(c => (S.x[c[0]] || '').trim()).map(c => [c[2], S.x[c[0]].trim()]);
-  if (emp && S.fact.trim()) extras.unshift(['Factura electrónica de venta N.º', S.fact.trim()]);
-  return {
-    emp, emLbl: emp ? 'NIT' : 'C.C.', clLbl: S.cTipoP === 'empresa' ? 'NIT' : 'C.C.',
-    firma: emp && S.eRep.trim() ? S.eRep.trim() : S.eNombre, firmaRol: emp ? (S.eRep.trim() ? 'Representante legal de ' + S.eNombre : '') : '',
-    cant: !!T.cant,
-    extras,
-    anexos: T.adj.filter(a => S.adj[a]),
-    lugar: [S.eCiudad, fechaLarga(S.fecha)].filter(Boolean).join(', '),
-    titulo: 'CUENTA DE COBRO N.º ' + (S.num||'001'),
-    cliente: S.cNombre, clienteDoc: S.cDoc, emisor: S.eNombre, emisorDoc: S.eDoc,
-    total: t, suma: cop(t) + ' (' + letras(t).toUpperCase() + ' M/CTE)',
-    items: S.items.filter(i => i.d || i.v).map(i => ({ d:i.d, q:i.q || 0, v:i.v, t:sub1(i) })),
-    pago: S.banco || S.cuenta ? [S.banco, S.cuenta ? 'cuenta de ' + S.tipo.toLowerCase() + ' N.º ' + S.cuenta : '', S.eNombre ? 'a nombre de ' + S.eNombre : ''].filter(Boolean).join(', ').replace(/\.?$/, '.') : '',
-    decl: emp ? [] : CHECK.filter(k => S[k]).map(k => DECL[k]), nota: S.nota,
-    contacto: [S.eTel, S.eEmail].filter(Boolean).join(' · '),
-    firmaImg: S.firmaImg || '', firmaR: S.firmaR || 3
-  };
-}
-
-function render(){
-  const m = modelo(), ph = t => '<span class="ph">[' + t + ']</span>';
-  let h = '<p class="r">' + (m.lugar ? esc(m.lugar) : ph('ciudad y fecha')) + '</p><h2>' + esc(m.titulo) + '</h2>';
-  h += '<p class="c big">' + (m.cliente ? esc(m.cliente) : ph('a quién le cobras')) + '</p>' + (m.clienteDoc ? '<p class="c">' + m.clLbl + ' ' + esc(m.clienteDoc) + '</p>' : '');
-  h += '<p class="c" style="margin:14px 0 10px;letter-spacing:.08em">DEBE A</p>';
-  h += '<p class="c big">' + (m.emisor ? esc(m.emisor) : ph('tu nombre')) + '</p>' + (m.emisorDoc ? '<p class="c">' + m.emLbl + ' ' + esc(m.emisorDoc) + '</p>' : '');
-  h += '<p class="sum"><strong>La suma de:</strong> ' + (m.total ? esc(m.suma) : ph('valor')) + '</p>';
-  h += '<p><strong>Por concepto de:</strong></p>';
-  if (m.cant && m.items.length) h += '<table>' + m.items.map(i => '<tr><td>' + esc(i.d || 'Concepto') + '<br><small>' + i.q + ' × ' + cop(i.v) + '</small></td><td>' + cop(i.t) + '</td></tr>').join('') + '</table>';
-  else if (m.items.length > 1) h += '<table>' + m.items.map(i => '<tr><td>' + esc(i.d || 'Concepto') + '</td><td>' + cop(i.t) + '</td></tr>').join('') + '</table>';
-  else h += '<p>' + (m.items[0] && m.items[0].d ? esc(m.items[0].d) : ph('concepto')) + '</p>';
-  if (m.extras.length) h += '<p>' + m.extras.map(e => '<strong>' + esc(e[0]) + ':</strong> ' + esc(e[1])).join('<br>') + '</p>';
-  if (m.nota) h += '<p>' + esc(m.nota) + '</p>';
-  if (m.anexos.length) h += '<p><strong>Anexos:</strong> ' + esc(m.anexos.join(', ')) + '.</p>';
-  if (m.pago) h += '<p style="margin-top:12px"><strong>Favor consignar en:</strong> ' + esc(m.pago) + '</p>';
-  if (m.decl.length) h += '<div style="margin-top:12px">' + m.decl.map(d => '<p>' + esc(d) + '</p>').join('') + '</div>';
-  h += '<p style="margin-top:14px">Cordialmente,</p><div class="sign' + (m.firmaImg ? ' has' : '') + '">' + (m.firmaImg ? '<img class="sigimg" alt="Firma" src="' + m.firmaImg + '">' : '') + '<p class="big">' + esc(m.firma || '') + '</p>' + (m.firmaRol ? '<p>' + esc(m.firmaRol) + '</p>' : '') + (m.emisorDoc ? '<p>' + m.emLbl + ' ' + esc(m.emisorDoc) + '</p>' : '') + (m.contacto ? '<p>' + esc(m.contacto) + '</p>' : '') + '</div>';
-  h += '<p class="foot">Generado con Cuenta Lista · Tu cuenta de cobro, lista en minutos · cuentalista.vercel.app</p>';
-  $('sheet').innerHTML = h;
-  $('wa').href = 'https://wa.me/?text=' + encodeURIComponent(texto());
-  $('exNote').hidden = !S.ejemplo;
-  if (typeof renderNeto === 'function') renderNeto();
-}
-
-function texto(){
-  const m = modelo(), L = [];
-  if (m.lugar) L.push(m.lugar, '');
-  L.push(m.titulo, '', m.cliente + (m.clienteDoc ? ' · ' + m.clLbl + ' ' + m.clienteDoc : ''), '', 'DEBE A', '', m.emisor + (m.emisorDoc ? ' · ' + m.emLbl + ' ' + m.emisorDoc : ''), '', 'La suma de: ' + m.suma, '', 'Por concepto de:');
-  m.items.forEach(i => L.push(m.cant ? '- ' + i.d + ': ' + i.q + ' × ' + cop(i.v) + ' = ' + cop(i.t) : (m.items.length > 1 ? '- ' + i.d + ': ' + cop(i.t) : i.d)));
-  m.extras.forEach(e => L.push(e[0] + ': ' + e[1]));
-  if (m.nota) L.push(m.nota);
-  if (m.anexos.length) L.push('Anexos: ' + m.anexos.join(', ') + '.');
-  if (m.pago) L.push('', 'Favor consignar en: ' + m.pago);
-  if (m.decl.length) L.push('', ...m.decl);
-  L.push('', 'Cordialmente,', m.firma); if (m.firmaRol) L.push(m.firmaRol); if (m.contacto) L.push(m.contacto);
-  L.push('', 'Generado con Cuenta Lista · Tu cuenta de cobro, lista en minutos · cuentalista.vercel.app');
-  return L.join('\n');
-}
-
-function buildPDF(){
-  const m = modelo(), doc = new window.jspdf.jsPDF({ unit:'mm', format:'letter' });
-  const W = 215.9, M = 25, cw = W - 2*M; let y = 30;
-  const P = (t, o = {}) => { const s = o.s || 11; doc.setFont('helvetica', o.b ? 'bold' : 'normal'); doc.setFontSize(s); doc.setTextColor(o.gray ? 120 : 20);
-    const lines = doc.splitTextToSize(String(t), o.w || cw), x = o.c ? W/2 : (o.r ? W - M : M);
-    doc.text(lines, x, y, { align: o.c ? 'center' : (o.r ? 'right' : 'left') }); y += lines.length * s * 0.45 + (o.g === undefined ? 3 : o.g); };
-  P(m.lugar, { r:true, g:12 }); P(m.titulo, { c:true, b:true, s:15, g:12 });
-  P(m.cliente, { c:true, b:true, s:12 }); if (m.clienteDoc) P(m.clLbl + ' ' + m.clienteDoc, { c:true });
-  y += 6; P('DEBE A', { c:true, g:9 });
-  P(m.emisor, { c:true, b:true, s:12 }); if (m.emisorDoc) P(m.emLbl + ' ' + m.emisorDoc, { c:true });
-  y += 8; const top = y - 5; P('La suma de: ' + m.suma, { b:true, w: cw - 8, g:0 }); y += 2;
-  doc.setDrawColor(20); doc.rect(M - 4, top - 2, cw + 8, y - top + 2); y += 10;
-  P('Por concepto de:', { b:true });
-  if (m.cant || m.items.length > 1) m.items.forEach(i => { const y0 = y; P((i.d || 'Concepto') + (m.cant ? ' (' + i.q + ' × ' + cop(i.v) + ')' : ''), { w: cw - 45, g:0 }); const y1 = y; y = y0; P(cop(i.t), { r:true, g:0 }); y = y1 + 3; });
-  else P(m.items[0] ? m.items[0].d : '');
-  m.extras.forEach(e => P(e[0] + ': ' + e[1], { g:1 })); if (m.extras.length) y += 2;
-  if (m.nota) P(m.nota);
-  if (m.anexos.length) P('Anexos: ' + m.anexos.join(', ') + '.');
-  if (m.pago) { y += 4; P('Favor consignar en: ' + m.pago); }
-  if (m.decl.length) { y += 4; m.decl.forEach(d => P(d)); }
-  y += 6;
-  if (m.firmaImg) {
-    P('Cordialmente,', { g:2 });
-    const h = 18, w = Math.min(65, h * m.firmaR);
-    try { doc.addImage(m.firmaImg, 'PNG', M, y, w, h); } catch (e) {}
-    y += h + 5;
-  } else P('Cordialmente,', { g:22 });
-  doc.line(M, y - 5, M + 75, y - 5); P(m.firma, { b:true }); if (m.firmaRol) P(m.firmaRol); if (m.emisorDoc) P(m.emLbl + ' ' + m.emisorDoc); if (m.contacto) P(m.contacto);
-  y = 268; P('Generado con Cuenta Lista · Tu cuenta de cobro, lista en minutos · cuentalista.vercel.app', { c:true, s:8, gray:true });
-  return doc;
-}
-
-/* ===== Medición ===== */
-if (CONFIG.CLARITY_ID) { (function(c,l,a,r,i,t,y){ c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)}; t=l.createElement(r); t.async=1; t.src='https://www.clarity.ms/tag/'+i; y=l.getElementsByTagName(r)[0]; y.parentNode.insertBefore(t,y); })(window, document, 'clarity', 'script', CONFIG.CLARITY_ID); }
-const eventos = [];
-function track(nombre, datos = {}){
-  eventos.unshift(nombre + (Object.keys(datos).length ? ' ' + JSON.stringify(datos) : ''));
-  $('log').innerHTML = eventos.slice(0, 12).map(e => '<li>' + esc(e) + '</li>').join('');
-  if (window.gtag && nombre !== 'page_view') window.gtag('event', nombre, datos);
-}
-if (CONFIG.GA_ID) {
-  const s = document.createElement('script'); s.async = true; s.src = 'https://www.googletagmanager.com/gtag/js?id=' + CONFIG.GA_ID; document.head.appendChild(s);
-  window.dataLayer = window.dataLayer || []; window.gtag = function(){ dataLayer.push(arguments); }; gtag('js', new Date()); gtag('config', CONFIG.GA_ID);
-}
-
-let tt; function toast(msg){ const t = $('toast'); t.textContent = msg; t.classList.add('on'); clearTimeout(tt); tt = setTimeout(() => t.classList.remove('on'), 3200); }
-
-function falta(){
-  if (!S.eNombre.trim()) return ['eNombre', 'Escribe tu nombre para generar la cuenta.'];
-  if (S.eTipoP === 'empresa' && !S.fact.trim()) return ['fact', 'Como empresa debes expedir factura electrónica. Escribe su número para que la cuenta la cite.'];
-  if (!S.cNombre.trim()) return ['cNombre', 'Escribe a quién le cobras.'];
-  if (!total()) return [null, 'Agrega el valor que vas a cobrar.'];
-  return null;
-}
-function listo(){ const f = falta(); if (!f) return true; toast(f[1]); const el = f[0] ? $(f[0]) : document.querySelector('.val'); if (el) el.focus(); return false; }
-
-/* ===== Formulario ===== */
-function fill(){
-  TEXT.forEach(k => { $(k).value = S[k] ?? ''; }); CHECK.forEach(k => { $(k).checked = !!S[k]; });
-  drawPersona(); drawTipo(); drawItems(); render();
-  if (typeof pintarFirma === 'function') pintarFirma();
-}
-function drawPersona(){
-  const emp = S.eTipoP === 'empresa', cemp = S.cTipoP === 'empresa';
-  $('eNombreL').textContent = emp ? 'Razón social' : 'Nombre completo'; $('eDocL').textContent = emp ? 'NIT' : 'Cédula';
-  $('empNote').hidden = !emp; $('empOnly').hidden = !emp; $('declNat').hidden = emp;
-  $('cNombreL').textContent = cemp ? 'Razón social' : 'Nombre completo'; $('cDocL').textContent = cemp ? 'NIT' : 'Cédula';
-}
-function drawTipo(){
-  const T = TIPOS[S.clase];
-  $('extra').innerHTML = T.campos.map(c => '<label>' + esc(c[1]) + '<input type="text" id="x-' + c[0] + '" data-x="' + c[0] + '" value="' + esc(S.x[c[0]] || '') + '"></label>').join('');
-  $('adj').innerHTML = T.adj.map((a, i) => '<label class="check"><input type="checkbox" id="adj-' + i + '" data-adj="' + esc(a) + '"' + (S.adj[a] ? ' checked' : '') + '><span>' + esc(a) + '</span></label>').join('');
-}
-function drawItems(){
-  const T = TIPOS[S.clase];
-  $('items').innerHTML = S.items.map((it, i) =>
-    '<div class="item' + (T.cant ? ' cant' : '') + '"><label' + (T.cant ? ' class="full"' : '') + '>Concepto<input type="text" id="it-d-' + i + '" data-i="' + i + '" class="desc" placeholder="' + esc(T.ej) + '" value="' + esc(it.d) + '"></label>' +
-    (T.cant ? '<label>' + T.unidad + '<input type="text" id="it-q-' + i + '" data-i="' + i + '" class="qty" inputmode="numeric" value="' + (it.q || '') + '"></label>' : '') +
-    '<label>' + (T.cant ? 'Valor unitario' : 'Valor (COP)') + '<input type="text" id="it-v-' + i + '" data-i="' + i + '" class="val" inputmode="numeric" value="' + (it.v ? new Intl.NumberFormat('es-CO').format(it.v) : '') + '"></label>' +
-    (S.items.length > 1 ? '<button type="button" class="icon del" data-i="' + i + '" aria-label="Quitar concepto ' + (i+1) + '">✕</button>' : '<span></span>') + '</div>').join('');
-}
-$('f').addEventListener('input', e => {
-  const t = e.target;
-  if (!started) { started = true; track('form_start'); }
-  if (t.classList.contains('desc')) S.items[t.dataset.i].d = t.value;
-  else if (t.classList.contains('val')) { const n = Number(t.value.replace(/\D/g, '')) || 0; S.items[t.dataset.i].v = n; t.value = n ? new Intl.NumberFormat('es-CO').format(n) : ''; }
-  else if (t.classList.contains('qty')) { const n = Number(t.value.replace(/\D/g, '')) || 0; S.items[t.dataset.i].q = n; t.value = n || ''; }
-  else if (t.dataset.x) S.x[t.dataset.x] = t.value;
-  else if (t.dataset.adj) S.adj[t.dataset.adj] = t.checked;
-  else if (CHECK.includes(t.id)) S[t.id] = t.checked;
-  else if (TEXT.includes(t.id)) { S[t.id] = t.value; if (t.id === 'eTipoP' || t.id === 'cTipoP') { drawPersona(); track('persona_elegida', { quien: t.id, valor: t.value }); } if (t.id === 'clase') { drawTipo(); drawItems(); track('tipo_elegido', { tipo: t.value }); } }
-  save(); render();
-});
-$('f').addEventListener('submit', e => e.preventDefault());
-$('items').addEventListener('click', e => { const b = e.target.closest('.del'); if (!b) return; S.items.splice(Number(b.dataset.i), 1); drawItems(); save(); render(); });
-$('add').addEventListener('click', () => { S.items.push({ d:'', q:1, v:0 }); drawItems(); save(); render(); $('it-d-' + (S.items.length - 1)).focus(); });
-$('clear').addEventListener('click', () => { S = JSON.parse(JSON.stringify(VACIO)); save(); fill(); $('eNombre').focus(); });
-$('next').addEventListener('click', () => {
-  const n = String(S.num || '0'), d = n.replace(/\D/g, ''); S.num = String((Number(d) || 0) + 1).padStart(d.length || 3, '0');
-  S.fecha = hoy(); S.ejemplo = false; save(); fill(); track('siguiente_numero', { num: S.num });
-  toast('Cuenta N.º ' + S.num + ' con fecha de hoy. Revisa el periodo y el valor.');
-});
-
-/* ===== Word ===== */
-async function buildWord(){
-  const D = window.docx, m = modelo();
-  const run = (t, o = {}) => new D.TextRun({ text: String(t), bold: !!o.b, size: o.s || 22, color: o.gray ? '777777' : '1b1b1b', font: 'Arial' });
-  const par = (t, o = {}) => new D.Paragraph({ children: Array.isArray(t) ? t : [run(t, o)], alignment: o.c ? D.AlignmentType.CENTER : (o.r ? D.AlignmentType.RIGHT : D.AlignmentType.LEFT), spacing: { after: o.after === undefined ? 120 : o.after, before: o.before || 0 }, border: o.box ? { top:{style:D.BorderStyle.SINGLE,size:6,color:'1b1b1b',space:4}, bottom:{style:D.BorderStyle.SINGLE,size:6,color:'1b1b1b',space:4}, left:{style:D.BorderStyle.SINGLE,size:6,color:'1b1b1b',space:4}, right:{style:D.BorderStyle.SINGLE,size:6,color:'1b1b1b',space:4} } : undefined });
-  const ch = [];
-  ch.push(par(m.lugar, { r:true, after:360 }));
-  ch.push(par(m.titulo, { c:true, b:true, s:30, after:360 }));
-  ch.push(par(m.cliente, { c:true, b:true, s:24, after:40 }));
-  if (m.clienteDoc) ch.push(par(m.clLbl + ' ' + m.clienteDoc, { c:true }));
-  ch.push(par('DEBE A', { c:true, before:200, after:200 }));
-  ch.push(par(m.emisor, { c:true, b:true, s:24, after:40 }));
-  if (m.emisorDoc) ch.push(par(m.emLbl + ' ' + m.emisorDoc, { c:true }));
-  ch.push(par([run('La suma de: ', { b:true }), run(m.suma)], { box:true, before:300, after:300 }));
-  ch.push(par('Por concepto de:', { b:true }));
-  if (m.cant || m.items.length > 1) m.items.forEach(i => ch.push(par((i.d || 'Concepto') + (m.cant ? ' (' + i.q + ' × ' + cop(i.v) + ')' : '') + ': ' + cop(i.t))));
-  else if (m.items[0]) ch.push(par(m.items[0].d));
-  m.extras.forEach(e => ch.push(par([run(e[0] + ': ', { b:true }), run(e[1])], { after:60 })));
-  if (m.nota) ch.push(par(m.nota));
-  if (m.anexos.length) ch.push(par([run('Anexos: ', { b:true }), run(m.anexos.join(', ') + '.')]));
-  if (m.pago) ch.push(par([run('Favor consignar en: ', { b:true }), run(m.pago)], { before:200 }));
-  m.decl.forEach((d, i) => ch.push(par(d, { before: i ? 0 : 200 })));
-  ch.push(par('Cordialmente,', { before:300, after: m.firmaImg ? 60 : 700 }));
-  if (m.firmaImg) {
-    const bin = atob(m.firmaImg.split(',')[1]), u8 = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
-    const h = 70; ch.push(new D.Paragraph({ children: [new D.ImageRun({ type: 'png', data: u8, transformation: { width: Math.round(Math.min(250, h * m.firmaR)), height: h } })] }));
-  }
-  ch.push(new D.Paragraph({ children: [run(m.firma, { b:true })], border: { top: { style: D.BorderStyle.SINGLE, size: 6, color: '1b1b1b', space: 4 } }, spacing: { after: 40 } }));
-  if (m.firmaRol) ch.push(par(m.firmaRol, { after:40 }));
-  if (m.emisorDoc) ch.push(par(m.emLbl + ' ' + m.emisorDoc, { after:40 }));
-  if (m.contacto) ch.push(par(m.contacto, { after:40 }));
-  const doc = new D.Document({ creator: 'Cuenta Lista', title: m.titulo, sections: [{ properties: { page: { size: { width: 12240, height: 15840 }, margin: { top: 1418, bottom: 1418, left: 1418, right: 1418 } } },
-    footers: { default: new D.Footer({ children: [par('Generado con Cuenta Lista · Tu cuenta de cobro, lista en minutos · cuentalista.vercel.app', { c:true, s:16, gray:true, after:0 })] }) }, children: ch }] });
-  return D.Packer.toBlob(doc);
-}
-async function bajar(blob, nombre){
-  if (dl) return dl.save({ filename: nombre, data: blob });
-  const a = document.createElement('a'); a.href = URL.createObjectURL(blob); a.download = nombre; document.body.appendChild(a); a.click();
-  setTimeout(() => { URL.revokeObjectURL(a.href); a.remove(); }, 1500);
-}
-
-/* ===== Firma ===== */
-const pad = $('sigPad'), pctx = pad.getContext('2d');
-let trazando = false, hubo = false;
-function limpiarPad(){ pctx.fillStyle = '#fff'; pctx.fillRect(0, 0, pad.width, pad.height); }
-function pintarFirma(){ limpiarPad(); if (!S.firmaImg) return; const im = new Image(); im.onload = () => { const r = Math.min(pad.width / im.width, pad.height / im.height); const w = im.width * r, h = im.height * r; pctx.drawImage(im, (pad.width - w) / 2, (pad.height - h) / 2, w, h); }; im.src = S.firmaImg; }
-function recortar(src){
-  // Recorta el área con trazos y la deja con fondo transparente.
-  const c = src.getContext('2d'), d = c.getImageData(0, 0, src.width, src.height).data; let x0 = src.width, y0 = src.height, x1 = -1, y1 = -1;
-  for (let y = 0; y < src.height; y++) for (let x = 0; x < src.width; x++) { const i = (y * src.width + x) * 4; if (d[i] + d[i+1] + d[i+2] < 600 && d[i+3] > 0) { if (x < x0) x0 = x; if (x > x1) x1 = x; if (y < y0) y0 = y; if (y > y1) y1 = y; } }
-  if (x1 < 0) return null;
-  const w = x1 - x0 + 9, h = y1 - y0 + 9, o = document.createElement('canvas'); o.width = w; o.height = h; const oc = o.getContext('2d');
-  const img = c.getImageData(Math.max(0, x0 - 4), Math.max(0, y0 - 4), w, h);
-  for (let i = 0; i < img.data.length; i += 4) { const lum = (img.data[i] + img.data[i+1] + img.data[i+2]) / 3; if (lum > 200) img.data[i+3] = 0; else { img.data[i] = img.data[i+1] = img.data[i+2] = Math.min(lum, 40); img.data[i+3] = 255; } }
-  oc.putImageData(img, 0, 0); return { url: o.toDataURL('image/png'), r: w / h };
-}
-function guardarFirma(src){ const f = recortar(src || pad); if (!f) return; S.firmaImg = f.url; S.firmaR = f.r; save(); render(); }
-const pos = e => { const b = pad.getBoundingClientRect(); return [(e.clientX - b.left) * pad.width / b.width, (e.clientY - b.top) * pad.height / b.height]; };
-pad.addEventListener('pointerdown', e => { trazando = true; hubo = false; pad.setPointerCapture(e.pointerId); const [x, y] = pos(e); pctx.beginPath(); pctx.moveTo(x, y); pctx.lineWidth = 3.2; pctx.lineCap = 'round'; pctx.lineJoin = 'round'; pctx.strokeStyle = '#111'; });
-pad.addEventListener('pointermove', e => { if (!trazando) return; const [x, y] = pos(e); pctx.lineTo(x, y); pctx.stroke(); hubo = true; });
-const fin = () => { if (!trazando) return; trazando = false; if (hubo) { guardarFirma(); track('firma_agregada', { metodo:'dibujo' }); } };
-pad.addEventListener('pointerup', fin); pad.addEventListener('pointercancel', fin);
-$('sigClear').addEventListener('click', () => { S.firmaImg = ''; S.firmaR = 3; save(); limpiarPad(); render(); });
-$('sigFile').addEventListener('change', e => {
-  const f = e.target.files && e.target.files[0]; if (!f) return; const rd = new FileReader();
-  rd.onload = () => { const im = new Image(); im.onload = () => { const max = 900, r = Math.min(1, max / im.width), c = document.createElement('canvas'); c.width = Math.round(im.width * r); c.height = Math.round(im.height * r); const cx = c.getContext('2d'); cx.fillStyle = '#fff'; cx.fillRect(0, 0, c.width, c.height); cx.drawImage(im, 0, 0, c.width, c.height); guardarFirma(c); pintarFirma(); track('firma_agregada', { metodo:'imagen' }); }; im.onerror = () => toast('No se pudo leer esa imagen. Prueba con una foto JPG o PNG.'); im.src = rd.result; };
-  rd.readAsDataURL(f); e.target.value = '';
-});
-
-/* ===== Lo que te queda ===== */
-const SMMLV = 1750905;
-function fsp(ibc){ const n = ibc / SMMLV; if (n < 4) return 0; if (n < 16) return 0.01; if (n < 17) return 0.012; if (n < 18) return 0.014; if (n < 19) return 0.016; if (n < 20) return 0.018; return 0.02; }
-const cien = x => Math.round(x);
-function renderNeto(){
-  const box = $('neto'); if (!box) return;
-  box.hidden = S.eTipoP === 'empresa';
-  const t = total(), arl = Number(S.arl ?? 0.00522); $('arl').value = String(S.arl ?? '0.00522');
-  if (!t) { $('netoBody').innerHTML = '<p class="hint">Escribe el valor de tu cuenta para ver el cálculo.</p>'; return; }
-  if (t < SMMLV) { $('netoBody').innerHTML = '<p>Con ingresos mensuales menores a un salario mínimo ($ 1.750.905) no estás obligado a cotizar como independiente, aunque puedes hacerlo de forma voluntaria.</p>'; return; }
-  const ibc = Math.max(SMMLV, Math.min(25 * SMMLV, Math.round(t * 0.4)));
-  const sal = cien(ibc * 0.125), pen = cien(ibc * 0.16), ar = cien(ibc * arl), fs = cien(ibc * fsp(ibc)), ap = sal + pen + ar + fs;
-  const fila = (a, b) => '<tr><td>' + a + '</td><td>' + b + '</td></tr>';
-  $('netoBody').innerHTML = '<table>' + fila('Valor de la cuenta', cop(t)) + fila('Base de cotización (40 %)', cop(ibc)) + fila('Salud (12,5 %)', '− ' + cop(sal)) + fila('Pensión (16 %)', '− ' + cop(pen)) +
-    (ar ? fila('ARL', '− ' + cop(ar)) : '') + (fs ? fila('Fondo de solidaridad pensional', '− ' + cop(fs)) : '') +
-    '<tr class="tot"><td>Te queda aproximadamente</td><td>' + cop(t - ap) + '</td></tr></table><p class="hint" style="margin:0">Aportes: ' + cop(ap) + ' (' + Math.round(ap / t * 100) + ' % de la cuenta).</p>';
-}
-$('neto').addEventListener('toggle', () => { if ($('neto').open) track('neto_abierto', { valor: total() }); });
-$('arl').addEventListener('change', e => { S.arl = e.target.value; save(); renderNeto(); });
-
-/* ===== Acciones ===== */
-const embebido = (() => { try { return window.self !== window.top; } catch (e) { return true; } })();
-if (embebido) {
-  $('pdf').hidden = true; $('word').hidden = true; let n = 0;
-  const iv = setInterval(() => { n++;
-    if (window.claude && window.claude.use) { clearInterval(iv); window.claude.use('downloads').then(d => { if (d) { dl = d; $('pdf').hidden = false; $('word').hidden = false; } }).catch(() => {}); }
-    else if (n > 40) clearInterval(iv);
-  }, 250);
-}
-$('pdf').addEventListener('click', async () => {
-  if (!listo()) return;
-  if (!window.jspdf) { toast('No se pudo cargar el generador de PDF. Revisa tu conexión y recarga.'); return; }
-  const nombre = 'cuenta-de-cobro-' + (S.num || '001') + '.pdf', doc = buildPDF();
-  try {
-    await bajar(doc.output('blob'), nombre);
-    track('cuenta_generada', { metodo:'pdf', valor: total() }); toast('PDF listo. El próximo mes usa «Siguiente número».');
-  } catch (e) { if (!e || e.code !== 'declined') toast('No se pudo guardar el PDF. Usa Copiar texto mientras tanto.'); }
-});
-$('word').addEventListener('click', async () => {
-  if (!listo()) return;
-  if (!window.docx) { toast('No se pudo cargar el generador de Word. Revisa tu conexión y recarga.'); return; }
-  try {
-    const blob = await buildWord(); await bajar(blob, 'cuenta-de-cobro-' + (S.num || '001') + '.docx');
-    track('cuenta_generada', { metodo:'word', valor: total() }); toast('Word listo. El próximo mes usa «Siguiente número».');
-  } catch (e) { if (!e || e.code !== 'declined') toast('No se pudo crear el Word. Descarga el PDF mientras tanto.'); }
-});
-$('copy').addEventListener('click', async () => {
-  if (!listo()) return;
-  try { await navigator.clipboard.writeText(texto()); track('cuenta_generada', { metodo:'copiar', valor: total() }); toast('Texto copiado. Pégalo en un correo o documento.'); }
-  catch (e) { toast('Tu navegador bloqueó el copiado. Usa Enviar por WhatsApp.'); }
-});
-$('wa').addEventListener('click', e => { if (!listo()) { e.preventDefault(); return; } track('cuenta_generada', { metodo:'whatsapp', valor: total() }); });
-/* ===== Funciones Pro: cada botón mide interés por separado ===== */
-const FEATS = [
-  ['marca', 'Tu logo, sin la marca', 'Cuentas con tu imagen, sin el pie de Cuenta Lista'],
-  ['nube', 'Clientes e historial en la nube', 'Desde cualquier dispositivo'],
-  ['estado_pagos', 'Cuánto te deben', 'Estado de cada cuenta: enviada, pagada o vencida'],
-  ['recordatorios', 'Recordatorios de cobro', 'Y control de pagadas y pendientes'],
-  ['unir_pdf', 'Paquete de radicación', 'Cuenta + informe de actividades + anexos en un PDF'],
-  ['cotizaciones', 'Cotizaciones', 'Que se vuelven cuenta al aprobarse'],
-  ['plantillas', 'Contratos y paz y salvo', 'Plantillas listas para llenar'],
-  ['resumen_anual', 'Resumen anual de lo cobrado', 'Útil para tu declaración de renta']
-];
-const FN = Object.fromEntries(FEATS.map(f => [f[0], f]));
-let reg = null, votos = {}, actual = null;
-try { reg = JSON.parse(localStorage.getItem(KEY + '.wl') || 'null'); if (reg === 1) reg = { email:'' }; } catch (e) {}
-try { votos = JSON.parse(localStorage.getItem(KEY + '.votos') || '{}'); } catch (e) {}
-const guardarVotos = () => { try { localStorage.setItem(KEY + '.votos', JSON.stringify(votos)); } catch (e) {} };
-function drawFeats(){
-  $('feats').innerHTML = FEATS.map(f => { const on = !!(reg && reg.funciones && reg.funciones.includes(f[0]));
-    return '<button type="button" class="feat" data-f="' + f[0] + '" aria-pressed="' + on + '"><b>' + esc(f[1]) + '</b><span>' + esc(f[2]) + '</span><em>' + (on ? 'Anotado ✓' : 'Lo quiero') + '</em></button>'; }).join('');
-  const v = FEATS.filter(f => votos[f[0]]).sort((a, b) => votos[b[0]] - votos[a[0]]);
-  $('votos').innerHTML = v.length ? v.map(f => '<li>' + esc(f[1]) + ': ' + votos[f[0]] + '</li>').join('') : '<li>Aún no hay clics.</li>';
-}
-async function enviar(datos){
-  if (!CONFIG.WAITLIST_ENDPOINT) return 'prueba';
-  const fd = new FormData(); Object.entries(datos).forEach(([k, v]) => fd.append(k, v));
-  const r = await fetch(CONFIG.WAITLIST_ENDPOINT, { method:'POST', body: fd, headers: { Accept:'application/json' } });
-  if (!r.ok) throw new Error('respuesta ' + r.status); return 'ok';
-}
-let ultimoFoco = null;
-function abrir(id, origen){
-  actual = id; const f = FN[id]; ultimoFoco = document.activeElement;
-  votos[id] = (votos[id] || 0) + 1; guardarVotos();
-  track('pro_funcion_click', { funcion: id, origen });
-  if (reg) {
-    if (!reg.funciones) reg.funciones = []; if (!reg.funciones.includes(id)) reg.funciones.push(id);
-    try { localStorage.setItem(KEY + '.wl', JSON.stringify(reg)); } catch (e) {}
-    if (reg.email) enviar({ email: reg.email, funcion: id, tipo: 'voto_adicional', fecha: new Date().toISOString() }).catch(() => {});
-    drawFeats(); proMsg('Anotado: te interesa «' + f[1] + '». Ya tienes reservado tu 50 % de descuento.'); return;
-  }
-  $('mTitle').textContent = f[1]; $('mDesc').textContent = f[2] + '.';
-  $('mOtras').innerHTML = FEATS.filter(x => x[0] !== id).map(x => '<label class="check"><input type="checkbox" id="o-' + x[0] + '" value="' + x[0] + '"><span>' + esc(x[1]) + '</span></label>').join('');
-  $('wl').hidden = false; $('mDone').hidden = true; $('mMsg').hidden = true;
-  $('modal').hidden = false; $('wlEmail').focus();
-  drawFeats();
-}
-function cerrar(){ $('modal').hidden = true; if (ultimoFoco && ultimoFoco.focus) ultimoFoco.focus(); }
-const proMsg = t => { $('proMsg').hidden = false; $('proMsg').textContent = t; };
-const mMsg = t => { $('mMsg').hidden = false; $('mMsg').textContent = t; };
-$('feats').addEventListener('click', e => { const b = e.target.closest('.feat'); if (b) abrir(b.dataset.f, 'panel'); });
-document.querySelectorAll('[data-nav]').forEach(a => a.addEventListener('click', e => {
-  const datos = { destino: a.dataset.nav, origen: 'app' };
-  if (!window.gtag || e.ctrlKey || e.metaKey || e.shiftKey || e.button) { track('nav_click', datos); return; }
-  e.preventDefault(); let done = false; const go = () => { if (!done) { done = true; location.href = a.href; } };
-  eventos.unshift('nav_click ' + JSON.stringify(datos));
-  window.gtag('event', 'nav_click', Object.assign({ transport_type:'beacon', event_callback: go }, datos)); setTimeout(go, 700);
-}));
-$('proTop').addEventListener('click', () => { track('pro_click', { origen:'encabezado' }); $('proPanel').scrollIntoView({ block:'center' }); const b = $('feats').querySelector('.feat'); if (b) b.focus({ preventScroll:true }); });
-$('mClose').addEventListener('click', () => { track('pro_modal_cerrado', { funcion: actual }); cerrar(); });
-$('mOk').addEventListener('click', cerrar);
-$('modal').addEventListener('click', e => { if (e.target === $('modal')) cerrar(); });
-document.addEventListener('keydown', e => { if (e.key === 'Escape' && !$('modal').hidden) cerrar(); });
-$('wl').addEventListener('submit', async e => {
-  e.preventDefault();
-  const email = $('wlEmail').value.trim();
-  if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { mMsg('Escribe un correo válido, por ejemplo nombre@correo.com.'); $('wlEmail').focus(); return; }
-  if (!$('wlOk').checked) { mMsg('Marca la casilla para autorizar que te escribamos.'); $('wlOk').focus(); return; }
-  const otras = [...$('mOtras').querySelectorAll('input:checked')].map(i => i.value);
-  track('lista_pro_intento', { funcion: actual });
-  try {
-    const res = await enviar({ email, oficio: $('wlOficio').value.trim(), funcion: actual, otras_funciones: otras.join(', '), cobra_como: S.eTipoP, tipo_de_cobro: S.clase, fecha: new Date().toISOString() });
-    if (res === 'prueba') { mMsg('Modo prueba: el formulario funciona, pero este correo todavía no se guarda. Falta conectar WAITLIST_ENDPOINT.'); return; }
-    track('lista_pro_registro', { funcion: actual, otras: otras.length });
-    reg = { email, funciones: [actual, ...otras] }; try { localStorage.setItem(KEY + '.wl', JSON.stringify(reg)); } catch (e2) {}
-    $('wl').hidden = true; $('mDone').hidden = false;
-    $('mDoneTxt').textContent = 'Listo. Te avisaremos primero cuando lancemos Pro y tendrás 50 % de descuento.';
-    drawFeats(); proMsg('Ya estás en la lista con tu 50 % de descuento.');
-  } catch (err) { mMsg('No pudimos guardar tu correo. Revisa tu conexión e inténtalo de nuevo.'); }
-});
-drawFeats(); if (reg) proMsg('Ya estás en la lista con tu 50 % de descuento. Toca otras funciones para decirnos qué más te sirve.');
-
-$('clase').innerHTML = Object.keys(TIPOS).map(k => '<option value="' + k + '">' + TIPOS[k].n + '</option>').join('');
-fill();
-if (llegada) { track('llegada_modelo', { tipo: llegada }); }
-if (/debug/.test(location.search + location.hash)) $('debug').hidden = false;
-track('page_view');
-</script>
+<script>document.addEventListener('click',function(e){var a=e.target.closest('a[data-lp]');if(!a||!window.gtag||e.ctrlKey||e.metaKey||e.shiftKey||e.button)return;
+var p={ubicacion:a.dataset.lp};if(a.dataset.tipo)p.tipo=a.dataset.tipo;e.preventDefault();var done=false,go=function(){if(!done){done=true;location.href=a.href;}};
+p.transport_type='beacon';p.event_callback=go;gtag('event','clic_empezar',p);setTimeout(go,700);});
+document.querySelectorAll('details').forEach(function(d){d.addEventListener('toggle',function(){if(d.open&&window.gtag)gtag('event','faq_abierta',{pregunta:d.querySelector('summary').textContent.slice(0,90)});});});</script>
+<script>(function(){var b=document.getElementById('temaBtn');if(!b)return;b.addEventListener('click',function(){var r=document.documentElement,cur=r.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'),n=cur==='dark'?'light':'dark';r.dataset.theme=n;try{localStorage.setItem('cl.tema',n)}catch(e){}var m=document.querySelector('meta[name=theme-color]');if(m)m.content=n==='dark'?'#0E1A20':'#087F5B';if(window.gtag)gtag('event','tema_cambiado',{tema:n,pagina:location.pathname});});})();</script>
 </body>
 </html>
