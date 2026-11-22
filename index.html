@@ -67,7 +67,7 @@ details p{margin:8px 0 0;color:var(--ink)}
 .end h2{margin:0}
 footer{border-top:1px solid var(--line);padding:16px 0 28px;color:var(--muted);font-size:.82rem;margin-top:30px}
 footer a{color:inherit}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--paper:#0E1A20;--surface:#15262F;--ink:#E7EEEA;--muted:#A3B3B9;--line:#25404B;--field:#5F7681;--accent:#3CCB98;--accent-hover:#62D9AE;--accent-ink:#052219;--teal:#2DD4BF;--pro:#C4B5FD;--pro-bg:#2B2150;--violet:#A78BFA;--stamp:#C4B5FD;--warn-bg:#3A2E10;--warn-ink:#FCD34D;--err:#FCA5A5;--err-bg:#3B1717;color-scheme:dark}}:root[data-theme="dark"]{--paper:#0E1A20;--surface:#15262F;--ink:#E7EEEA;--muted:#A3B3B9;--line:#25404B;--field:#5F7681;--accent:#3CCB98;--accent-hover:#62D9AE;--accent-ink:#052219;--teal:#2DD4BF;--pro:#C4B5FD;--pro-bg:#2B2150;--violet:#A78BFA;--stamp:#C4B5FD;--warn-bg:#3A2E10;--warn-ink:#FCD34D;--err:#FCA5A5;--err-bg:#3B1717;color-scheme:dark}.theme-t{display:inline-flex;align-items:center;justify-content:center;width:44px;min-height:44px;height:44px;padding:0;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;flex:none}.theme-t:hover{border-color:var(--accent)}.theme-t svg{width:20px;height:20px}.theme-t .sun{display:none}.topnav>.theme-t{flex:0 0 44px}@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .theme-t .sun{display:block}:root:not([data-theme="light"]) .theme-t .moon{display:none}}:root[data-theme="dark"] .theme-t .sun{display:block}:root[data-theme="dark"] .theme-t .moon{display:none}@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) .brand img{background:#F9FAF5;border-radius:10px;padding:3px}}:root[data-theme="dark"] .brand img{background:#F9FAF5;border-radius:10px;padding:3px}
+:root[data-theme="dark"]{--paper:#0E1A20;--surface:#15262F;--ink:#E7EEEA;--muted:#A3B3B9;--line:#25404B;--field:#5F7681;--accent:#3CCB98;--accent-hover:#62D9AE;--accent-ink:#052219;--teal:#2DD4BF;--pro:#C4B5FD;--pro-bg:#2B2150;--violet:#A78BFA;--stamp:#C4B5FD;--warn-bg:#3A2E10;--warn-ink:#FCD34D;--err:#FCA5A5;--err-bg:#3B1717;color-scheme:dark}.theme-t{display:inline-flex;align-items:center;justify-content:center;width:44px;min-height:44px;height:44px;padding:0;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;flex:none}.theme-t:hover{border-color:var(--accent)}.theme-t svg{width:20px;height:20px}.theme-t .sun{display:none}.topnav>.theme-t{flex:0 0 44px}:root[data-theme="dark"] .theme-t .sun{display:block}:root[data-theme="dark"] .theme-t .moon{display:none}:root[data-theme="dark"] .brand img{background:#F9FAF5;border-radius:10px;padding:3px}
 .top .topnav{align-items:center}
 .lnk{color:var(--ink);text-decoration:none;font-weight:500;font-size:.92rem;padding:8px 6px}
 .lnk:hover{color:var(--accent)}
@@ -126,6 +126,25 @@ section.blk>p.sub2{color:var(--muted);margin:0 0 22px;max-width:60ch;font-size:1
 .prolp ul{display:grid;gap:6px 20px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));margin:0;padding-left:20px;color:var(--muted)}
 .cta.pro{background:var(--pro-bg);color:var(--pro);justify-self:start}
 .cta.pro:hover{background:var(--pro-bg);outline:1px solid var(--violet,#8B5CF6)}
+[hidden]{display:none!important}
+.lmodal{position:fixed;inset:0;background:#0B151Acc;display:grid;place-items:center;padding:16px;z-index:20}
+.lbox{position:relative;background:var(--surface);color:var(--ink);border-radius:16px;padding:24px;width:min(480px,100%);max-height:calc(100% - 16px);overflow:auto;display:grid;gap:12px;box-shadow:0 24px 60px -20px #0008}
+.lbox .tag{justify-self:start;font-size:.78rem;font-weight:600;color:var(--pro);background:var(--pro-bg);border-radius:99px;padding:3px 10px}
+.lbox h3{font-family:var(--display);font-size:1.35rem;margin:0;padding-right:36px}
+.lbox .msub{margin:0;color:var(--muted)}
+.lx{position:absolute;top:12px;right:12px;width:40px;height:40px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--muted);cursor:pointer;font:inherit}
+#lpForm{display:grid;gap:12px}
+.fld{display:grid;gap:4px;font-size:.88rem;font-weight:500;color:var(--muted)}
+.fld input{font:inherit;font-size:1rem;color:var(--ink);background:var(--surface);border:1px solid var(--field);border-radius:8px;padding:10px 12px}
+.fld input:focus-visible,.chk input:focus-visible,.lx:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+#lpForm fieldset{border:1px solid var(--line);border-radius:10px;padding:10px 12px;margin:0}
+#lpForm legend{font-size:.88rem;color:var(--muted);padding:0 4px}
+.chks{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:4px 12px}
+.chk{display:flex;gap:8px;align-items:flex-start;font-size:.9rem;color:var(--ink);padding:3px 0}
+.chk input{width:18px;height:18px;margin-top:2px;flex:none;accent-color:var(--accent)}
+.chk.ok{font-size:.85rem;color:var(--muted)}.chk a{color:var(--accent)}
+.mmsg{margin:0;font-size:.88rem;color:var(--err,#B91C1C)}
+.done{margin:0 0 12px;font-weight:600;border-left:3px solid var(--accent);padding-left:10px}
 .final{text-align:center;display:grid;gap:12px;justify-items:center;padding:52px 0}
 .final h2{font-size:clamp(1.6rem,4.5vw,2.3rem);margin:0}
 .final p{margin:0;color:var(--muted)}
@@ -222,7 +241,8 @@ e.preventDefault();var done=false,go=function(){if(!done){done=true;location.hre
     <h2 id="pro-h">Cuenta Lista Pro</h2>
     <p style="margin:0;color:var(--muted)">Para quienes cobran a varios clientes cada mes. Inscríbete y tendrás 50 % de descuento cuando salga.</p>
     <ul><li>Tu logo, sin la marca de Cuenta Lista</li><li>Clientes e historial en la nube</li><li>Cuánto te deben y qué ya te pagaron</li><li>Recordatorios de cobro</li><li>Paquete de radicación en un solo PDF</li><li>Resumen anual para tu declaración de renta</li></ul>
-    <a class="cta pro" data-lp="pro" href="/crear?utm_source=landing&utm_medium=interno&utm_campaign=pro#pro">Quiero el 50 % de descuento</a>
+    <button type="button" class="cta pro" id="proBtn" style="border:0;cursor:pointer;font:inherit;font-weight:600">Quiero el 50 % de descuento</button>
+    <p class="sub" id="proYa" hidden style="margin:0">Ya estás en la lista con tu 50 % de descuento.</p>
   </div>
 </section>
 
@@ -237,13 +257,43 @@ e.preventDefault();var done=false,go=function(){if(!done){done=true;location.hre
   <a class="cta" data-lp="final" href="/crear?utm_source=landing&utm_medium=interno&utm_campaign=final">Empezar gratis</a>
 </section>
 </main>
+<div class="lmodal" id="lpModal" hidden data-clarity-mask="true"><div class="lbox" role="dialog" aria-modal="true" aria-labelledby="lpmT"><button type="button" class="lx" id="lpX" aria-label="Cerrar">✕</button><span class="tag">Cuenta Lista Pro</span><h3 id="lpmT">Reserva tu 50 % de descuento</h3><p class="msub">Registra tu correo: serás de los primeros en usar Pro cuando salga y tendrás 50 % de descuento.</p><form id="lpForm" novalidate><label class="fld">Tu correo<input type="email" id="lpEmail" autocomplete="email" placeholder="nombre@correo.com"></label><label class="fld">¿A qué te dedicas? (opcional)<input type="text" id="lpOficio"></label><fieldset><legend>¿Qué te gustaría usar? (opcional)</legend><div class="chks" id="lpF"><label class="chk"><input type="checkbox" value="marca"><span>Tu logo, sin la marca</span></label><label class="chk"><input type="checkbox" value="nube"><span>Clientes e historial en la nube</span></label><label class="chk"><input type="checkbox" value="estado_pagos"><span>Cuánto te deben</span></label><label class="chk"><input type="checkbox" value="recordatorios"><span>Recordatorios de cobro</span></label><label class="chk"><input type="checkbox" value="unir_pdf"><span>Paquete de radicación</span></label><label class="chk"><input type="checkbox" value="cotizaciones"><span>Cotizaciones</span></label><label class="chk"><input type="checkbox" value="plantillas"><span>Contratos y paz y salvo</span></label><label class="chk"><input type="checkbox" value="resumen_anual"><span>Resumen anual de lo cobrado</span></label></div></fieldset><label class="chk ok"><input type="checkbox" id="lpOk"><span>Acepto que me escriban a este correo sobre el lanzamiento de Cuenta Lista Pro y el tratamiento de mis datos según la <a href="/privacidad" target="_blank" rel="noopener">política de privacidad</a>.</span></label><button type="submit" class="cta" style="width:100%;border:0;cursor:pointer;font:inherit;font-weight:600">Reservar mi 50 % de descuento</button><p class="mmsg" id="lpMsg" role="status" hidden></p></form><div id="lpDone" hidden><p class="done">Listo. Te avisaremos primero cuando lancemos Pro y tendrás 50 % de descuento.</p><a class="cta" data-lp="pro_registrado" href="/crear?utm_source=landing&utm_medium=interno&utm_campaign=pro_registrado" style="width:100%">Hacer mi cuenta de cobro gratis</a></div></div></div>
 <footer><p style="margin:0 0 6px">Cuenta Lista genera un documento de cobro. No es una factura electrónica ni reemplaza la asesoría de un contador.</p>
 <p style="margin:0"><a href="/crear">Crear cuenta de cobro</a> · <a href="/modelos">Modelos</a> · <a href="/numeros-a-letras">Números a letras</a> · <a href="/privacidad">Privacidad</a> · <a href="/terminos">Términos</a></p></footer>
 </div>
+<script>(function(){
+var KEY='cuentalista.v1.wl',END='https://formspree.io/f/mrpqkyel',m=document.getElementById('lpModal'),last=null,reg=null;
+function $(i){return document.getElementById(i)}
+function ev(n,p){if(window.gtag)gtag('event',n,p||{});}
+try{reg=JSON.parse(localStorage.getItem(KEY)||'null');}catch(e){}
+if(reg&&reg.email)$('proYa').hidden=false;
+function open(){last=document.activeElement;m.hidden=false;$('lpMsg').hidden=true;
+ var ya=!!(reg&&reg.email);$('lpForm').hidden=ya;$('lpDone').hidden=!ya;if(!ya)$('lpEmail').focus();ev('pro_click',{origen:'landing'});}
+function close(){if(m.hidden)return;m.hidden=true;ev('pro_modal_cerrado',{funcion:'landing'});if(last&&last.focus)last.focus();}
+function msg(t){$('lpMsg').hidden=false;$('lpMsg').textContent=t;}
+$('proBtn').addEventListener('click',open);
+$('lpX').addEventListener('click',close);
+m.addEventListener('click',function(e){if(e.target===m)close();});
+document.addEventListener('keydown',function(e){if(e.key==='Escape')close();});
+$('lpForm').addEventListener('submit',function(e){e.preventDefault();
+ var email=$('lpEmail').value.trim();
+ if(!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){msg('Escribe un correo válido, por ejemplo nombre@correo.com.');$('lpEmail').focus();return;}
+ if(!$('lpOk').checked){msg('Marca la casilla para autorizar que te escribamos.');$('lpOk').focus();return;}
+ var fs=[].slice.call(document.querySelectorAll('#lpF input:checked')).map(function(i){return i.value;});
+ ev('lista_pro_intento',{funcion:'landing'});
+ var fd=new FormData();fd.append('email',email);fd.append('oficio',$('lpOficio').value.trim());fd.append('funcion','landing');fd.append('otras_funciones',fs.join(', '));fd.append('origen','landing');fd.append('fecha',new Date().toISOString());
+ fetch(END,{method:'POST',body:fd,headers:{Accept:'application/json'}}).then(function(r){if(!r.ok)throw 0;
+  ev('lista_pro_registro',{funcion:'landing',otras:fs.length});fs.forEach(function(f){ev('pro_funcion_click',{funcion:f,origen:'landing'});});
+  reg={email:email,funciones:fs};try{localStorage.setItem(KEY,JSON.stringify(reg));}catch(e){}
+  $('lpForm').hidden=true;$('lpDone').hidden=false;$('proYa').hidden=false;
+ }).catch(function(){msg('No pudimos guardar tu correo. Revisa tu conexión e inténtalo de nuevo.');});
+});
+if(location.hash==='#reservar')open();
+})();</script>
 <script>document.addEventListener('click',function(e){var a=e.target.closest('a[data-lp]');if(!a||!window.gtag||e.ctrlKey||e.metaKey||e.shiftKey||e.button)return;
 var p={ubicacion:a.dataset.lp};if(a.dataset.tipo)p.tipo=a.dataset.tipo;e.preventDefault();var done=false,go=function(){if(!done){done=true;location.href=a.href;}};
 p.transport_type='beacon';p.event_callback=go;gtag('event','clic_empezar',p);setTimeout(go,700);});
 document.querySelectorAll('details').forEach(function(d){d.addEventListener('toggle',function(){if(d.open&&window.gtag)gtag('event','faq_abierta',{pregunta:d.querySelector('summary').textContent.slice(0,90)});});});</script>
-<script>(function(){var b=document.getElementById('temaBtn');if(!b)return;b.addEventListener('click',function(){var r=document.documentElement,cur=r.dataset.theme||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'),n=cur==='dark'?'light':'dark';r.dataset.theme=n;try{localStorage.setItem('cl.tema',n)}catch(e){}var m=document.querySelector('meta[name=theme-color]');if(m)m.content=n==='dark'?'#0E1A20':'#087F5B';if(window.gtag)gtag('event','tema_cambiado',{tema:n,pagina:location.pathname});});})();</script>
+<script>(function(){var b=document.getElementById('temaBtn');if(!b)return;b.addEventListener('click',function(){var r=document.documentElement,cur=r.dataset.theme||'light',n=cur==='dark'?'light':'dark';r.dataset.theme=n;try{localStorage.setItem('cl.tema',n)}catch(e){}var m=document.querySelector('meta[name=theme-color]');if(m)m.content=n==='dark'?'#0E1A20':'#087F5B';if(window.gtag)gtag('event','tema_cambiado',{tema:n,pagina:location.pathname});});})();</script>
 </body>
 </html>
