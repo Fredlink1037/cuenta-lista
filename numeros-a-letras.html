@@ -2,6 +2,7 @@
 <html lang="es-CO">
 <head>
 <meta charset="utf-8">
+<script>try{var t=localStorage.getItem('cl.tema');if(t)document.documentElement.dataset.theme=t}catch(e){}</script>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Números a letras en pesos colombianos: conversor gratis</title>
 <meta name="description" content="Convierte cualquier valor a letras en pesos colombianos para cheques, cuentas de cobro, contratos y pagarés. Copia el resultado en un clic.">
@@ -11,30 +12,37 @@
 <meta property="og:url" content="https://cuentalista.vercel.app/numeros-a-letras">
 <meta property="og:type" content="article">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,800&family=IBM+Plex+Sans:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="icon" type="image/png" sizes="32x32" href="/img/favicon-32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/img/favicon-16.png">
+<link rel="apple-touch-icon" href="/img/apple-touch-icon.png">
+<meta name="theme-color" content="#087F5B">
+<meta property="og:image" content="https://cuentalista.vercel.app/img/og.png">
 <style>
-:root{--paper:#F2F5F0;--surface:#FFFFFF;--ink:#13201C;--muted:#586A63;--line:#D3DBD4;--accent:#0B6E5A;--accent-ink:#FFFFFF;--stamp:#B4472B;
---display:"Bricolage Grotesque","Trebuchet MS",sans-serif;--body:"IBM Plex Sans","Segoe UI",system-ui,sans-serif}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--paper:#0F1614;--surface:#18211E;--ink:#E8EEEA;--muted:#9BABA4;--line:#2C3A35;--accent:#4CC2A5;--accent-ink:#06231C;--stamp:#E99073;color-scheme:dark}}
-:root[data-theme="dark"]{--paper:#0F1614;--surface:#18211E;--ink:#E8EEEA;--muted:#9BABA4;--line:#2C3A35;--accent:#4CC2A5;--accent-ink:#06231C;--stamp:#E99073;color-scheme:dark}
+:root{--paper:#F9FAF5;--surface:#FFFFFF;--ink:#172B35;--muted:#52636B;--line:#E5EDE8;--field:#7E8F88;--accent:#087F5B;--accent-hover:#06694B;--accent-ink:#FFFFFF;--teal:#14B8A6;--pro:#6D28D9;--pro-bg:#F1EAFF;--stamp:#6D28D9;
+--display:"Poppins","Segoe UI",system-ui,sans-serif;--body:"Inter","Segoe UI",system-ui,sans-serif}
 *{box-sizing:border-box}
 body{margin:0;background:var(--paper);color:var(--ink);font:16px/1.6 var(--body)}
 .wrap{max-width:1040px;margin:0 auto;padding:0 16px}
-header.top{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:16px 0 6px}
-.brand{font-family:var(--display);font-weight:800;font-size:1.3rem;color:var(--ink);text-decoration:none;display:flex;gap:8px;align-items:center}
+header.top{border-bottom:1px solid var(--line);margin-bottom:8px;display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;padding:16px 0 6px}
+.brand{font-family:var(--display);font-weight:700;font-size:1.3rem;letter-spacing:-.01em;color:var(--ink);text-decoration:none;display:flex;gap:8px;align-items:center}
 .topnav{display:flex;flex-wrap:wrap;gap:8px}
 .navb{display:inline-flex;align-items:center;min-height:40px;padding:8px 12px;border:1px solid var(--line);border-radius:8px;background:var(--surface);color:var(--ink);font-size:.9rem;font-weight:600;text-decoration:none}
 .navb:hover{border-color:var(--accent)}
 .navb.main{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.navb.main:hover{background:var(--accent-hover)}
+.brand img{width:40px;height:auto}
+.brand b{color:var(--accent);font-weight:700}
 @media (max-width:560px){.topnav{width:100%}.topnav>*{flex:1 1 auto;justify-content:center}}
 .crumbs{font-size:.85rem;color:var(--muted);margin:10px 0 0}
 .crumbs a{color:var(--muted)}
 .hero{display:grid;gap:22px;grid-template-columns:minmax(0,1fr);align-items:start;padding:14px 0 26px}
 @media (min-width:880px){.hero{grid-template-columns:minmax(0,6fr) minmax(0,5fr)}}
-h1{font-family:var(--display);font-weight:800;font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.08;letter-spacing:-.02em;margin:6px 0 10px;text-wrap:balance}
-h2{font-family:var(--display);font-size:1.35rem;margin:34px 0 8px;text-wrap:balance}
+h1{font-family:var(--display);font-weight:700;font-size:clamp(1.8rem,5vw,2.6rem);line-height:1.08;letter-spacing:-.02em;margin:6px 0 10px;text-wrap:balance}
+h2{font-family:var(--display);font-weight:600;font-size:1.35rem;margin:34px 0 8px;text-wrap:balance}
 .lead{font-size:1.08rem;color:var(--muted);max-width:60ch;margin:0 0 16px}
-.cta{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 20px;border-radius:9px;background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none}
+.cta:hover{background:var(--accent-hover)}
+.cta{display:inline-flex;align-items:center;justify-content:center;min-height:48px;padding:12px 20px;border-radius:10px;background:var(--accent);color:var(--accent-ink);font-weight:600;text-decoration:none}
 .cta:focus-visible,a:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .sub{font-size:.85rem;color:var(--muted);margin:8px 0 0}
 .sheet{background:#fff;color:#1b1b1b;border:1px solid #d9d9d9;padding:22px;font-size:.86rem;line-height:1.5;box-shadow:0 8px 24px -16px #00000040;overflow-wrap:anywhere}
@@ -50,24 +58,25 @@ details{border-top:1px solid var(--line);padding:12px 0}
 summary{cursor:pointer;font-weight:600}
 details p{margin:8px 0 0;color:var(--ink)}
 .rel{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));padding:0;list-style:none}
+.rel a:hover{border-color:var(--accent)}
 .rel a{display:block;background:var(--surface);border:1px solid var(--line);border-radius:9px;padding:12px 14px;color:var(--ink);text-decoration:none;font-weight:600}
 .rel a span{display:block;font-weight:400;font-size:.85rem;color:var(--muted)}
 .end{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:22px;margin:36px 0;display:grid;gap:10px;justify-items:start}
 .end h2{margin:0}
 footer{border-top:1px solid var(--line);padding:16px 0 28px;color:var(--muted);font-size:.82rem;margin-top:30px}
 footer a{color:inherit}
-</style>
+:root[data-theme="dark"]{--paper:#0E1A20;--surface:#15262F;--ink:#E7EEEA;--muted:#A3B3B9;--line:#25404B;--field:#5F7681;--accent:#3CCB98;--accent-hover:#62D9AE;--accent-ink:#052219;--teal:#2DD4BF;--pro:#C4B5FD;--pro-bg:#2B2150;--violet:#A78BFA;--stamp:#C4B5FD;--warn-bg:#3A2E10;--warn-ink:#FCD34D;--err:#FCA5A5;--err-bg:#3B1717;color-scheme:dark}.theme-t{display:inline-flex;align-items:center;justify-content:center;width:44px;min-height:44px;height:44px;padding:0;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer;flex:none}.theme-t:hover{border-color:var(--accent)}.theme-t svg{width:20px;height:20px}.theme-t .sun{display:none}.topnav>.theme-t{flex:0 0 44px}:root[data-theme="dark"] .theme-t .sun{display:block}:root[data-theme="dark"] .theme-t .moon{display:none}:root[data-theme="dark"] .brand img{background:#F9FAF5;border-radius:10px;padding:3px}</style>
 <script type="application/ld+json">{"@context": "https://schema.org", "@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "¿Qué pasa si el valor en números y el valor en letras no coinciden?", "acceptedAnswer": {"@type": "Answer", "text": "En los títulos valores, el artículo 623 del Código de Comercio dice que prevalece la suma escrita en palabras. Por eso conviene revisar bien el valor en letras."}}, {"@type": "Question", "name": "¿Se escribe «un millón de pesos» o «un millón pesos»?", "acceptedAnswer": {"@type": "Answer", "text": "Cuando la cifra termina en millones exactos se dice «de pesos»: un millón de pesos, dos millones de pesos. Si hay más cifras después, no: un millón quinientos mil pesos."}}]}</script>
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-6Z1HR06RKT"></script>
-<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag('js',new Date());gtag('config','G-6Z1HR06RKT');
-(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,'clarity','script','zfn6t5xgi0');
+<script>if(location.hostname==='cuentalista.vercel.app'){(function(){var s=document.createElement('script');s.async=1;s.src='https://www.googletagmanager.com/gtag/js?id=G-6Z1HR06RKT';document.head.appendChild(s)})();
+window.dataLayer=window.dataLayer||[];window.gtag=function(){dataLayer.push(arguments)};gtag('js',new Date());gtag('config','G-6Z1HR06RKT');
+(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src='https://www.clarity.ms/tag/'+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y)})(window,document,'clarity','script','zfn6t5xgi0');}
 document.addEventListener('click',function(e){var a=e.target.closest('a[data-cta],a[data-nav]');if(!a||!window.gtag||e.ctrlKey||e.metaKey||e.shiftKey||e.button)return;
 var name=a.dataset.cta?'clic_crear_desde_modelo':'nav_click',p=a.dataset.cta?{tipo:a.dataset.cta,pagina:location.pathname}:{destino:a.dataset.nav,origen:location.pathname};
 e.preventDefault();var done=false,go=function(){if(!done){done=true;location.href=a.href;}};p.transport_type='beacon';p.event_callback=go;gtag('event',name,p);setTimeout(go,700);});</script>
 </head>
 <body>
 <div class="wrap">
-<header class="top"><a class="brand" href="/"><svg width="26" height="26" viewBox="0 0 30 30" aria-hidden="true"><rect x="4" y="2" width="22" height="26" rx="3" fill="none" stroke="currentColor" stroke-width="2.2"/><path d="M9 16l4 4 8-9" fill="none" stroke="var(--accent)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg> Cuenta Lista</a><nav class="topnav"><a class="navb" href="/modelos" data-nav="modelos">Modelos de cuenta de cobro</a><a class="navb" href="/numeros-a-letras" data-nav="numeros_a_letras">Números a letras</a><a class="navb main" href="/?utm_source=nav&utm_medium=interno" data-nav="crear">Crear cuenta gratis</a></nav></header>
+<header class="top"><a class="brand" href="/" aria-label="Cuenta Lista, inicio"><img src="/img/isotipo.png" width="40" height="34" alt=""><span>Cuenta <b>Lista</b></span></a><nav class="topnav"><a class="navb" href="/modelos" data-nav="modelos">Modelos de cuenta de cobro</a><a class="navb" href="/numeros-a-letras" data-nav="numeros_a_letras">Números a letras</a><a class="navb main" href="/crear?utm_source=nav&utm_medium=interno" data-nav="crear">Empezar gratis</a><button type="button" class="theme-t" id="temaBtn" aria-label="Cambiar entre modo claro y oscuro" title="Modo claro / oscuro"><svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg><svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg></button></nav></header>
 
 <main>
 <section style="padding:14px 0 6px;max-width:70ch">
@@ -81,7 +90,7 @@ e.preventDefault();var done=false,go=function(){if(!done){done=true;location.hre
    <option value="mcte">MAYÚSCULAS con M/CTE (cuentas de cobro, contratos)</option><option value="may">MAYÚSCULAS (cheques)</option><option value="min">minúsculas</option></select></div>
   <p id="out" aria-live="polite" style="font-size:1.15rem;font-weight:600;margin:0;min-height:2.6em"></p>
   <div style="display:flex;gap:8px;flex-wrap:wrap"><button id="copy" type="button" class="cta" style="border:0;cursor:pointer;font:inherit;font-weight:600">Copiar</button>
-  <a class="cta" data-cta="servicios" href="/?tipo=servicios&utm_source=conversor&utm_medium=seo&utm_campaign=numeros-a-letras" style="background:transparent;color:var(--accent);border:1px solid var(--accent)">Hacer una cuenta de cobro con este valor</a></div>
+  <a class="cta" data-cta="servicios" href="/crear?tipo=servicios&utm_source=conversor&utm_medium=seo&utm_campaign=numeros-a-letras" style="background:transparent;color:var(--accent);border:1px solid var(--accent)">Hacer una cuenta de cobro con este valor</a></div>
   <p id="msg" class="sub" role="status"></p>
 </div>
 <h2>Reglas para escribir valores en letras</h2>
@@ -115,7 +124,8 @@ document.getElementById('copy').addEventListener('click',async()=>{try{await nav
 run();
 </script>
 <footer><p style="margin:0 0 6px">Cuenta Lista genera un documento de cobro. No es una factura electrónica ni reemplaza la asesoría de un contador.</p>
-<p style="margin:0"><a href="/">Crear cuenta de cobro</a> · <a href="/modelos">Modelos</a> · <a href="/numeros-a-letras">Números a letras</a> · <a href="/privacidad">Privacidad</a> · <a href="/terminos">Términos</a></p></footer>
+<p style="margin:0"><a href="/crear">Crear cuenta de cobro</a> · <a href="/modelos">Modelos</a> · <a href="/numeros-a-letras">Números a letras</a> · <a href="/privacidad">Privacidad</a> · <a href="/terminos">Términos</a></p></footer>
 </div>
+<script>(function(){var b=document.getElementById('temaBtn');if(!b)return;b.addEventListener('click',function(){var r=document.documentElement,cur=r.dataset.theme||'light',n=cur==='dark'?'light':'dark';r.dataset.theme=n;try{localStorage.setItem('cl.tema',n)}catch(e){}var m=document.querySelector('meta[name=theme-color]');if(m)m.content=n==='dark'?'#0E1A20':'#087F5B';if(window.gtag)gtag('event','tema_cambiado',{tema:n,pagina:location.pathname});});})();</script>
 </body>
 </html>
