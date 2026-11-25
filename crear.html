@@ -103,6 +103,20 @@ fieldset.mini legend{font-family:var(--body);font-size:.85rem;font-weight:500;co
 
 .offer{margin:0;font-weight:600;border-left:3px solid var(--stamp);padding-left:10px}
 .check{display:flex;gap:10px;align-items:flex-start;font-size:.92rem;color:var(--ink);font-weight:400}
+.seg{display:inline-flex;border:1px solid var(--field);border-radius:8px;overflow:hidden;flex:none;background:var(--surface)}
+.seg label{display:block;font-size:.9rem;color:var(--ink);font-weight:500;cursor:pointer;position:relative;gap:0}
+.seg label+label{border-left:1px solid var(--field)}
+.seg input{position:absolute;opacity:0;width:1px;height:1px}
+.seg span{display:block;padding:9px 14px;min-width:54px;text-align:center}
+.seg input:checked+span{background:var(--accent);color:var(--accent-ink)}
+.seg input:focus-visible+span{outline:2px solid var(--accent);outline-offset:-3px}
+.q{display:flex;gap:10px 14px;align-items:center;justify-content:space-between;flex-wrap:wrap}
+.q>div:first-child{display:grid;gap:2px;flex:1 1 220px;font-size:.92rem;color:var(--ink)}
+.q small{font-size:.8rem;color:var(--muted)}
+#retBox,#entBox{display:grid;gap:12px}
+.subt{font-family:var(--display);font-weight:600;font-size:.95rem;color:var(--ink);margin:4px 0 0}
+.sheet .dj{margin-top:14px;font-size:.88rem}
+.sheet .dj h3{font-family:var(--body);font-size:.95rem;text-align:center;letter-spacing:.06em;margin:0 0 8px}
 .check input{margin-top:4px;width:18px;height:18px;flex:none;accent-color:var(--accent)}
 .hint{font-size:.82rem;color:var(--muted);margin:0}
 button,.btn{font:inherit;font-weight:600;border-radius:8px;border:1px solid var(--line);background:var(--surface);color:var(--ink);padding:10px 14px;cursor:pointer;text-decoration:none;display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:44px}
@@ -211,6 +225,7 @@ footer{border-top:1px solid var(--line);padding:16px 0 28px;color:var(--muted);f
           <label>Fecha<input type="date" id="fecha"></label>
         </div>
         <div id="extra"></div>
+        <div id="entBox" hidden></div>
         <div id="items" style="display:grid;gap:8px"></div>
         <div><button type="button" id="add">Agregar otro concepto</button></div>
         <label>Nota opcional (periodo, contrato, plazo de pago)<textarea id="nota"></textarea></label>
@@ -234,9 +249,9 @@ footer{border-top:1px solid var(--line);padding:16px 0 28px;color:var(--muted);f
         <div id="declNat" style="display:grid;gap:10px">
           <label class="check"><input type="checkbox" id="dIva"><span>No soy responsable de IVA.</span></label>
           <label class="check"><input type="checkbox" id="dSs"><span>Estoy al día con mis aportes a seguridad social y adjunto la planilla.</span></label>
-          <label class="check"><input type="checkbox" id="d383"><span>Declaración del artículo 383 del Estatuto Tributario: no he contratado dos o más trabajadores para mi actividad.</span></label>
           <p class="hint">Marca solo las que apliquen a tu caso. Si tienes dudas, confírmalo con tu contador o con quien te paga.</p>
         </div>
+        <div id="retBox"></div>
       </fieldset>
 
       <fieldset>
@@ -328,28 +343,33 @@ const TIPOS = {
   productos: { n:'Venta de productos', cant:true, unidad:'Cantidad', ej:'Producto', campos:[['entrega','Fecha o lugar de entrega','Entrega']], adj:['Remisión firmada','RUT'] },
   horas: { n:'Clases o trabajo por horas', cant:true, unidad:'Horas', ej:'Hora de clase', campos:[['periodo','Periodo cobrado','Periodo']], adj:['Registro de horas','RUT','Planilla de seguridad social pagada'] },
   comision: { n:'Comisiones', ej:'Comisión por ventas', campos:[['base','Ventas sobre las que se calcula','Ventas base'],['pct','Porcentaje pactado','Porcentaje pactado'],['periodo','Periodo cobrado','Periodo']], adj:['Relación de ventas','RUT'] },
+  entidad: { n:'Para entidades / contratos, con declaración juramentada · Nuevo', ent:true, ej:'Honorarios del periodo', campos:[['contrato','Contrato N.º','Contrato N.º'],['objeto','Objeto del contrato','Objeto del contrato'],['periodo','Periodo cobrado (ej. 1 al 30 de noviembre de 2026)','Periodo'],['pago','Pago N.º (ej. 3 de 6, opcional)','Pago N.º']], adj:['Planilla PILA del periodo','RUT actualizado','Informe de actividades o evidencias','Certificación bancaria'] },
   anticipo: { n:'Anticipo o saldo', ej:'Anticipo del 50 %', campos:[['contrato','Contrato o cotización N.º','Contrato o cotización N.º'],['valorTotal','Valor total acordado','Valor total acordado'],['parte','Qué parte cobras (ej. anticipo del 50 %)','Corresponde a']], adj:['Cotización aprobada','RUT'] }
 };
 
 const $ = id => document.getElementById(id);
 const KEY = 'cuentalista.v1';
 const TEXT = ['eTipoP','cTipoP','fact','eRep','eNombre','eDoc','eCiudad','eTel','eEmail','cNombre','cDoc','clase','num','fecha','nota','banco','tipo','cuenta'];
-const CHECK = ['dIva','dSs','d383'];
+const CHECK = ['dIva','dSs'];
 const DECL = {
   dIva: 'No soy responsable del impuesto sobre las ventas (IVA).',
-  dSs: 'Me encuentro al día en el pago de mis aportes a seguridad social y adjunto la planilla correspondiente.',
-  d383: 'Para efectos del parágrafo 2 del artículo 383 del Estatuto Tributario, declaro que no he contratado o vinculado dos (2) o más trabajadores asociados a mi actividad.'
+  dSs: 'Me encuentro al día en el pago de mis aportes a seguridad social y adjunto la planilla correspondiente.'
 };
+/* Declaración juramentada (tipo entidad) y nota de retención (todos los tipos). */
+const DJ0 = { on:true, residente:'si', declarante:'', iva:'no', aportes:'', planilla:'', perPlanilla:'', ibc:0, dependientes:'no', vivienda:'no', viviendaV:0, prepagada:'no', prepagadaV:0, voluntarios:'no', voluntariosV:0, mayor:'no', pct:'' };
+const RN0 = { on:false, ret:'', concepto:'honorarios', parcial:false, totalContrato:0 };
+const ENT0 = { tipoDoc:'C.C.', lugarExp:'', dir:'', ciiu:'', entDir:'', entCiudad:'' };
 const hoy = () => { const d = new Date(); return d.getFullYear() + '-' + String(d.getMonth()+1).padStart(2,'0') + '-' + String(d.getDate()).padStart(2,'0'); };
 const EJEMPLO = { ejemplo:true, eTipoP:'natural', cTipoP:'empresa', fact:'', eRep:'', eNombre:'Mariana Torres Ruiz', eDoc:'1.000.000.000', eCiudad:'Bogotá D.C.', eTel:'300 000 0000', eEmail:'mariana@ejemplo.co',
   cNombre:'Comercializadora Ejemplo S.A.S.', cDoc:'900.000.000-0', clase:'servicios', num:'011', fecha:hoy(), nota:'',
   x:{ periodo:'Noviembre de 2026' }, adj:{ 'Planilla de seguridad social pagada':true, 'RUT':true },
-  banco:'Bancolombia', tipo:'Ahorros', cuenta:'000-000000-00', dIva:true, dSs:true, d383:false,
+  banco:'Bancolombia', tipo:'Ahorros', cuenta:'000-000000-00', dIva:true, dSs:true,
   items:[{d:'Honorarios por gestión de redes sociales', q:1, v:2500000}] };
-const VACIO = { ejemplo:false, eTipoP:'natural', cTipoP:'empresa', fact:'', eRep:'', eNombre:'',eDoc:'',eCiudad:'',eTel:'',eEmail:'',cNombre:'',cDoc:'',clase:'servicios',num:'001',fecha:hoy(),nota:'',x:{},adj:{},banco:'',tipo:'Ahorros',cuenta:'',dIva:false,dSs:false,d383:false,items:[{d:'',q:1,v:0}] };
+const VACIO = { ejemplo:false, eTipoP:'natural', cTipoP:'empresa', fact:'', eRep:'', eNombre:'',eDoc:'',eCiudad:'',eTel:'',eEmail:'',cNombre:'',cDoc:'',clase:'servicios',num:'001',fecha:hoy(),nota:'',x:{},adj:{},banco:'',tipo:'Ahorros',cuenta:'',dIva:false,dSs:false,items:[{d:'',q:1,v:0}] };
 
 function normal(s){ if (!s) return s; if (!TIPOS[s.clase]) s.clase = 'servicios';
-  s.eTipoP = s.eTipoP === 'empresa' ? 'empresa' : 'natural'; s.cTipoP = s.cTipoP === 'natural' ? 'natural' : 'empresa'; s.fact = s.fact || ''; s.eRep = s.eRep || ''; s.x = s.x || {}; s.adj = s.adj || {};
+  s.eTipoP = s.eTipoP === 'empresa' ? 'empresa' : 'natural'; s.cTipoP = s.cTipoP === 'natural' ? 'natural' : 'empresa'; s.fact = s.fact || ''; s.eRep = s.eRep || ''; s.x = s.x || {}; s.adj = s.adj || {}; delete s.d383;
+  s.dj = Object.assign({}, DJ0, s.dj || {}); s.rn = Object.assign({}, RN0, s.rn || {}); s.ent = Object.assign({}, ENT0, s.ent || {});
   s.items = (s.items && s.items.length ? s.items : [{d:'',v:0}]).map(i => ({ d:i.d||'', q:i.q===undefined?1:i.q, v:i.v||0 })); return s; }
 let S = normal(load()) || JSON.parse(JSON.stringify(EJEMPLO));
 /* Llegada desde una página de modelo: ?tipo=arriendo abre ese tipo con su ejemplo. */
@@ -361,6 +381,10 @@ const EJ_TIPO = {
   productos: { items:[{d:'Tortas de cumpleaños', q:3, v:85000},{d:'Caja de cupcakes x12', q:2, v:60000}], x:{ entrega:'20 de noviembre de 2026, en la oficina del cliente' } },
   horas: { items:[{d:'Hora de clase de inglés', q:12, v:50000}], x:{ periodo:'Noviembre de 2026' } },
   comision: { items:[{d:'Comisión por ventas del mes', q:1, v:960000}], x:{ base:'$ 12.000.000', pct:'8 %', periodo:'Noviembre de 2026' } },
+  entidad: { items:[{d:'Honorarios profesionales del periodo', q:1, v:3800000}], x:{ contrato:'045-2026', objeto:'Prestación de servicios profesionales para el acompañamiento psicosocial del programa', periodo:'1 al 30 de noviembre de 2026', pago:'3 de 6' },
+    cNombre:'Fundación Ejemplo', cDoc:'900.123.456-7', ent:{ tipoDoc:'C.C.', lugarExp:'Santa Marta', dir:'Calle 22 # 4-15, Santa Marta', ciiu:'8890', entDir:'Carrera 5 # 20-30', entCiudad:'Santa Marta' },
+    rn:{ on:true, ret:'383', concepto:'honorarios', parcial:false, totalContrato:0 },
+    dj:{ declarante:'no', aportes:'si', planilla:'9400012345', perPlanilla:'Octubre de 2026', ibc:1750905 }, adj:{ 'Planilla PILA del periodo':true, 'RUT actualizado':true, 'Informe de actividades o evidencias':true } },
   anticipo: { items:[{d:'Anticipo del 50 % por diseño de página web', q:1, v:1250000}], x:{ contrato:'Cotización 045', valorTotal:'$ 2.500.000', parte:'Anticipo del 50 %' } }
 };
 let llegada = null;
@@ -368,7 +392,9 @@ try {
   const qp = new URLSearchParams(location.search), qt = qp.get('tipo'), qq = qp.get('quien');
   if (qt && TIPOS[qt]) {
     llegada = qt; S.clase = qt;
-    if (S.ejemplo) { S.items = JSON.parse(JSON.stringify(EJ_TIPO[qt].items)); S.x = Object.assign({}, EJ_TIPO[qt].x); S.adj = {}; }
+    if (S.ejemplo) { const E = EJ_TIPO[qt]; S.items = JSON.parse(JSON.stringify(E.items)); S.x = Object.assign({}, E.x); S.adj = Object.assign({}, E.adj || {});
+      if (E.cNombre) { S.cNombre = E.cNombre; S.cDoc = E.cDoc; }
+      if (E.ent) S.ent = Object.assign({}, ENT0, E.ent); if (E.rn) S.rn = Object.assign({}, RN0, E.rn); if (E.dj) S.dj = Object.assign({}, DJ0, E.dj); }
   }
   if (qq === 'empresa' || qq === 'natural') S.eTipoP = qq;
 } catch (e) {}
@@ -396,23 +422,87 @@ const esc = s => String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':
 const sub1 = i => (TIPOS[S.clase].cant ? (i.q || 0) : 1) * (i.v || 0);
 const total = () => S.items.reduce((a,i)=>a+sub1(i),0);
 
+/* ===== Entidades: UVT, topes y declaración juramentada =====
+   Cada enero: agrega la UVT y el salario mínimo del año. Los topes se recalculan solos. */
+const UVT = { 2025: 49799, 2026: 52374 };
+const SMMLV_A = { 2025: 1423500, 2026: 1750905 };
+const ultimo = (T, a) => { const ks = Object.keys(T).map(Number).sort((x, y) => x - y); const k = ks.filter(x => x <= a).pop(); return T[k === undefined ? ks[0] : k]; };
+const anioDe = () => Number((S.fecha || hoy()).slice(0, 4)) || new Date().getFullYear();
+const topeRenta = () => 1400 * ultimo(UVT, anioDe() - 1);
+const topeIva = () => 3500 * ultimo(UVT, anioDe());
+const smmlvA = () => ultimo(SMMLV_A, anioDe());
+const ibcMin = () => { const m = smmlvA(); return Math.max(m, Math.min(25 * m, Math.round(total() * 0.4))); };
+const mesAnterior = () => { const d = new Date((S.fecha || hoy()) + 'T12:00:00'); d.setDate(1); d.setMonth(d.getMonth() - 1); const n = MES[d.getMonth()]; return n.charAt(0).toUpperCase() + n.slice(1) + ' de ' + d.getFullYear(); };
+const fmtN = n => n ? new Intl.NumberFormat('es-CO').format(n) : '';
+const esEnt = () => !!TIPOS[S.clase].ent && S.eTipoP !== 'empresa';
+const djOn = () => esEnt() && S.dj.on;
+const rnOn = () => S.eTipoP !== 'empresa' && (djOn() || (!TIPOS[S.clase].ent && S.rn.on));
+function textoRet(r){
+  if (r.ret === '392') return [{ t:'SÍ', b:true }, { t:' imputaré costos y gastos asociados a los ingresos de este contrato en mi declaración de renta, por lo que solicito que se aplique la retención por ' + (r.concepto === 'servicios' ? 'servicios' : 'honorarios') + ' prevista en el artículo 392 del Estatuto Tributario.' }];
+  if (r.ret === '383') return [{ t:'NO', b:true }, { t:' imputaré costos y gastos asociados a los ingresos de este contrato en mi declaración de renta, por lo que solicito que se aplique la tabla de retención del artículo 383 del Estatuto Tributario, conforme al Decreto 2231 de 2023.' }];
+  if (r.ret === 'rst') return [{ t:'Soy contribuyente del Régimen Simple de Tributación, responsabilidad 47 en el RUT, por lo que no estoy sujeto(a) a retención en la fuente a título de renta, de conformidad con el artículo 911 del Estatuto Tributario. Adjunto el certificado del RUT.' }];
+  return [{ t:'[elige el tratamiento de retención]', ph:true }];
+}
+function obsParcial(r){
+  if (!r.parcial || !(r.totalContrato > total())) return '';
+  return 'Esta cuenta de cobro corresponde a un pago parcial de ' + cop(total()) + ' del contrato por ' + cop(r.totalContrato) + '. Solicito respetuosamente que, si es procedente, la retención en la fuente correspondiente se practique sobre el saldo pendiente de pago.';
+}
+const SN = v => v === 'si' ? { t:'SÍ', b:true } : v === 'no' ? { t:'NO', b:true } : { t:'[SÍ/NO]', b:true, ph:true };
+function declaracion(){
+  const d = S.dj, r = S.rn, P = [], ent = S.cNombre || 'la entidad';
+  P.push([{ t:'Yo, ' + (S.eNombre || '[tu nombre]') + ', identificado(a) con ' + S.ent.tipoDoc + ' No. ' + (S.eDoc || '[documento]') + ', en mi calidad de contratista del contrato No. ' + ((S.x.contrato || '').trim() || '[contrato]') + ' suscrito con ' + ent + ', declaro bajo la gravedad de juramento, que se entiende prestado con la firma de este documento, lo siguiente:' }]);
+  let n = 0; const pt = (tit, segs) => P.push([{ t:(++n) + '. ' + tit + ' ', b:true }, ...segs]);
+  pt('Residencia fiscal.', [SN(d.residente), { t:' soy residente fiscal en Colombia, de conformidad con el artículo 10 del Estatuto Tributario.' }]);
+  pt('Retención en la fuente.', textoRet(r));
+  const op = obsParcial(r); if (op) P.push([{ t:op }]);
+  pt('Declaración de renta.', [SN(d.declarante), { t:' estoy obligado(a) a presentar declaración de renta por el año gravable ' + (anioDe() - 1) + ' (ingresos iguales o superiores a 1.400 UVT, equivalentes a ' + cop(topeRenta()) + ').' }]);
+  pt('Impuesto sobre las ventas.', [SN(d.iva), { t:' soy responsable del impuesto sobre las ventas (IVA).' }]);
+  const ss = ' he realizado los aportes al Sistema de Seguridad Social Integral, mes vencido, de conformidad con el Decreto 1273 de 2018';
+  if (d.aportes === 'si') pt('Seguridad social.', [SN('si'), { t: ss + ', como consta en la planilla PILA No. ' + (d.planilla || '[planilla]') + ' del periodo ' + (d.perPlanilla || '[periodo]') + (d.ibc ? ', sobre un ingreso base de cotización de ' + cop(d.ibc) : '') + '.' }]);
+  else pt('Seguridad social.', [SN(d.aportes), { t: ss + '.' }]);
+  if (r.ret === '383') {
+    const L = [];
+    if (d.dependientes === 'si') L.push('dependientes económicos');
+    if (d.vivienda === 'si') L.push('intereses por préstamo de vivienda' + (d.viviendaV ? ' por ' + cop(d.viviendaV) : ''));
+    if (d.prepagada === 'si') L.push('pagos de medicina prepagada' + (d.prepagadaV ? ' por ' + cop(d.prepagadaV) : ''));
+    if (d.voluntarios === 'si') L.push('aportes voluntarios a pensión o a cuentas AFC' + (d.voluntariosV ? ' por ' + cop(d.voluntariosV) : ''));
+    if (L.length) pt('Deducciones.', [{ t:'Solicito que en la depuración de la base de retención se tengan en cuenta: ' + L.join('; ') + ', para lo cual adjunto los soportes correspondientes.' }]);
+    if (d.mayor === 'si') pt('Retención voluntaria.', [{ t:'De acuerdo con el parágrafo 3 del artículo 383 del Estatuto Tributario, solicito que se me practique una retención en la fuente del ' + (d.pct || '[porcentaje]') + ' %.' }]);
+  }
+  P.push([{ t:'Me comprometo a informar por escrito a ' + ent + ' cualquier cambio en la información aquí declarada.' }]);
+  return P;
+}
+const segTxt = p => p.map(x => x.t).join('');
+const segHTML = p => p.map(x => { const t = esc(x.t); return x.ph ? '<span class="ph">' + t + '</span>' : (x.b ? '<strong>' + t + '</strong>' : t); }).join('');
+
 function modelo(){
-  const t = total(), T = TIPOS[S.clase], emp = S.eTipoP === 'empresa';
+  const t = total(), T = TIPOS[S.clase], emp = S.eTipoP === 'empresa', ent = !!T.ent && !emp;
+  let decl = [];
+  if (!emp) {
+    if (T.ent) { if (S.dj.on) decl = declaracion(); }
+    else {
+      decl = CHECK.filter(k => S[k]).map(k => [{ t:DECL[k] }]);
+      if (S.rn.on && S.rn.ret) { decl.push([{ t:'Nota de retención. ', b:true }, ...textoRet(S.rn)]); const op = obsParcial(S.rn); if (op) decl.push([{ t:op }]); }
+    }
+  }
   const extras = T.campos.filter(c => (S.x[c[0]] || '').trim()).map(c => [c[2], S.x[c[0]].trim()]);
   if (emp && S.fact.trim()) extras.unshift(['Factura electrónica de venta N.º', S.fact.trim()]);
   return {
-    emp, emLbl: emp ? 'NIT' : 'C.C.', clLbl: S.cTipoP === 'empresa' ? 'NIT' : 'C.C.',
+    emp, ent, emLbl: emp ? 'NIT' : (ent ? S.ent.tipoDoc : 'C.C.'), clLbl: S.cTipoP === 'empresa' ? 'NIT' : 'C.C.',
     firma: emp && S.eRep.trim() ? S.eRep.trim() : S.eNombre, firmaRol: emp ? (S.eRep.trim() ? 'Representante legal de ' + S.eNombre : '') : '',
     cant: !!T.cant,
     extras,
     anexos: T.adj.filter(a => S.adj[a]),
     lugar: [S.eCiudad, fechaLarga(S.fecha)].filter(Boolean).join(', '),
     titulo: 'CUENTA DE COBRO N.º ' + (S.num||'001'),
-    cliente: S.cNombre, clienteDoc: S.cDoc, emisor: S.eNombre, emisorDoc: S.eDoc,
+    cliente: S.cNombre, clienteDoc: S.cDoc, emisor: S.eNombre, emisorDoc: S.eDoc + (ent && S.eDoc && S.ent.lugarExp.trim() ? ' de ' + S.ent.lugarExp.trim() : ''),
+    clienteMas: ent ? [[S.ent.entDir, S.ent.entCiudad].map(v => (v || '').trim()).filter(Boolean).join(', ')].filter(Boolean) : [],
+    emisorMas: ent ? [(S.ent.dir || '').trim(), (S.ent.ciiu || '').trim() ? 'Actividad económica (CIIU): ' + S.ent.ciiu.trim() : ''].filter(Boolean) : [],
+    djTitle: ent && S.dj.on ? 'DECLARACIÓN JURAMENTADA' : '',
     total: t, suma: cop(t) + ' (' + letras(t).toUpperCase() + ' M/CTE)',
     items: S.items.filter(i => i.d || i.v).map(i => ({ d:i.d, q:i.q || 0, v:i.v, t:sub1(i) })),
     pago: S.banco || S.cuenta ? [S.banco, S.cuenta ? 'cuenta de ' + S.tipo.toLowerCase() + ' N.º ' + S.cuenta : '', S.eNombre ? 'a nombre de ' + S.eNombre : ''].filter(Boolean).join(', ').replace(/\.?$/, '.') : '',
-    decl: emp ? [] : CHECK.filter(k => S[k]).map(k => DECL[k]), nota: S.nota,
+    decl, nota: S.nota,
     contacto: [S.eTel, S.eEmail].filter(Boolean).join(' · '),
     firmaImg: S.firmaImg || '', firmaR: S.firmaR || 3
   };
@@ -421,9 +511,9 @@ function modelo(){
 function render(){
   const m = modelo(), ph = t => '<span class="ph">[' + t + ']</span>';
   let h = '<p class="r">' + (m.lugar ? esc(m.lugar) : ph('ciudad y fecha')) + '</p><h2>' + esc(m.titulo) + '</h2>';
-  h += '<p class="c big">' + (m.cliente ? esc(m.cliente) : ph('a quién le cobras')) + '</p>' + (m.clienteDoc ? '<p class="c">' + m.clLbl + ' ' + esc(m.clienteDoc) + '</p>' : '');
+  h += '<p class="c big">' + (m.cliente ? esc(m.cliente) : ph('a quién le cobras')) + '</p>' + (m.clienteDoc ? '<p class="c">' + m.clLbl + ' ' + esc(m.clienteDoc) + '</p>' : '') + m.clienteMas.map(l => '<p class="c">' + esc(l) + '</p>').join('');
   h += '<p class="c" style="margin:14px 0 10px;letter-spacing:.08em">DEBE A</p>';
-  h += '<p class="c big">' + (m.emisor ? esc(m.emisor) : ph('tu nombre')) + '</p>' + (m.emisorDoc ? '<p class="c">' + m.emLbl + ' ' + esc(m.emisorDoc) + '</p>' : '');
+  h += '<p class="c big">' + (m.emisor ? esc(m.emisor) : ph('tu nombre')) + '</p>' + (m.emisorDoc ? '<p class="c">' + m.emLbl + ' ' + esc(m.emisorDoc) + '</p>' : '') + m.emisorMas.map(l => '<p class="c">' + esc(l) + '</p>').join('');
   h += '<p class="sum"><strong>La suma de:</strong> ' + (m.total ? esc(m.suma) : ph('valor')) + '</p>';
   h += '<p><strong>Por concepto de:</strong></p>';
   if (m.cant && m.items.length) h += '<table>' + m.items.map(i => '<tr><td>' + esc(i.d || 'Concepto') + '<br><small>' + i.q + ' × ' + cop(i.v) + '</small></td><td>' + cop(i.t) + '</td></tr>').join('') + '</table>';
@@ -433,7 +523,7 @@ function render(){
   if (m.nota) h += '<p>' + esc(m.nota) + '</p>';
   if (m.anexos.length) h += '<p><strong>Anexos:</strong> ' + esc(m.anexos.join(', ')) + '.</p>';
   if (m.pago) h += '<p style="margin-top:12px"><strong>Favor consignar en:</strong> ' + esc(m.pago) + '</p>';
-  if (m.decl.length) h += '<div style="margin-top:12px">' + m.decl.map(d => '<p>' + esc(d) + '</p>').join('') + '</div>';
+  if (m.decl.length) h += '<div class="' + (m.djTitle ? 'dj' : '') + '" style="margin-top:12px">' + (m.djTitle ? '<h3>' + m.djTitle + '</h3>' : '') + m.decl.map(p => '<p>' + segHTML(p) + '</p>').join('') + '</div>';
   h += '<p style="margin-top:14px">Cordialmente,</p><div class="sign' + (m.firmaImg ? ' has' : '') + '">' + (m.firmaImg ? '<img class="sigimg" alt="Firma" src="' + m.firmaImg + '">' : '') + '<p class="big">' + esc(m.firma || '') + '</p>' + (m.firmaRol ? '<p>' + esc(m.firmaRol) + '</p>' : '') + (m.emisorDoc ? '<p>' + m.emLbl + ' ' + esc(m.emisorDoc) + '</p>' : '') + (m.contacto ? '<p>' + esc(m.contacto) + '</p>' : '') + '</div>';
   h += '<p class="foot">Generado con Cuenta Lista · Tu cuenta de cobro, lista en minutos · cuentalista.vercel.app</p>';
   $('sheet').innerHTML = h;
@@ -445,13 +535,13 @@ function render(){
 function texto(){
   const m = modelo(), L = [];
   if (m.lugar) L.push(m.lugar, '');
-  L.push(m.titulo, '', m.cliente + (m.clienteDoc ? ' · ' + m.clLbl + ' ' + m.clienteDoc : ''), '', 'DEBE A', '', m.emisor + (m.emisorDoc ? ' · ' + m.emLbl + ' ' + m.emisorDoc : ''), '', 'La suma de: ' + m.suma, '', 'Por concepto de:');
+  L.push(m.titulo, '', m.cliente + (m.clienteDoc ? ' · ' + m.clLbl + ' ' + m.clienteDoc : ''), ...m.clienteMas, '', 'DEBE A', '', m.emisor + (m.emisorDoc ? ' · ' + m.emLbl + ' ' + m.emisorDoc : ''), ...m.emisorMas, '', 'La suma de: ' + m.suma, '', 'Por concepto de:');
   m.items.forEach(i => L.push(m.cant ? '- ' + i.d + ': ' + i.q + ' × ' + cop(i.v) + ' = ' + cop(i.t) : (m.items.length > 1 ? '- ' + i.d + ': ' + cop(i.t) : i.d)));
   m.extras.forEach(e => L.push(e[0] + ': ' + e[1]));
   if (m.nota) L.push(m.nota);
   if (m.anexos.length) L.push('Anexos: ' + m.anexos.join(', ') + '.');
   if (m.pago) L.push('', 'Favor consignar en: ' + m.pago);
-  if (m.decl.length) L.push('', ...m.decl);
+  if (m.decl.length) { L.push(''); if (m.djTitle) L.push(m.djTitle, ''); L.push(...m.decl.map(segTxt)); }
   L.push('', 'Cordialmente,', m.firma); if (m.firmaRol) L.push(m.firmaRol); if (m.contacto) L.push(m.contacto);
   L.push('', 'Generado con Cuenta Lista · Tu cuenta de cobro, lista en minutos · cuentalista.vercel.app');
   return L.join('\n');
@@ -460,14 +550,25 @@ function texto(){
 function buildPDF(){
   const m = modelo(), doc = new window.jspdf.jsPDF({ unit:'mm', format:'letter' });
   const W = 215.9, M = 25, cw = W - 2*M; let y = 30;
+  const brk = h => { if (y + h > 256) { doc.addPage(); y = 25; } };
   const P = (t, o = {}) => { const s = o.s || 11; doc.setFont('helvetica', o.b ? 'bold' : 'normal'); doc.setFontSize(s); doc.setTextColor(o.gray ? 120 : 20);
     const lines = doc.splitTextToSize(String(t), o.w || cw), x = o.c ? W/2 : (o.r ? W - M : M);
+    if (!o.nobrk) brk(lines.length * s * 0.45);
     doc.text(lines, x, y, { align: o.c ? 'center' : (o.r ? 'right' : 'left') }); y += lines.length * s * 0.45 + (o.g === undefined ? 3 : o.g); };
+  /* Párrafo con partes en negrita (la declaración juramentada). */
+  const R = (segs, o = {}) => { const s = o.s || 11, lh = s * 0.45, words = [];
+    segs.forEach(g => String(g.t).split(/(\s+)/).forEach(w => { if (w) words.push({ t:w, b:!!g.b }); }));
+    doc.setFontSize(s); const wid = w => { doc.setFont('helvetica', w.b ? 'bold' : 'normal'); return doc.getTextWidth(w.t); };
+    const lines = []; let line = [], lw = 0;
+    words.forEach(w => { const sp = /^\s+$/.test(w.t); if (sp && !line.length) return; const ww = wid(w); if (!sp && line.length && lw + ww > cw) { while (line.length && /^\s+$/.test(line[line.length-1].t)) line.pop(); lines.push(line); line = []; lw = 0; } line.push(w); lw += ww; });
+    if (line.length) lines.push(line);
+    lines.forEach(L => { brk(lh); let x = M; doc.setTextColor(20); L.forEach(w => { doc.setFont('helvetica', w.b ? 'bold' : 'normal'); doc.text(w.t, x, y); x += doc.getTextWidth(w.t); }); y += lh; });
+    y += (o.g === undefined ? 3 : o.g); };
   P(m.lugar, { r:true, g:12 }); P(m.titulo, { c:true, b:true, s:15, g:12 });
-  P(m.cliente, { c:true, b:true, s:12 }); if (m.clienteDoc) P(m.clLbl + ' ' + m.clienteDoc, { c:true });
+  P(m.cliente, { c:true, b:true, s:12 }); if (m.clienteDoc) P(m.clLbl + ' ' + m.clienteDoc, { c:true }); m.clienteMas.forEach(l => P(l, { c:true }));
   y += 6; P('DEBE A', { c:true, g:9 });
-  P(m.emisor, { c:true, b:true, s:12 }); if (m.emisorDoc) P(m.emLbl + ' ' + m.emisorDoc, { c:true });
-  y += 8; const top = y - 5; P('La suma de: ' + m.suma, { b:true, w: cw - 8, g:0 }); y += 2;
+  P(m.emisor, { c:true, b:true, s:12 }); if (m.emisorDoc) P(m.emLbl + ' ' + m.emisorDoc, { c:true }); m.emisorMas.forEach(l => P(l, { c:true }));
+  y += 8; brk(16); const top = y - 5; P('La suma de: ' + m.suma, { b:true, w: cw - 8, g:0, nobrk:true }); y += 2;
   doc.setDrawColor(20); doc.rect(M - 4, top - 2, cw + 8, y - top + 2); y += 10;
   P('Por concepto de:', { b:true });
   if (m.cant || m.items.length > 1) m.items.forEach(i => { const y0 = y; P((i.d || 'Concepto') + (m.cant ? ' (' + i.q + ' × ' + cop(i.v) + ')' : ''), { w: cw - 45, g:0 }); const y1 = y; y = y0; P(cop(i.t), { r:true, g:0 }); y = y1 + 3; });
@@ -476,8 +577,8 @@ function buildPDF(){
   if (m.nota) P(m.nota);
   if (m.anexos.length) P('Anexos: ' + m.anexos.join(', ') + '.');
   if (m.pago) { y += 4; P('Favor consignar en: ' + m.pago); }
-  if (m.decl.length) { y += 4; m.decl.forEach(d => P(d)); }
-  y += 6;
+  if (m.decl.length) { y += 4; if (m.djTitle) { brk(20); P(m.djTitle, { c:true, b:true, s:11.5, g:5 }); } m.decl.forEach(p => R(p, { s: m.djTitle ? 10 : 11 })); }
+  y += 6; brk(48);
   if (m.firmaImg) {
     P('Cordialmente,', { g:2 });
     const h = 18, w = Math.min(65, h * m.firmaR);
@@ -485,7 +586,8 @@ function buildPDF(){
     y += h + 5;
   } else P('Cordialmente,', { g:22 });
   doc.line(M, y - 5, M + 75, y - 5); P(m.firma, { b:true }); if (m.firmaRol) P(m.firmaRol); if (m.emisorDoc) P(m.emLbl + ' ' + m.emisorDoc); if (m.contacto) P(m.contacto);
-  y = 268; P('Generado con Cuenta Lista · Tu cuenta de cobro, lista en minutos · cuentalista.vercel.app', { c:true, s:8, gray:true });
+  const np = doc.getNumberOfPages();
+  for (let i = 1; i <= np; i++) { doc.setPage(i); y = 268; P('Generado con Cuenta Lista · Tu cuenta de cobro, lista en minutos · cuentalista.vercel.app' + (np > 1 ? ' · Página ' + i + ' de ' + np : ''), { c:true, s:8, gray:true, nobrk:true }); }
   return doc;
 }
 
@@ -508,27 +610,99 @@ function falta(){
   if (!S.eNombre.trim()) return ['eNombre', 'Escribe tu nombre para generar la cuenta.'];
   if (S.eTipoP === 'empresa' && !S.fact.trim()) return ['fact', 'Como empresa debes expedir factura electrónica. Escribe su número para que la cuenta la cite.'];
   if (!S.cNombre.trim()) return ['cNombre', 'Escribe a quién le cobras.'];
+  const T = TIPOS[S.clase];
+  if (esEnt()) {
+    if (!S.eDoc.trim()) return ['eDoc', 'Escribe tu número de documento.'];
+    if (!S.cDoc.trim()) return ['cDoc', 'Escribe el NIT de la entidad, con dígito de verificación.'];
+    for (const c of T.campos.slice(0, 3)) if (!(S.x[c[0]] || '').trim()) return ['x-' + c[0], 'Completa el campo «' + c[1].replace(/ \(.*\)$/, '') + '».'];
+  }
   if (!total()) return [null, 'Agrega el valor que vas a cobrar.'];
+  if (esEnt() && (!S.banco.trim() || !S.cuenta.trim())) return [S.banco.trim() ? 'cuenta' : 'banco', 'Escribe el banco y el número de cuenta donde te pagan.'];
+  if (rnOn()) {
+    if (!S.rn.ret) return ['rn-ret', 'Elige el tratamiento de retención en la fuente.'];
+    if (S.rn.parcial && !(S.rn.totalContrato > total())) return ['rn-totalContrato', 'En un pago parcial, el valor total del contrato debe ser mayor que el valor de esta cuenta.'];
+  }
+  if (djOn()) {
+    const d = S.dj;
+    if (!d.declarante) return ['dj-declarante', 'Responde si estás obligado(a) a declarar renta.'];
+    if (!d.aportes) return ['dj-aportes', 'Responde si estás al día con tus aportes a seguridad social.'];
+    if (d.aportes === 'si' && !d.planilla.trim()) return ['dj-planilla', 'Escribe el número de tu planilla PILA.'];
+    if (d.aportes === 'si' && !d.perPlanilla.trim()) return ['dj-perPlanilla', 'Escribe el periodo de tu planilla PILA.'];
+    if (d.aportes === 'si' && d.ibc && d.ibc < ibcMin()) return ['dj-ibc', 'El ingreso base de cotización no puede ser menor que ' + cop(ibcMin()) + ' para esta cuenta.'];
+    if (S.rn.ret === '383' && d.mayor === 'si' && !(Number(d.pct) >= 1 && Number(d.pct) <= 100)) return ['dj-pct', 'Escribe un porcentaje de retención entre 1 y 100.'];
+  }
   return null;
 }
-function listo(){ const f = falta(); if (!f) return true; toast(f[1]); const el = f[0] ? $(f[0]) : document.querySelector('.val'); if (el) el.focus(); return false; }
+function listo(){ const f = falta(); if (!f) return true; toast(f[1]); const el = f[0] ? $(f[0]) : document.querySelector('.val'); if (el) { el.focus(); if (el.scrollIntoView) el.scrollIntoView({ block:'center' }); } return false; }
+const avisoFirma = () => esEnt() && !S.firmaImg ? ' Ojo: no tiene firma; fírmala a mano antes de radicarla.' : '';
 
 /* ===== Formulario ===== */
 function fill(){
   TEXT.forEach(k => { $(k).value = S[k] ?? ''; }); CHECK.forEach(k => { $(k).checked = !!S[k]; });
-  drawPersona(); drawTipo(); drawItems(); render();
+  drawPersona(); drawTipo(); drawItems(); drawDecl(); render();
   if (typeof pintarFirma === 'function') pintarFirma();
 }
 function drawPersona(){
   const emp = S.eTipoP === 'empresa', cemp = S.cTipoP === 'empresa';
   $('eNombreL').textContent = emp ? 'Razón social' : 'Nombre completo'; $('eDocL').textContent = emp ? 'NIT' : 'Cédula';
-  $('empNote').hidden = !emp; $('empOnly').hidden = !emp; $('declNat').hidden = emp;
+  $('empNote').hidden = !emp; $('empOnly').hidden = !emp; $('declNat').hidden = emp || !!TIPOS[S.clase].ent;
   $('cNombreL').textContent = cemp ? 'Razón social' : 'Nombre completo'; $('cDocL').textContent = cemp ? 'NIT' : 'Cédula';
 }
 function drawTipo(){
   const T = TIPOS[S.clase];
   $('extra').innerHTML = T.campos.map(c => '<label>' + esc(c[1]) + '<input type="text" id="x-' + c[0] + '" data-x="' + c[0] + '" value="' + esc(S.x[c[0]] || '') + '"></label>').join('');
+  const eb = $('entBox'); eb.hidden = !T.ent || S.eTipoP === 'empresa';
+  if (!eb.hidden) { const e = S.ent, inp = (k, l, o = '') => '<label>' + l + '<input type="text" data-ent="' + k + '" value="' + esc(e[k] || '') + '"' + o + '></label>';
+    eb.innerHTML = '<p class="subt">Datos que suelen pedir las entidades</p>' +
+      '<div class="row"><label>Tu tipo de documento<select data-ent="tipoDoc">' + ['C.C.','C.E.','PPT','NIT'].map(o => '<option' + (e.tipoDoc === o ? ' selected' : '') + '>' + o + '</option>').join('') + '</select></label>' + inp('lugarExp', 'Expedido en (opcional)') + '</div>' +
+      '<div class="row">' + inp('dir', 'Tu dirección') + inp('ciiu', 'Código CIIU (opcional)', ' inputmode="numeric" maxlength="4" placeholder="Ej. 7020, 8299, 9499"') + '</div>' +
+      '<div class="row">' + inp('entDir', 'Dirección de la entidad (opcional)') + inp('entCiudad', 'Ciudad de la entidad (opcional)') + '</div>'; }
   $('adj').innerHTML = T.adj.map((a, i) => '<label class="check"><input type="checkbox" id="adj-' + i + '" data-adj="' + esc(a) + '"' + (S.adj[a] ? ' checked' : '') + '><span>' + esc(a) + '</span></label>').join('');
+}
+const segQ = (g, k, v, opts = [['si','Sí'],['no','No']]) => '<div class="seg" role="radiogroup">' + opts.map((o, i) => '<label><input type="radio"' + (i ? '' : ' id="' + g + '-' + k + '"') + ' name="' + g + '-' + k + '" data-' + g + '="' + k + '" value="' + o[0] + '"' + (v === o[0] ? ' checked' : '') + '><span>' + o[1] + '</span></label>').join('') + '</div>';
+const qRow = (txt, ctrl, help) => '<div class="q"><div><span>' + txt + '</span>' + (help ? '<small>' + help + '</small>' : '') + '</div>' + ctrl + '</div>';
+const moneyIn = (g, k, v, ph) => '<input type="text" id="' + g + '-' + k + '" inputmode="numeric" data-' + g + '="' + k + '" data-money="1" value="' + fmtN(v) + '" placeholder="' + (ph || '') + '">';
+function retHTML(){
+  const r = S.rn, op = (v, t) => '<option value="' + v + '"' + (r.ret === v ? ' selected' : '') + '>' + t + '</option>';
+  let h = '<label>Tratamiento de retención en la fuente<select id="rn-ret" data-rn="ret">' + op('', 'Elige tu caso…') + op('392', 'Voy a imputar costos y gastos: tarifa por honorarios o servicios (art. 392)') + op('383', 'No voy a imputar costos y gastos: tabla de rentas de trabajo (art. 383)') + op('rst', 'Estoy en el Régimen Simple de Tributación (RST)') + '</select></label>';
+  if (r.ret === '392') h += qRow('¿Qué cobras?', segQ('rn', 'concepto', r.concepto, [['honorarios','Honorarios'],['servicios','Servicios']]));
+  if (r.ret === 'rst') h += '<p class="hint">Debes demostrarlo con el certificado del RUT (responsabilidad 47). Lo marcamos en los anexos. La exención cubre la retención de renta e ICA, no la de IVA.</p>';
+  if (r.ret === '383') h += '<p class="hint">Con el artículo 383 la retención se calcula sobre el pago mensualizado, sin importar cada cuánto te paguen.</p>';
+  h += '<label class="check"><input type="checkbox" data-rn="parcial"' + (r.parcial ? ' checked' : '') + '><span>Es un pago parcial: pedir que la retención se calcule sobre el saldo</span></label>';
+  if (r.parcial) h += '<label>Valor total del contrato' + moneyIn('rn', 'totalContrato', r.totalContrato) + '</label><p class="hint">Va como una solicitud: según la DIAN, la retención se practica al momento del pago, así que la entidad puede negarla.</p>';
+  return h;
+}
+function drawDecl(){
+  const box = $('retBox'), T = TIPOS[S.clase];
+  if (S.eTipoP === 'empresa') { box.innerHTML = ''; box.hidden = true; return; }
+  box.hidden = false;
+  if (!T.ent) {
+    box.innerHTML = '<label class="check"><input type="checkbox" data-rn="on"' + (S.rn.on ? ' checked' : '') + '><span>Agregar una nota de retención en la fuente (si quien te paga te la pide)</span></label>' + (S.rn.on ? retHTML() : '');
+    return;
+  }
+  const d = S.dj, a = anioDe();
+  let h = '<label class="check"><input type="checkbox" data-dj="on"' + (d.on ? ' checked' : '') + '><span><strong>Incluir declaración juramentada</strong>: la piden las entidades públicas, fundaciones y operadores para saber qué retención aplicarte.</span></label>';
+  if (d.on) {
+    h += qRow('¿Eres residente fiscal en Colombia?', segQ('dj', 'residente', d.residente));
+    h += retHTML();
+    h += qRow('¿Estás obligado(a) a declarar renta por el año ' + (a - 1) + '?', segQ('dj', 'declarante', d.declarante), 'Sí, si tus ingresos de ' + (a - 1) + ' fueron de ' + cop(topeRenta()) + ' (1.400 UVT) o más, entre otros topes.');
+    h += qRow('¿Eres responsable de IVA?', segQ('dj', 'iva', d.iva), 'Referencia: el tope para no serlo es de ' + cop(topeIva()) + ' (3.500 UVT de ' + a + ').');
+    h += qRow('¿Estás al día con tus aportes a seguridad social?', segQ('dj', 'aportes', d.aportes));
+    if (d.aportes === 'si') {
+      h += '<div class="row"><label>Planilla PILA N.º<input type="text" id="dj-planilla" data-dj="planilla" inputmode="numeric" value="' + esc(d.planilla) + '"></label><label>Periodo de la planilla<input type="text" id="dj-perPlanilla" data-dj="perPlanilla" value="' + esc(d.perPlanilla) + '" placeholder="' + mesAnterior() + '"></label></div>';
+      h += '<label>Ingreso base de cotización (opcional)' + moneyIn('dj', 'ibc', d.ibc, fmtN(ibcMin())) + '</label><p class="hint">Mínimo el 40 % del valor mensual sin IVA, entre 1 y 25 salarios mínimos. Para esta cuenta: ' + cop(ibcMin()) + '. Los independientes pagan mes vencido.</p>';
+    }
+    if (S.rn.ret === '383') {
+      h += '<p class="subt">Deducciones (opcional)</p>';
+      h += qRow('¿Tienes dependientes económicos?', segQ('dj', 'dependientes', d.dependientes));
+      [['vivienda','¿Pagas intereses de un crédito de vivienda?'],['prepagada','¿Pagas medicina prepagada?'],['voluntarios','¿Haces aportes voluntarios a pensión o AFC?']].forEach(([k, t]) => {
+        h += qRow(t, segQ('dj', k, d[k])); if (d[k] === 'si') h += '<label>Valor mensual (opcional)' + moneyIn('dj', k + 'V', d[k + 'V']) + '</label>'; });
+      h += qRow('¿Quieres que te retengan más de lo que corresponde?', segQ('dj', 'mayor', d.mayor));
+      if (d.mayor === 'si') h += '<label>Porcentaje de retención que pides<input type="text" id="dj-pct" data-dj="pct" inputmode="numeric" maxlength="3" value="' + esc(d.pct) + '" placeholder="Entre 1 y 100"></label>';
+    }
+  }
+  h += '<p class="note">Cuenta Lista te ayuda a presentar la información; la retención la calcula la entidad. Si tu entidad usa un formato propio, verifica que coincida.</p>';
+  box.innerHTML = h;
 }
 function drawItems(){
   const T = TIPOS[S.clase];
@@ -546,8 +720,21 @@ $('f').addEventListener('input', e => {
   else if (t.classList.contains('qty')) { const n = Number(t.value.replace(/\D/g, '')) || 0; S.items[t.dataset.i].q = n; t.value = n || ''; }
   else if (t.dataset.x) S.x[t.dataset.x] = t.value;
   else if (t.dataset.adj) S.adj[t.dataset.adj] = t.checked;
+  else if (t.dataset.ent) { S.ent[t.dataset.ent] = t.value; }
+  else if (t.dataset.dj || t.dataset.rn) {
+    const g = t.dataset.dj ? 'dj' : 'rn', k = t.dataset[g], O = S[g];
+    if (t.type === 'checkbox') O[k] = t.checked;
+    else if (t.dataset.money) { const n = Number(t.value.replace(/\D/g, '')) || 0; O[k] = n; t.value = fmtN(n); }
+    else if (k === 'pct') { t.value = t.value.replace(/\D/g, ''); O[k] = t.value; }
+    else O[k] = t.value;
+    if (g === 'dj' && k === 'aportes' && t.value === 'si' && !S.dj.perPlanilla) S.dj.perPlanilla = mesAnterior();
+    if (g === 'rn' && k === 'ret') { track('retencion_elegida', { opcion: t.value || 'ninguna', tipo: S.clase });
+      if (t.value === 'rst') { TIPOS[S.clase].adj.filter(a => /RUT/.test(a)).forEach(a => { S.adj[a] = true; }); drawTipo(); } }
+    if (k === 'on') track(g === 'dj' ? 'declaracion_juramentada' : 'nota_retencion', { activa: t.checked });
+    if (t.type === 'checkbox' || t.type === 'radio' || t.tagName === 'SELECT') drawDecl();
+  }
   else if (CHECK.includes(t.id)) S[t.id] = t.checked;
-  else if (TEXT.includes(t.id)) { S[t.id] = t.value; if (t.id === 'eTipoP' || t.id === 'cTipoP') { drawPersona(); track('persona_elegida', { quien: t.id, valor: t.value }); } if (t.id === 'clase') { drawTipo(); drawItems(); track('tipo_elegido', { tipo: t.value }); } }
+  else if (TEXT.includes(t.id)) { S[t.id] = t.value; if (t.id === 'eTipoP' || t.id === 'cTipoP') { drawPersona(); track('persona_elegida', { quien: t.id, valor: t.value }); } if (t.id === 'clase') { drawPersona(); drawTipo(); drawItems(); drawDecl(); track('tipo_elegido', { tipo: t.value }); } if (t.id === 'eTipoP') { drawTipo(); drawDecl(); } if (t.id === 'fecha' && TIPOS[S.clase].ent) drawDecl(); }
   save(); render();
 });
 $('f').addEventListener('submit', e => e.preventDefault());
@@ -556,7 +743,9 @@ $('add').addEventListener('click', () => { S.items.push({ d:'', q:1, v:0 }); dra
 $('clear').addEventListener('click', () => { S = JSON.parse(JSON.stringify(VACIO)); save(); fill(); $('eNombre').focus(); });
 $('next').addEventListener('click', () => {
   const n = String(S.num || '0'), d = n.replace(/\D/g, ''); S.num = String((Number(d) || 0) + 1).padStart(d.length || 3, '0');
-  S.fecha = hoy(); S.ejemplo = false; save(); fill(); track('siguiente_numero', { num: S.num });
+  S.fecha = hoy(); S.ejemplo = false;
+  if (TIPOS[S.clase].ent) { const pm = /^(\d+)(\s*de\s*\d+.*)$/i.exec((S.x.pago || '').trim()); if (pm) S.x.pago = (Number(pm[1]) + 1) + pm[2]; S.dj.planilla = ''; S.dj.perPlanilla = S.dj.aportes === 'si' ? mesAnterior() : ''; }
+  save(); fill(); track('siguiente_numero', { num: S.num });
   toast('Cuenta N.º ' + S.num + ' con fecha de hoy. Revisa el periodo y el valor.');
 });
 
@@ -569,10 +758,10 @@ async function buildWord(){
   ch.push(par(m.lugar, { r:true, after:360 }));
   ch.push(par(m.titulo, { c:true, b:true, s:30, after:360 }));
   ch.push(par(m.cliente, { c:true, b:true, s:24, after:40 }));
-  if (m.clienteDoc) ch.push(par(m.clLbl + ' ' + m.clienteDoc, { c:true }));
+  if (m.clienteDoc) ch.push(par(m.clLbl + ' ' + m.clienteDoc, { c:true })); m.clienteMas.forEach(l => ch.push(par(l, { c:true })));
   ch.push(par('DEBE A', { c:true, before:200, after:200 }));
   ch.push(par(m.emisor, { c:true, b:true, s:24, after:40 }));
-  if (m.emisorDoc) ch.push(par(m.emLbl + ' ' + m.emisorDoc, { c:true }));
+  if (m.emisorDoc) ch.push(par(m.emLbl + ' ' + m.emisorDoc, { c:true })); m.emisorMas.forEach(l => ch.push(par(l, { c:true })));
   ch.push(par([run('La suma de: ', { b:true }), run(m.suma)], { box:true, before:300, after:300 }));
   ch.push(par('Por concepto de:', { b:true }));
   if (m.cant || m.items.length > 1) m.items.forEach(i => ch.push(par((i.d || 'Concepto') + (m.cant ? ' (' + i.q + ' × ' + cop(i.v) + ')' : '') + ': ' + cop(i.t))));
@@ -581,7 +770,8 @@ async function buildWord(){
   if (m.nota) ch.push(par(m.nota));
   if (m.anexos.length) ch.push(par([run('Anexos: ', { b:true }), run(m.anexos.join(', ') + '.')]));
   if (m.pago) ch.push(par([run('Favor consignar en: ', { b:true }), run(m.pago)], { before:200 }));
-  m.decl.forEach((d, i) => ch.push(par(d, { before: i ? 0 : 200 })));
+  if (m.djTitle) ch.push(par(m.djTitle, { c:true, b:true, before:300 }));
+  m.decl.forEach((p, i) => ch.push(par(p.map(x => run(x.t, { b:x.b, s: m.djTitle ? 20 : 22 })), { before: i || m.djTitle ? 0 : 200 })));
   ch.push(par('Cordialmente,', { before:300, after: m.firmaImg ? 60 : 700 }));
   if (m.firmaImg) {
     const bin = atob(m.firmaImg.split(',')[1]), u8 = new Uint8Array(bin.length); for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
@@ -664,7 +854,7 @@ $('pdf').addEventListener('click', async () => {
   const nombre = 'cuenta-de-cobro-' + (S.num || '001') + '.pdf', doc = buildPDF();
   try {
     await bajar(doc.output('blob'), nombre);
-    track('cuenta_generada', { metodo:'pdf', valor: total() }); toast('PDF listo. El próximo mes usa «Siguiente número».');
+    track('cuenta_generada', { metodo:'pdf', valor: total(), tipo: S.clase }); toast('PDF listo. El próximo mes usa «Siguiente número».' + avisoFirma());
   } catch (e) { if (!e || e.code !== 'declined') toast('No se pudo guardar el PDF. Usa Copiar texto mientras tanto.'); }
 });
 $('word').addEventListener('click', async () => {
@@ -672,7 +862,7 @@ $('word').addEventListener('click', async () => {
   if (!window.docx) { toast('No se pudo cargar el generador de Word. Revisa tu conexión y recarga.'); return; }
   try {
     const blob = await buildWord(); await bajar(blob, 'cuenta-de-cobro-' + (S.num || '001') + '.docx');
-    track('cuenta_generada', { metodo:'word', valor: total() }); toast('Word listo. El próximo mes usa «Siguiente número».');
+    track('cuenta_generada', { metodo:'word', valor: total(), tipo: S.clase }); toast('Word listo. El próximo mes usa «Siguiente número».' + avisoFirma());
   } catch (e) { if (!e || e.code !== 'declined') toast('No se pudo crear el Word. Descarga el PDF mientras tanto.'); }
 });
 $('copy').addEventListener('click', async () => {
