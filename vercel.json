@@ -67,6 +67,11 @@
       "source": "/estado",
       "destination": "/cuenta-de-cobro-contratista-estado?utm_source=compartido&utm_medium=enlace",
       "permanent": false
+    },
+    {
+      "source": "/entidad",
+      "destination": "/crear?tipo=entidad&utm_source=compartido&utm_medium=enlace",
+      "permanent": false
     }
   ]
 }
